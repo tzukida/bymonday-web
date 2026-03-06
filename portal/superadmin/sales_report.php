@@ -365,7 +365,7 @@
                         <?php echo htmlspecialchars($sale['customer_name'] ?: 'Walk-in Customer'); ?>
                       </td>
                       <td class="text-center align-middle">
-                        <span class="badge bg-info text-white">
+                        <span class="badge bg-brown text-white">
                           <?php echo htmlspecialchars($sale['username']); ?>
                         </span>
                       </td>
@@ -502,7 +502,7 @@
       <div class="card mb-4">
         <div class="card-header bg-white py-3">
           <h5 class="mb-0">
-            <i class="fas fa-trophy me-2 text-warning"></i>Top Selling Items
+            <i class="fas fa-trophy me-2 icon-brown"></i>Top Selling Items
           </h5>
         </div>
         <div class="card-body">
@@ -537,7 +537,7 @@
                       </div>
                     </div>
                     <div class="text-end">
-                      <strong class="text-success d-block">
+                      <strong class="text-brown d-block">
                         ₱<?php echo number_format($item['total_revenue'], 2); ?>
                       </strong>
                     </div>
@@ -566,24 +566,24 @@
             <?php foreach ($payment_breakdown as $payment):
               $percentage = ($payment['total'] / $total_revenue) * 100;
               $method_colors = [
-                'cash' => 'success',
-                'gcash' => 'primary',
-                'card' => 'warning'
+                'cash'  => '#382417',
+                'gcash' => '#4d3420',
+                'card'  => '#654529'
               ];
-              $color = $method_colors[strtolower($payment['payment_method'])] ?? 'secondary';
+              $color = $method_colors[strtolower($payment['payment_method'])] ?? '#7d5633';
             ?>
               <div class="mb-3">
                 <div class="d-flex justify-content-between align-items-center mb-1">
                   <span class="text-muted">
-                    <i class="fas fa-circle text-<?php echo $color; ?> me-2" style="font-size: 0.6rem;"></i>
+                    <i class="fas fa-circle me-2" style="font-size: 0.6rem; color: <?php echo $color; ?>;"></i>
                     <?php echo ucfirst($payment['payment_method']); ?>
                   </span>
                   <strong>₱<?php echo number_format($payment['total'], 2); ?></strong>
                 </div>
                 <div class="progress" style="height: 8px;">
-                  <div class="progress-bar bg-<?php echo $color; ?>"
+                  <div class="progress-bar"
                        role="progressbar"
-                       style="width: <?php echo $percentage; ?>%">
+                       style="width: <?php echo $percentage; ?>%; background-color: <?php echo $color; ?>;">
                   </div>
                 </div>
                 <small class="text-muted">

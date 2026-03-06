@@ -255,7 +255,7 @@
                   <a href="activity_log.php" class="btn btn-outline-secondary btn-sm">
                     <i class="fas fa-times"></i>
                   </a>
-                  <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="collapse" data-bs-target="#dateFilter">
+                  <button type="button" class="btn btn-outline-brown btn-sm" data-bs-toggle="collapse" data-bs-target="#dateFilter">
                     <i class="fas fa-calendar-alt"></i>
                   </button>
                 </div>
@@ -378,13 +378,13 @@
                         $icon = 'fa-info-circle';
 
                         if (stripos($action, 'login') !== false) {
-                          $badge_class = 'bg-success';
+                          $badge_class = 'bg-brown';
                           $icon = 'fa-sign-in-alt';
                         } elseif (stripos($action, 'logout') !== false) {
                           $badge_class = 'bg-warning text-dark';
                           $icon = 'fa-sign-out-alt';
                         } elseif (stripos($action, 'add') !== false || stripos($action, 'create') !== false) {
-                          $badge_class = 'bg-primary';
+                          $badge_class = 'bg-brown';
                           $icon = 'fa-plus-circle';
                         } elseif (stripos($action, 'edit') !== false || stripos($action, 'update') !== false) {
                           $badge_class = 'bg-info';
@@ -416,7 +416,7 @@
                     </td>
                     <td class="text-muted small">
                       <div>
-                        <i class="fas fa-calendar me-1"></i>
+                        <i class="fas fa-calendar me-1" style="color: #3b2008;"></i>
                         <?php echo date('M j, Y', strtotime($log['created_at'])); ?>
                       </div>
                       <div>
@@ -555,7 +555,9 @@ body {
   background-color: transparent;
 }
 
-.btn-outline-brown:hover {
+.btn-outline-brown:hover,
+.btn-outline-brown:active,
+.btn-outline-brown:focus {
   background-color: #382417;
   border-color: #382417;
   color: white;
