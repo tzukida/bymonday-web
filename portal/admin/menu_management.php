@@ -293,12 +293,12 @@
                         </div>
                       </td>
                       <td class="text-center align-middle">
-                        <span class="badge bg-info text-white">
+                        <span class="badge bg-brown">
                           <?php echo htmlspecialchars($item['category']); ?>
                         </span>
                       </td>
                       <td class="text-center align-middle">
-                        <span class="fw-bold text-danger">₱<?php echo number_format($item['price'], 2); ?></span>
+                        <span class="fw-bold text-brown">₱<?php echo number_format($item['price'], 2); ?></span>
                       </td>
                       <td class="text-center align-middle">
                         <?php
@@ -320,17 +320,17 @@
                       <td class="text-center align-middle">
                         <div class="btn-group btn-group-sm" role="group">
                           <a href="edit_menu_item.php?id=<?php echo $item['id']; ?>"
-                             class="btn btn-outline-primary"
+                             class="btn btn-outline-brown"
                              title="Edit Item">
                             <i class="fas fa-edit"></i>
                           </a>
                           <a href="manage_recipe.php?menu_id=<?php echo $item['id']; ?>"
-                             class="btn btn-outline-warning"
+                             class="btn btn-outline-brown"
                              title="Manage Recipe">
                             <i class="fas fa-book"></i>
                           </a>
                           <?php if ($ingredient_count > 0): ?>
-                          <button class="btn btn-outline-info"
+                          <button class="btn btn-outline-brown"
                                   data-bs-toggle="modal"
                                   data-bs-target="#ingredientsModal<?php echo $item['id']; ?>"
                                   title="View Recipe">
@@ -338,7 +338,7 @@
                           </button>
                           <?php endif; ?>
                           <a href="delete_menu_item.php?id=<?php echo $item['id']; ?>"
-                             class="btn btn-outline-danger"
+                             class="btn btn-outline-brown"
                              title="Delete Item"
                              onclick="return confirm('Are you sure you want to delete this menu item?');">
                             <i class="fas fa-trash"></i>
@@ -531,6 +531,24 @@
 
 .bg-brown {
   background-color: #3b2008;
+  color: #fff;
+}
+
+.text-brown {
+  color: #3b2008;
+}
+
+.btn-outline-brown {
+  color: #3b2008;
+  border-color: #3b2008;
+  background-color: transparent;
+}
+
+.btn-outline-brown:hover,
+.btn-outline-brown:active,
+.btn-outline-brown:focus {
+  background-color: #3b2008;
+  border-color: #3b2008;
   color: #fff;
 }
 

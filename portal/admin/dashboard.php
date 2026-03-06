@@ -124,7 +124,7 @@
           <div class="mt-3 pt-3 border-top">
             <div class="d-flex justify-content-between align-items-center">
               <small class="text-muted">Total Revenue</small>
-              <strong class="text-success">₱<?php echo number_format($stats['total_revenue'], 2); ?></strong>
+              <strong class="text-brown">₱<?php echo number_format($stats['total_revenue'], 2); ?></strong>
             </div>
           </div>
         </div>
@@ -176,7 +176,7 @@
                       </div>
                     </div>
                     <div class="text-end">
-                      <strong class="text-success d-block">₱<?php echo number_format($item['total_revenue'], 2); ?></strong>
+                      <strong class="text-brown d-block">₱<?php echo number_format($item['total_revenue'], 2); ?></strong>
                     </div>
                   </div>
                   <?php if ($index < count($top_items) - 1): ?>
@@ -255,7 +255,7 @@
                     </span>
                   </td>
                   <td class="text-center">
-                    <span class="badge bg-info text-white">
+                    <span class="badge bg-brown">
                       <?php echo htmlspecialchars($sale['username']); ?>
                     </span>
                   </td>
@@ -328,7 +328,7 @@
                   </td>
                   <td class="text-center align-middle">
                     <a href="<?php echo getBaseURL(); ?>/stock_in.php?item_id=<?php echo $item['id']; ?>"
-                       class="btn btn-sm btn-outline-success">
+                       class="btn btn-sm btn-outline-brown">
                       <i class="fas fa-plus me-1"></i>Restock
                     </a>
                   </td>
@@ -696,8 +696,22 @@
 
 .icon-brown { color: #3b2008; }
 .bg-brown { background-color: #3b2008; color: #fff; }
+.text-brown { color: #3b2008; }
 .text-gray { color: #595C5F; }
 .bg-bronze { background-color: #CD7F32 !important; }
+
+.btn-outline-brown {
+  color: #3b2008;
+  border-color: #3b2008;
+  background-color: transparent;
+}
+.btn-outline-brown:hover,
+.btn-outline-brown:active,
+.btn-outline-brown:focus {
+  background-color: #3b2008;
+  border-color: #3b2008;
+  color: #fff;
+}
 
 .rank-badge {
   font-weight: 600;
