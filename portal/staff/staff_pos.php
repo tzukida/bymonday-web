@@ -96,7 +96,7 @@
                         </div>
                       <?php endif; ?>
                       <?php if (!$item['can_fulfill']): ?>
-                        <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-2">
+                        <span class="badge position-absolute top-0 end-0 m-2 text-white" style="background-color: #6b3a1f;">
                           <i class="fas fa-exclamation-triangle me-1"></i>Out of Stock
                         </span>
                       <?php endif; ?>
@@ -205,7 +205,7 @@
       <div class="modal-body text-center py-4">
         <div class="mb-4">
           <div class="success-icon mx-auto mb-3">
-            <i class="fas fa-check-circle text-success"></i>
+            <i class="fas fa-check-circle icon-brown"></i>
           </div>
           <h4 class="mb-2">Order Processed Successfully!</h4>
           <p class="text-muted mb-0">Your order has been recorded</p>
@@ -228,7 +228,7 @@
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           <i class="fas fa-times me-2"></i>Close
         </button>
-        <button type="button" class="btn btn-primary" id="viewReceiptBtn">
+        <button type="button" class="btn btn-brown" id="viewReceiptBtn">
           <i class="fas fa-receipt me-2"></i>View Receipt
         </button>
       </div>
