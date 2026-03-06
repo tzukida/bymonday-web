@@ -89,7 +89,7 @@ require_once BASE_PATH . '/includes/header.php';
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <h3 class="h3 mb-0" style="color: #751312;">
+                    <h3 class="h3 mb-0" style="color: #3b2008;">
                         <i class="fas fa-plus-circle me-2"></i>Add Menu Item
                     </h3>
                     <p class="text-muted mb-0">Create a new menu item</p>
@@ -117,7 +117,7 @@ require_once BASE_PATH . '/includes/header.php';
     <div class="row">
         <div class="col-lg-8 mx-auto">
             <div class="card shadow-sm">
-                <div class="card-header bg-danger text-white">
+                <div class="card-header text-white" style="background-color: #3b2008;">
                     <h5 class="mb-0"><i class="fas fa-utensils me-2"></i>Menu Item Details</h5>
                 </div>
                 <div class="card-body">
@@ -241,6 +241,16 @@ require_once BASE_PATH . '/includes/header.php';
 
 .shadow-sm {
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
+.btn-danger {
+    background-color: #3b2008;
+    border-color: #3b2008;
+}
+
+.btn-danger:hover {
+    background-color: #2a1505;
+    border-color: #2a1505;
 }
 </style>
 

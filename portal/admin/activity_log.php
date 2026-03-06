@@ -137,11 +137,11 @@
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <h3 class="h3 mb-0" style="color: #751312;">Activity Log</h3>
+          <h3 class="h3 mb-0" style="color: #3b2008;">Activity Log</h3>
           <p class="text-muted mb-0">Monitor all system activities and user actions</p>
         </div>
         <div>
-          <a href="<?php echo getBaseURL(); ?>/dashboard.php" class="btn btn-outline-danger">
+          <a href="<?php echo getBaseURL(); ?>/dashboard.php" class="btn btn-outline-secondary">
             <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
           </a>
         </div>
@@ -152,7 +152,7 @@
   <!-- Stats Cards Row -->
   <div class="row g-3 mb-4">
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #751312 0%, #5a0f0e 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #3b2008 0%, #2a1505 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-clipboard-list fa-2x opacity-75"></i>
@@ -164,7 +164,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #198754 0%, #146c43 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #6b3a1f 0%, #3d1c02 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-calendar-day fa-2x opacity-75"></i>
@@ -176,7 +176,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #5a2d00 0%, #3d1c02 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-users fa-2x opacity-75"></i>
@@ -188,7 +188,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #6c757d 0%, #545b62 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #c87533 0%, #a05a20 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-calendar-week fa-2x opacity-75"></i>
@@ -255,7 +255,7 @@
                   <a href="activity_log.php" class="btn btn-outline-secondary btn-sm">
                     <i class="fas fa-times"></i>
                   </a>
-                  <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="collapse" data-bs-target="#dateFilter">
+                  <button type="button" class="btn btn-outline-secondary btn-sm" style="color: #6b3a1f; border-color: #6b3a1f;" data-bs-toggle="collapse" data-bs-target="#dateFilter">
                     <i class="fas fa-calendar-alt"></i>
                   </button>
                 </div>
@@ -323,9 +323,9 @@
       <div class="card">
         <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
           <h5 class="mb-0">
-            <i class="fas fa-history me-2 icon-red"></i>Activity Records
+            <i class="fas fa-history me-2 icon-brown"></i>Activity Records
           </h5>
-          <span class="badge bg-red">
+          <span class="badge bg-brown">
             <?php echo number_format($total_logs); ?> Records
           </span>
         </div>
@@ -336,7 +336,7 @@
               <h5 class="text-muted">No activity logs found</h5>
               <?php if (!empty($search) || $user_filter || $action_filter || $date_from || $date_to): ?>
                 <p class="text-muted mb-3">Try adjusting your filters</p>
-                <a href="activity_log.php" class="btn btn-outline-danger">Clear Filters</a>
+                <a href="activity_log.php" class="btn btn-outline-secondary">Clear Filters</a>
               <?php else: ?>
                 <p class="text-muted">Activity logs will appear here as users perform actions</p>
               <?php endif; ?>
@@ -375,29 +375,38 @@
                         // Determine badge color based on action type
                         $action = $log['action'];
                         $badge_class = 'bg-secondary';
+                        $badge_style = '';
                         $icon = 'fa-info-circle';
 
                         if (stripos($action, 'login') !== false) {
-                          $badge_class = 'bg-success';
+                          $badge_class = 'text-white';
+                          $badge_style = 'background-color: #6b3a1f;';
                           $icon = 'fa-sign-in-alt';
                         } elseif (stripos($action, 'logout') !== false) {
                           $badge_class = 'bg-warning text-dark';
+                          $badge_style = '';
                           $icon = 'fa-sign-out-alt';
                         } elseif (stripos($action, 'add') !== false || stripos($action, 'create') !== false) {
-                          $badge_class = 'bg-primary';
+                          $badge_class = 'text-white';
+                          $badge_style = 'background-color: #5a2d00;';
                           $icon = 'fa-plus-circle';
                         } elseif (stripos($action, 'edit') !== false || stripos($action, 'update') !== false) {
-                          $badge_class = 'bg-info';
+                          $badge_class = 'text-white';
+                          $badge_style = 'background-color: #c87533;';
                           $icon = 'fa-edit';
                         } elseif (stripos($action, 'delete') !== false || stripos($action, 'remove') !== false) {
                           $badge_class = 'bg-danger';
+                          $badge_style = '';
                           $icon = 'fa-trash';
                         } elseif (stripos($action, 'reset') !== false) {
                           $badge_class = 'bg-warning text-dark';
+                          $badge_style = '';
                           $icon = 'fa-redo';
+                        } else {
+                          $badge_style = '';
                         }
                       ?>
-                      <span class="badge <?php echo $badge_class; ?>">
+                      <span class="badge <?php echo $badge_class; ?>" <?php echo !empty($badge_style) ? 'style="' . $badge_style . '"' : ''; ?>>
                         <i class="fas <?php echo $icon; ?> me-1"></i>
                         <?php echo htmlspecialchars($action); ?>
                       </span>
@@ -519,12 +528,12 @@
 </div>
 
 <style>
-.icon-red {
-  color: #751312;
+.icon-brown {
+  color: #3b2008;
 }
 
-.bg-red {
-  background-color: #751312;
+.bg-brown {
+  background-color: #3b2008;
   color: #fff;
 }
 
@@ -539,7 +548,7 @@
 }
 
 .card:hover {
-  box-shadow: 0 0.5rem 1rem rgba(117, 19, 18, 0.15);
+  box-shadow: 0 0.5rem 1rem rgba(59, 32, 8, 0.15);
 }
 
 .table thead th {
@@ -570,19 +579,19 @@
 }
 
 .btn-primary {
-  background-color: #751312;
-  border-color: #751312;
+  background-color: #3b2008;
+  border-color: #3b2008;
 }
 
 .btn-primary:hover {
-  background-color: #5a0f0e;
-  border-color: #5a0f0e;
+  background-color: #2a1505;
+  border-color: #2a1505;
 }
 
 .pagination {
-  --bs-pagination-active-bg: #751312;
-  --bs-pagination-active-border-color: #751312;
-  --bs-pagination-hover-color: #751312;
+  --bs-pagination-active-bg: #3b2008;
+  --bs-pagination-active-border-color: #3b2008;
+  --bs-pagination-hover-color: #3b2008;
 }
 
 .pagination .page-link {
@@ -595,12 +604,12 @@
 .pagination .page-link:hover {
   background-color: #f8f9fa;
   border-color: #dee2e6;
-  color: #751312;
+  color: #3b2008;
 }
 
 .pagination .page-item.active .page-link {
-  background-color: #751312;
-  border-color: #751312;
+  background-color: #3b2008;
+  border-color: #3b2008;
   color: white;
   font-weight: 600;
 }

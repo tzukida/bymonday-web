@@ -24,7 +24,7 @@
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <h3 class="h3 mb-0" style="color: #751312;">
+          <h3 class="h3 mb-0" style="color: #3b2008;">
             <?php echo $user_role; ?> Dashboard
           </h3>
           <p class="text-muted mb-0">Welcome back, <?php echo htmlspecialchars($current_user['username']); ?></p>
@@ -40,7 +40,7 @@
   <!-- Stats Cards Row -->
   <div class="row g-3 mb-4">
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #751312 0%, #5a0f0e 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #3b2008 0%, #2a1505 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-shopping-cart fa-2x opacity-75"></i>
@@ -52,7 +52,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #9a1816 0%, #751312 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #5c3010 0%, #3b2008 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-peso-sign fa-2x opacity-75"></i>
@@ -64,7 +64,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #c44241 0%, #9a1816 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #7a4a28 0%, #5c3010 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-boxes fa-2x opacity-75"></i>
@@ -76,7 +76,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #e85d5c 0%, #c44241 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #a06535 0%, #7a4a28 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-exclamation-triangle fa-2x opacity-75"></i>
@@ -95,10 +95,10 @@
       <div class="card h-100">
         <div class="card-header bg-white d-flex justify-content-between align-items-center">
           <h5 class="mb-0">
-            <i class="fas fa-chart-line me-2 icon-red"></i>
+            <i class="fas fa-chart-line me-2 icon-brown"></i>
             Sales & Revenue Trends
           </h5>
-          <span class="badge bg-red">Last 7 Days</span>
+          <span class="badge bg-brown">Last 7 Days</span>
         </div>
         <div class="card-body">
           <div style="position: relative; height: 350px;">
@@ -113,7 +113,7 @@
       <div class="card h-100">
         <div class="card-header bg-white">
           <h5 class="mb-0">
-            <i class="fas fa-credit-card me-2 icon-red"></i>
+            <i class="fas fa-credit-card me-2 icon-brown"></i>
             Payment Methods
           </h5>
         </div>
@@ -139,7 +139,7 @@
       <div class="card h-100">
         <div class="card-header bg-white">
           <h5 class="mb-0">
-            <i class="fas fa-trophy me-2 icon-red"></i>
+            <i class="fas fa-trophy me-2 icon-brown"></i>
             Top Selling Items
           </h5>
         </div>
@@ -148,7 +148,7 @@
             <div class="text-center py-4 text-muted">
               <i class="fas fa-chart-bar fa-3x mb-3"></i>
               <p>No sales data yet</p>
-              <a href="pos.php" class="btn btn-danger btn-sm">
+              <a href="pos.php" class="btn btn-sm" style="background-color: #3b2008; color: white;">
                 <i class="fas fa-cash-register me-1"></i>Start Selling
               </a>
             </div>
@@ -200,10 +200,10 @@
       <div class="card h-100">
         <div class="card-header bg-white d-flex justify-content-between align-items-center">
           <h5 class="mb-0">
-            <i class="fas fa-history me-2 icon-red"></i>
+            <i class="fas fa-history me-2 icon-brown"></i>
             Recent Sales
           </h5>
-          <span class="badge bg-red">
+          <span class="badge bg-brown">
             <?php echo number_format($stats['total_sales']); ?> Total
           </span>
         </div>
@@ -246,7 +246,7 @@
                     <?php echo htmlspecialchars($sale['customer_name'] ?: 'Walk-in'); ?>
                   </td>
                   <td class="text-end">
-                    <span class="fw-bold text-danger">₱<?php echo number_format($sale['total_amount'], 2); ?></span>
+                    <span class="fw-bold" style="color: #3b2008;">₱<?php echo number_format($sale['total_amount'], 2); ?></span>
                   </td>
                   <td class="text-center">
                     <span class="badge bg-<?php echo $color; ?>">
@@ -274,7 +274,7 @@
           <div class="text-center py-5">
             <i class="fas fa-receipt fa-3x text-muted mb-3"></i>
             <p class="text-muted">No sales yet</p>
-            <a href="pos.php" class="btn btn-danger">
+            <a href="pos.php" class="btn" style="background-color: #3b2008; color: white;">
               <i class="fas fa-cash-register me-1"></i>Make First Sale
             </a>
           </div>
@@ -295,12 +295,12 @@
     <?php if (!empty($low_stock_items)): ?>
     <div class="col-lg-6">
       <div class="card h-100 border-danger">
-        <div class="card-header d-flex justify-content-between align-items-center" style="background: linear-gradient(135deg, #dc3545, #b02a37); color: white;">
+        <div class="card-header d-flex justify-content-between align-items-center" style="background: linear-gradient(135deg, #5c3010, #3b2008); color: white;">
           <h5 class="mb-0">
             <i class="fas fa-exclamation-triangle me-2"></i>
             Low Stock Alert
           </h5>
-          <span class="badge bg-white text-danger">
+          <span class="badge bg-white text-dark" style="color: #3b2008 !important;">
             <?php echo count($low_stock_items); ?> Items
           </span>
         </div>
@@ -321,7 +321,7 @@
                     <?php echo htmlspecialchars($item['item_name']); ?>
                   </td>
                   <td class="text-center align-middle">
-                    <span class="badge bg-danger">
+                    <span class="badge bg-warning text-danger">
                       <i class="fas fa-box-open me-1"></i>
                       <?php echo $item['quantity']; ?> <?php echo $item['unit']; ?>
                     </span>
@@ -341,7 +341,7 @@
         <div class="card-footer bg-white border-top">
           <div class="d-flex justify-content-between align-items-center">
             <a href="<?php echo getBaseURL(); ?>/inventory.php?filter=low_stock"
-               class="text-decoration-none text-danger fw-semibold">
+               class="text-decoration-none fw-semibold" style="color: #3b2008;">
               <i class="fas fa-list me-1"></i>View All Low Stock Items
             </a>
             <?php if (count($low_stock_items) > 10): ?>
@@ -360,7 +360,7 @@
       <div class="card h-100">
         <div class="card-header bg-white">
           <h5 class="mb-0">
-            <i class="fas fa-clipboard-list me-2 icon-red"></i>
+            <i class="fas fa-clipboard-list me-2 icon-brown"></i>
             Recent Inventory Activity
           </h5>
         </div>
@@ -412,7 +412,7 @@
           <div class="text-center py-5">
             <i class="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
             <p class="text-muted">No inventory activity yet</p>
-            <a href="<?php echo getBaseURL(); ?>/inventory.php" class="btn btn-danger btn-sm">
+            <a href="<?php echo getBaseURL(); ?>/inventory.php" class="btn btn-sm" style="background-color: #3b2008; color: white;">
               <i class="fas fa-boxes me-1"></i>Manage Inventory
             </a>
           </div>
@@ -486,7 +486,7 @@
             {
               label: 'Sales Count',
               data: chartData.salesTrends.map(item => item.sales),
-              backgroundColor: 'rgba(117, 19, 18, 0.7)',
+              backgroundColor: 'rgba(59, 32, 8, 0.7)',
               borderWidth: 0,
               borderRadius: 6,
               yAxisID: 'y'
@@ -495,14 +495,14 @@
               label: 'Revenue (₱)',
               data: chartData.salesTrends.map(item => item.revenue),
               type: 'line',
-              borderColor: 'rgba(154, 24, 22, 1)',
-              backgroundColor: 'rgba(154, 24, 22, 0.1)',
+              borderColor: 'rgba(92, 48, 16, 1)',
+              backgroundColor: 'rgba(92, 48, 16, 0.1)',
               borderWidth: 3,
               tension: 0.4,
               fill: true,
               yAxisID: 'y1',
               pointRadius: 5,
-              pointBackgroundColor: 'rgba(154, 24, 22, 1)',
+              pointBackgroundColor: 'rgba(92, 48, 16, 1)',
               pointBorderColor: '#fff',
               pointBorderWidth: 2
             }
@@ -603,10 +603,10 @@
           datasets: [{
             data: chartData.paymentMethods.map(item => item.total),
             backgroundColor: [
-              'rgba(117, 19, 18, 0.8)',
-              'rgba(154, 24, 22, 0.8)',
-              'rgba(196, 66, 65, 0.8)',
-              'rgba(232, 93, 92, 0.8)'
+              'rgba(59, 32, 8, 0.8)',
+              'rgba(92, 48, 16, 0.8)',
+              'rgba(122, 74, 40, 0.8)',
+              'rgba(160, 101, 53, 0.8)'
             ],
             borderWidth: 0,
             hoverOffset: 10
@@ -691,11 +691,11 @@
 
 .card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0.5rem 1rem rgba(117, 19, 18, 0.15);
+  box-shadow: 0 0.5rem 1rem rgba(59, 32, 8, 0.15);
 }
 
-.icon-red { color: #751312; }
-.bg-red { background-color: #751312; color: #fff; }
+.icon-brown { color: #3b2008; }
+.bg-brown { background-color: #3b2008; color: #fff; }
 .text-gray { color: #595C5F; }
 .bg-bronze { background-color: #CD7F32 !important; }
 

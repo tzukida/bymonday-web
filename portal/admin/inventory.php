@@ -107,7 +107,7 @@
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <h3 class="h3 mb-0" style="color: #751312;">Inventory Management</h3>
+          <h3 class="h3 mb-0" style="color: #3b2008;">Inventory Management</h3>
           <p class="text-muted mb-0">Manage your inventory items and stock levels</p>
         </div>
         <div>
@@ -152,7 +152,7 @@
             </div>
             <div class="col-md-2">
               <div class="dropdown w-100">
-                <button class="btn btn-outline-success dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" style="color: #6b3a1f; border-color: #6b3a1f;">
                   <i class="fas fa-download me-1"></i>Export
                 </button>
                 <ul class="dropdown-menu">
@@ -181,9 +181,9 @@
       <div class="card">
         <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
           <h5 class="mb-0">
-            <i class="fas fa-list me-2 icon-red"></i>Inventory Items
+            <i class="fas fa-list me-2 icon-brown"></i>Inventory Items
           </h5>
-          <span class="badge bg-red">
+          <span class="badge bg-brown">
             <?php echo number_format($total_items); ?> Total Items
           </span>
         </div>
@@ -355,12 +355,12 @@
 </div>
 
 <style>
-.icon-red {
-  color: #751312;
+.icon-brown {
+  color: #3b2008;
 }
 
-.bg-red {
-  background-color: #751312;
+.bg-brown {
+  background-color: #3b2008;
   color: #fff;
 }
 
@@ -371,7 +371,7 @@
 }
 
 .card:hover {
-  box-shadow: 0 0.5rem 1rem rgba(117, 19, 18, 0.15);
+  box-shadow: 0 0.5rem 1rem rgba(59, 32, 8, 0.15);
 }
 
 .table thead th {
@@ -396,9 +396,9 @@
 }
 
 .pagination {
-  --bs-pagination-active-bg: #751312;
-  --bs-pagination-active-border-color: #751312;
-  --bs-pagination-hover-color: #751312;
+  --bs-pagination-active-bg: #3b2008;
+  --bs-pagination-active-border-color: #3b2008;
+  --bs-pagination-hover-color: #3b2008;
 }
 
 .pagination .page-link {
@@ -411,12 +411,12 @@
 .pagination .page-link:hover {
   background-color: #f8f9fa;
   border-color: #dee2e6;
-  color: #751312;
+  color: #3b2008;
 }
 
 .pagination .page-item.active .page-link {
-  background-color: #751312;
-  border-color: #751312;
+  background-color: #3b2008;
+  border-color: #3b2008;
   color: white;
   font-weight: 600;
 }
@@ -438,28 +438,51 @@
 }
 
 .btn-danger {
-  background-color: #751312;
-  border-color: #751312;
+  background-color: #3b2008;
+  border-color: #3b2008;
 }
 
 .btn-danger:hover {
-  background-color: #5a0f0e;
-  border-color: #5a0f0e;
+  background-color: #2a1505;
+  border-color: #2a1505;
 }
 
 .btn-primary {
-  background-color: #751312;
-  border-color: #751312;
+  background-color: #3b2008;
+  border-color: #3b2008;
 }
 
 .btn-primary:hover {
-  background-color: #5a0f0e;
-  border-color: #5a0f0e;
+  background-color: #2a1505;
+  border-color: #2a1505;
 }
 
 .btn-outline-primary:hover {
-  background-color: #0d6efd;
-  border-color: #0d6efd;
+  background-color: #6b3a1f;
+  border-color: #6b3a1f;
+  color: #fff;
+}
+
+.btn-outline-success {
+  color: #6b3a1f;
+  border-color: #6b3a1f;
+}
+
+.btn-outline-success:hover {
+  background-color: #6b3a1f;
+  border-color: #6b3a1f;
+  color: #fff;
+}
+
+.btn-outline-warning {
+  color: #c87533;
+  border-color: #c87533;
+}
+
+.btn-outline-warning:hover {
+  background-color: #c87533;
+  border-color: #c87533;
+  color: #fff;
 }
 
 @media (max-width: 768px) {

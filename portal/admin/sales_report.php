@@ -140,13 +140,13 @@
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <h3 class="h3 mb-0" style="color: #751312;">
+          <h3 class="h3 mb-0" style="color: #3b2008;">
             <i class="fas fa-chart-line me-2"></i>Sales Report
           </h3>
           <p class="text-muted mb-0">Analyze sales performance and trends</p>
         </div>
         <div class="d-flex gap-2">
-          <button onclick="window.print()" class="btn btn-outline-danger">
+          <button onclick="window.print()" class="btn btn-outline-secondary">
             <i class="fas fa-print me-2"></i>Print Report
           </button>
           <a href="pos.php" class="btn btn-danger">
@@ -160,7 +160,7 @@
   <!-- Stats Cards Row -->
   <div class="row g-3 mb-4">
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #751312 0%, #5a0f0e 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #3b2008 0%, #2a1505 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-receipt fa-2x opacity-75"></i>
@@ -172,7 +172,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #9a1816 0%, #751312 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #5c3010 0%, #3b2008 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-peso-sign fa-2x opacity-75"></i>
@@ -184,7 +184,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #c44241 0%, #9a1816 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #7a4a28 0%, #5c3010 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-calculator fa-2x opacity-75"></i>
@@ -196,7 +196,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #e85d5c 0%, #c44241 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #a06535 0%, #7a4a28 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-trophy fa-2x opacity-75"></i>
@@ -216,7 +216,7 @@
       <div class="card">
         <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
           <h5 class="mb-0">
-            <i class="fas fa-filter me-2 icon-red"></i>Filter Reports
+            <i class="fas fa-filter me-2 icon-brown"></i>Filter Reports
           </h5>
           <a href="sales_report.php" class="btn btn-sm btn-outline-secondary">
             <i class="fas fa-times me-1"></i>Clear Filters
@@ -315,9 +315,9 @@
       <div class="card">
         <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
           <h5 class="mb-0">
-            <i class="fas fa-list me-2 icon-red"></i>Sales Transactions
+            <i class="fas fa-list me-2 icon-brown"></i>Sales Transactions
           </h5>
-          <span class="badge bg-red">
+          <span class="badge bg-brown">
             <?php echo number_format($total_sales); ?> Total Sales
           </span>
         </div>
@@ -558,7 +558,7 @@
       <div class="card">
         <div class="card-header bg-white py-3">
           <h5 class="mb-0">
-            <i class="fas fa-credit-card me-2 icon-red"></i>Payment Methods
+            <i class="fas fa-credit-card me-2 icon-brown"></i>Payment Methods
           </h5>
         </div>
         <div class="card-body">
@@ -601,12 +601,12 @@
 </div>
 
 <style>
-.icon-red {
-  color: #751312;
+.icon-brown {
+  color: #3b2008;
 }
 
-.bg-red {
-  background-color: #751312;
+.bg-brown {
+  background-color: #3b2008;
   color: #fff;
 }
 
@@ -649,9 +649,9 @@
 }
 
 .pagination {
-  --bs-pagination-active-bg: #751312;
-  --bs-pagination-active-border-color: #751312;
-  --bs-pagination-hover-color: #751312;
+  --bs-pagination-active-bg: #3b2008;
+  --bs-pagination-active-border-color: #3b2008;
+  --bs-pagination-hover-color: #3b2008;
 }
 
 .pagination .page-link {
@@ -664,24 +664,24 @@
 .pagination .page-link:hover {
   background-color: #f8f9fa;
   border-color: #dee2e6;
-  color: #751312;
+  color: #3b2008;
 }
 
 .pagination .page-item.active .page-link {
-  background-color: #751312;
-  border-color: #751312;
+  background-color: #3b2008;
+  border-color: #3b2008;
   color: white;
   font-weight: 600;
 }
 
 .btn-primary, .btn-danger {
-  background-color: #751312;
-  border-color: #751312;
+  background-color: #3b2008;
+  border-color: #3b2008;
 }
 
 .btn-primary:hover, .btn-danger:hover {
-  background-color: #5a0f0e;
-  border-color: #5a0f0e;
+  background-color: #2a1505;
+  border-color: #2a1505;
 }
 
 .progress {
@@ -730,10 +730,10 @@ document.addEventListener('DOMContentLoaded', function() {
         datasets: [{
           data: <?php echo json_encode(array_column($payment_breakdown, 'total')); ?>,
           backgroundColor: [
-            'rgba(117, 19, 18, 0.8)',
-            'rgba(154, 24, 22, 0.8)',
-            'rgba(196, 66, 65, 0.8)',
-            'rgba(232, 93, 92, 0.8)'
+            'rgba(59, 32, 8, 0.8)',
+            'rgba(92, 48, 16, 0.8)',
+            'rgba(122, 74, 40, 0.8)',
+            'rgba(160, 101, 53, 0.8)'
           ],
           borderWidth: 0,
           hoverOffset: 10

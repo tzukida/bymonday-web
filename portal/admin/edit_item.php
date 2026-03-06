@@ -115,7 +115,7 @@
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <h3 class="h3 mb-0" style="color: #751312;">
+          <h3 class="h3 mb-0" style="color: #3b2008;">
             <i class="fas fa-edit me-2"></i>Edit Inventory Item
           </h3>
           <p class="text-muted mb-0">Update item information and stock levels</p>
@@ -140,7 +140,7 @@
       <div class="card">
         <div class="card-header bg-white py-3">
           <h5 class="mb-0">
-            <i class="fas fa-box me-2 icon-red"></i>Item Information
+            <i class="fas fa-box me-2 icon-brown"></i>Item Information
           </h5>
         </div>
         <div class="card-body">
@@ -268,7 +268,7 @@
           <div class="mb-3">
             <div class="d-flex justify-content-between align-items-center mb-2">
               <span class="text-muted">Current Stock:</span>
-              <span class="fw-bold fs-5" style="color: #751312;">
+              <span class="fw-bold fs-5" style="color: #3b2008;">
                 <?php echo number_format($item['quantity'], 2); ?> <?php echo htmlspecialchars($item['unit']); ?>
               </span>
             </div>
@@ -364,8 +364,8 @@
 </div>
 
 <style>
-.icon-red {
-  color: #751312;
+.icon-brown {
+  color: #3b2008;
 }
 
 .text-gray {
@@ -383,13 +383,13 @@
 }
 
 .btn-danger {
-  background-color: #751312;
-  border-color: #751312;
+  background-color: #3b2008;
+  border-color: #3b2008;
 }
 
 .btn-danger:hover {
-  background-color: #5a0f0e;
-  border-color: #5a0f0e;
+  background-color: #2a1505;
+  border-color: #2a1505;
 }
 
 .list-group-item {
