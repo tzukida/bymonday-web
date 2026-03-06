@@ -89,7 +89,7 @@
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <h3 class="h3 mb-0 text-success">
+          <h3 class="h3 mb-0" style="color: #c87533;">
             <i class="fas fa-arrow-up me-2"></i>Stock In - Add Inventory
           </h3>
           <p class="text-muted mb-0">Record new stock received for inventory item</p>
@@ -107,8 +107,8 @@
     <!-- Main Form -->
     <div class="col-lg-8">
       <!-- Item Info Card -->
-      <div class="card mb-4 border-success border-2">
-        <div class="card-header text-white py-3" style="background: linear-gradient(135deg, #198754 0%, #146c43 100%);">
+      <div class="card mb-4 border-2" style="border-color: #c87533 !important;">
+        <div class="card-header text-white py-3" style="background: linear-gradient(135deg, #6b3a1f 0%, #3d1c02 100%);">
           <h5 class="mb-0">
             <i class="fas fa-box me-2"></i>Item Information
           </h5>
@@ -123,7 +123,7 @@
               <div class="d-flex gap-3 flex-wrap">
                 <div>
                   <small class="text-muted d-block">Current Stock</small>
-                  <span class="fw-bold fs-5" style="color: #198754;">
+                  <span class="fw-bold fs-5" style="color: #c87533;">
                     <?php echo number_format($item['quantity'], 2); ?> <?php echo htmlspecialchars($item['unit']); ?>
                   </span>
                 </div>
@@ -162,7 +162,7 @@
       <div class="card">
         <div class="card-header bg-white py-3">
           <h5 class="mb-0">
-            <i class="fas fa-clipboard-list me-2 text-success"></i>Record Stock In
+            <i class="fas fa-clipboard-list me-2" style="color: #c87533;"></i>Record Stock In
           </h5>
         </div>
         <div class="card-body">
@@ -173,20 +173,21 @@
               <div class="col-md-6">
                 <div class="mb-4">
                   <label for="quantity" class="form-label fw-semibold">
-                    <i class="fas fa-plus-circle text-success me-1"></i>
+                    <i class="fas fa-plus-circle me-1" style="color: #c87533;"></i>
                     Quantity to Add <span class="text-danger">*</span>
                   </label>
                   <div class="input-group input-group-lg">
                     <input type="number"
-                           class="form-control border-success"
+                           class="form-control"
                            id="quantity"
                            name="quantity"
                            value="<?php echo htmlspecialchars($form_data['quantity']); ?>"
                            min="0.01"
                            step="0.01"
                            placeholder="0.00"
+                           style="border-color: #c87533;"
                            required>
-                    <span class="input-group-text bg-success text-white">
+                    <span class="input-group-text text-white" style="background-color: #6b3a1f; border-color: #6b3a1f;">
                       <?php echo htmlspecialchars($item['unit']); ?>
                     </span>
                   </div>
@@ -207,12 +208,12 @@
                     </div>
                     <div class="d-flex justify-content-between align-items-center mb-2">
                       <span class="text-success">+ Adding:</span>
-                      <span class="fw-bold text-success" id="adding-display">0.00 <?php echo htmlspecialchars($item['unit']); ?></span>
+                      <span class="fw-bold" id="adding-display" style="color: #c87533;">0.00 <?php echo htmlspecialchars($item['unit']); ?></span>
                     </div>
                     <hr class="my-2">
                     <div class="d-flex justify-content-between align-items-center">
                       <span class="fw-bold">New Total:</span>
-                      <span class="fw-bold fs-5" style="color: #198754;" id="new-total">
+                      <span class="fw-bold fs-5" style="color: #c87533;" id="new-total">
                         <?php echo number_format($item['quantity'], 2); ?> <?php echo htmlspecialchars($item['unit']); ?>
                       </span>
                     </div>
@@ -223,7 +224,7 @@
 
             <div class="mb-4">
               <label for="remarks" class="form-label fw-semibold">
-                <i class="fas fa-comment-dots text-success me-1"></i>
+                <i class="fas fa-comment-dots me-1" style="color: #c87533;"></i>
                 Remarks <small class="text-muted fw-normal">(Optional)</small>
               </label>
               <textarea class="form-control"
@@ -268,7 +269,7 @@
 
             <div class="row">
               <div class="col-md-6">
-                <button type="submit" class="btn btn-success btn-lg w-100">
+                <button type="submit" class="btn btn-lg w-100 text-white" style="background-color: #6b3a1f; border-color: #6b3a1f;">
                   <i class="fas fa-check me-2"></i>Confirm Stock In
                 </button>
               </div>
@@ -312,7 +313,7 @@
       <div class="card">
         <div class="card-header bg-white py-3">
           <h6 class="mb-0">
-            <i class="fas fa-history me-2 text-success"></i>Recent Stock Ins
+            <i class="fas fa-history me-2" style="color: #c87533;"></i>Recent Stock Ins
           </h6>
         </div>
         <div class="card-body p-0">
@@ -321,7 +322,7 @@
               <div class="list-group-item">
                 <div class="d-flex justify-content-between align-items-start">
                   <div class="flex-grow-1">
-                    <div class="fw-bold text-success">
+                    <div class="fw-bold" style="color: #c87533;">
                       +<?php echo number_format($trans['quantity'], 2); ?> <?php echo htmlspecialchars($item['unit']); ?>
                     </div>
                     <div class="small text-muted">
@@ -406,8 +407,8 @@
 }
 
 .quick-remark:hover {
-  background-color: #198754;
-  border-color: #198754;
+  background-color: #6b3a1f;
+  border-color: #6b3a1f;
   color: white;
 }
 
@@ -448,9 +449,9 @@ $(document).ready(function() {
 
     // Highlight if significant change
     if (addAmount > currentStock * 0.5) {
-      $('#new-total').addClass('text-warning').removeClass('text-success');
+      $('#new-total').css('color', '#c87533');
     } else {
-      $('#new-total').addClass('text-success').removeClass('text-warning');
+      $('#new-total').css('color', '#c87533');
     }
   });
 

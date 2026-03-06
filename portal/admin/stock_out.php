@@ -91,7 +91,7 @@
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <h3 class="h3 mb-0 text-warning">
+          <h3 class="h3 mb-0" style="color: #c87533;">
             <i class="fas fa-arrow-down me-2"></i>Stock Out - Remove Inventory
           </h3>
           <p class="text-muted mb-0">Record inventory items removed or used</p>
@@ -109,8 +109,8 @@
     <!-- Main Form -->
     <div class="col-lg-8">
       <!-- Item Info Card -->
-      <div class="card mb-4 border-warning border-2">
-        <div class="card-header text-dark py-3" style="background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);">
+      <div class="card mb-4 border-2" style="border-color: #c87533 !important;">
+        <div class="card-header text-white py-3" style="background: linear-gradient(135deg, #6b3a1f 0%, #3d1c02 100%);">
           <h5 class="mb-0">
             <i class="fas fa-box me-2"></i>Item Information
           </h5>
@@ -125,7 +125,7 @@
               <div class="d-flex gap-3 flex-wrap">
                 <div>
                   <small class="text-muted d-block">Current Stock</small>
-                  <span class="fw-bold fs-5" style="color: #ffc107;">
+                  <span class="fw-bold fs-5" style="color: #c87533;">
                     <?php echo number_format($item['quantity'], 2); ?> <?php echo htmlspecialchars($item['unit']); ?>
                   </span>
                 </div>
@@ -177,7 +177,7 @@
       <div class="card">
         <div class="card-header bg-white py-3">
           <h5 class="mb-0">
-            <i class="fas fa-clipboard-list me-2 text-warning"></i>Record Stock Out
+            <i class="fas fa-clipboard-list me-2" style="color: #c87533;"></i>Record Stock Out
           </h5>
         </div>
         <div class="card-body">
@@ -188,12 +188,12 @@
               <div class="col-md-6">
                 <div class="mb-4">
                   <label for="quantity" class="form-label fw-semibold">
-                    <i class="fas fa-minus-circle text-warning me-1"></i>
+                    <i class="fas fa-minus-circle me-1" style="color: #c87533;"></i>
                     Quantity to Remove <span class="text-danger">*</span>
                   </label>
                   <div class="input-group input-group-lg">
                     <input type="number"
-                           class="form-control border-warning"
+                           class="form-control"
                            id="quantity"
                            name="quantity"
                            value="<?php echo htmlspecialchars($form_data['quantity']); ?>"
@@ -201,8 +201,9 @@
                            max="<?php echo $item['quantity']; ?>"
                            step="0.01"
                            placeholder="0.00"
+                           style="border-color: #c87533;"
                            required>
-                    <span class="input-group-text bg-warning text-dark">
+                    <span class="input-group-text text-white" style="background-color: #6b3a1f; border-color: #6b3a1f;">
                       <?php echo htmlspecialchars($item['unit']); ?>
                     </span>
                   </div>
@@ -226,13 +227,13 @@
                       <span class="fw-bold"><?php echo number_format($item['quantity'], 2); ?> <?php echo htmlspecialchars($item['unit']); ?></span>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mb-2">
-                      <span class="text-warning">- Removing:</span>
-                      <span class="fw-bold text-warning" id="removing-display">0.00 <?php echo htmlspecialchars($item['unit']); ?></span>
+                      <span style="color: #c87533;">- Removing:</span>
+                      <span class="fw-bold" id="removing-display" style="color: #c87533;">0.00 <?php echo htmlspecialchars($item['unit']); ?></span>
                     </div>
                     <hr class="my-2">
                     <div class="d-flex justify-content-between align-items-center">
                       <span class="fw-bold">Remaining:</span>
-                      <span class="fw-bold fs-5" id="remaining-total" style="color: #ffc107;">
+                      <span class="fw-bold fs-5" id="remaining-total" style="color: #c87533;">
                         <?php echo number_format($item['quantity'], 2); ?> <?php echo htmlspecialchars($item['unit']); ?>
                       </span>
                     </div>
@@ -247,7 +248,7 @@
 
             <div class="mb-4">
               <label for="remarks" class="form-label fw-semibold">
-                <i class="fas fa-comment-dots text-warning me-1"></i>
+                <i class="fas fa-comment-dots me-1" style="color: #c87533;"></i>
                 Reason for Removal <span class="text-danger">*</span>
               </label>
               <textarea class="form-control"
@@ -297,7 +298,7 @@
 
             <div class="row">
               <div class="col-md-6">
-                <button type="submit" class="btn btn-warning btn-lg w-100 text-dark" id="submitBtn">
+                <button type="submit" class="btn btn-lg w-100 text-white" id="submitBtn" style="background-color: #6b3a1f; border-color: #6b3a1f;">
                   <i class="fas fa-check me-2"></i>Confirm Stock Out
                 </button>
               </div>
@@ -341,7 +342,7 @@
       <div class="card">
         <div class="card-header bg-white py-3">
           <h6 class="mb-0">
-            <i class="fas fa-history me-2 text-warning"></i>Recent Stock Outs
+            <i class="fas fa-history me-2" style="color: #c87533;"></i>Recent Stock Outs
           </h6>
         </div>
         <div class="card-body p-0">
@@ -435,9 +436,9 @@
 }
 
 .quick-remark:hover {
-  background-color: #ffc107;
-  border-color: #ffc107;
-  color: #000;
+  background-color: #6b3a1f;
+  border-color: #6b3a1f;
+  color: white;
 }
 
 #removing-display, #remaining-total {
@@ -479,13 +480,13 @@ $(document).ready(function() {
     // Color coding based on remaining stock
     const remainingTotal = $('#remaining-total');
     if (remaining < 10) {
-      remainingTotal.removeClass('text-success text-warning').addClass('text-danger');
+      remainingTotal.css('color', '#dc3545');
       lowStockWarning.show();
     } else if (remaining < 50) {
-      remainingTotal.removeClass('text-success text-danger').addClass('text-warning');
+      remainingTotal.css('color', '#c87533');
       lowStockWarning.hide();
     } else {
-      remainingTotal.removeClass('text-warning text-danger').addClass('text-success');
+      remainingTotal.css('color', '#c87533');
       lowStockWarning.hide();
     }
   });
@@ -575,7 +576,7 @@ $(document).ready(function() {
     }
 
     // Disable submit button to prevent double submission
-    $('#submitBtn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i>Processing...');
+    $('#submitBtn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i>Processing...').css({'background-color': '#6b3a1f', 'border-color': '#6b3a1f'});
   });
 
   // Auto-focus on quantity input

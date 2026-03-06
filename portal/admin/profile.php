@@ -110,7 +110,7 @@ include BASE_PATH . '/includes/header.php';
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-          <h3 class="h3 mb-0" style="color: #751312;">
+          <h3 class="h3 mb-0" style="color: #3b2008;">
             <i class="fas fa-user-cog me-2"></i>Profile Settings
           </h3>
           <p class="text-muted mb-0">Manage your account information and security</p>
@@ -128,7 +128,7 @@ include BASE_PATH . '/includes/header.php';
       <div class="card mb-4">
         <div class="card-header bg-white">
           <h5 class="mb-0">
-            <i class="fas fa-user me-2 text-danger"></i>Profile Information
+            <i class="fas fa-user me-2 icon-brown"></i>Profile Information
           </h5>
         </div>
         <div class="card-body">
@@ -269,6 +269,10 @@ include BASE_PATH . '/includes/header.php';
 </div>
 
 <style>
+.icon-brown {
+  color: #3b2008;
+}
+
 .card {
   border: none;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
@@ -286,18 +290,18 @@ include BASE_PATH . '/includes/header.php';
 }
 
 .form-control:focus {
-  border-color: #751312;
-  box-shadow: 0 0 0 0.2rem rgba(117, 19, 18, 0.25);
+  border-color: #3b2008;
+  box-shadow: 0 0 0 0.2rem rgba(59, 32, 8, 0.25);
 }
 
 .btn-danger {
-  background-color: #751312;
-  border-color: #751312;
+  background-color: #3b2008;
+  border-color: #3b2008;
 }
 
 .btn-danger:hover {
-  background-color: #5a0f0e;
-  border-color: #5a0f0e;
+  background-color: #2a1505;
+  border-color: #2a1505;
 }
 
 .password-section {

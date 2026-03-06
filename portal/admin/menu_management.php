@@ -90,11 +90,11 @@
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <h3 class="h3 mb-0" style="color: #751312;">Menu Management</h3>
+          <h3 class="h3 mb-0" style="color: #3b2008;">Menu Management</h3>
           <p class="text-muted mb-0">Manage menu items and their recipes</p>
         </div>
         <div class="d-flex gap-2">
-          <a href="pos.php" class="btn btn-outline-danger">
+          <a href="pos.php" class="btn btn-outline-secondary">
             <i class="fas fa-cash-register me-2"></i>Go to POS
           </a>
           <a href="add_menu_item.php" class="btn btn-danger">
@@ -108,7 +108,7 @@
   <!-- Stats Cards Row -->
   <div class="row g-3 mb-4">
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #751312 0%, #5a0f0e 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #3b2008 0%, #2a1505 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-utensils fa-2x opacity-75"></i>
@@ -120,7 +120,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #198754 0%, #146c43 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #6b3a1f 0%, #3d1c02 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-check-circle fa-2x opacity-75"></i>
@@ -132,7 +132,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #6c757d 0%, #545b62 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #5a2d00 0%, #3d1c02 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-times-circle fa-2x opacity-75"></i>
@@ -144,7 +144,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #c87533 0%, #a05a20 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-layer-group fa-2x opacity-75"></i>
@@ -218,9 +218,9 @@
       <div class="card">
         <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
           <h5 class="mb-0">
-            <i class="fas fa-list me-2 icon-red"></i>Menu Items
+            <i class="fas fa-list me-2 icon-brown"></i>Menu Items
           </h5>
-          <span class="badge bg-red">
+          <span class="badge bg-brown">
             <?php echo number_format($total_items); ?> Total Items
           </span>
         </div>
@@ -231,7 +231,7 @@
               <h5 class="text-muted">No menu items found</h5>
               <?php if (!empty($search) || $category_filter !== 'all' || $status_filter !== 'all'): ?>
                 <p class="text-muted">Try adjusting your filters</p>
-                <a href="menu_management.php" class="btn btn-outline-danger">Clear Filters</a>
+                <a href="menu_management.php" class="btn btn-outline-secondary">Clear Filters</a>
               <?php else: ?>
                 <p class="text-muted">Add menu items to start selling</p>
                 <a href="add_menu_item.php" class="btn btn-danger">
@@ -279,7 +279,7 @@
                                    alt="<?php echo htmlspecialchars($item['name']); ?>">
                             <?php else: ?>
                               <div class="rounded d-flex align-items-center justify-content-center"
-                                   style="width: 60px; height: 60px; background: linear-gradient(135deg, #751312 0%, #5a0f0e 100%);">
+                                   style="width: 60px; height: 60px; background: linear-gradient(135deg, #3b2008 0%, #2a1505 100%);">
                                 <i class="fas fa-utensils text-white"></i>
                               </div>
                             <?php endif; ?>
@@ -436,7 +436,7 @@
   <div class="modal fade" id="ingredientsModal<?php echo $item['id']; ?>" tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header text-white" style="background: linear-gradient(135deg, #751312 0%, #5a0f0e 100%);">
+        <div class="modal-header text-white" style="background: linear-gradient(135deg, #3b2008 0%, #2a1505 100%);">
           <h5 class="modal-title">
             <i class="fas fa-list me-2"></i>
             Recipe for <?php echo htmlspecialchars($item['name']); ?>
@@ -525,12 +525,12 @@
 <?php endforeach; ?>
 
 <style>
-.icon-red {
-  color: #751312;
+.icon-brown {
+  color: #3b2008;
 }
 
-.bg-red {
-  background-color: #751312;
+.bg-brown {
+  background-color: #3b2008;
   color: #fff;
 }
 
@@ -565,9 +565,9 @@
 }
 
 .pagination {
-  --bs-pagination-active-bg: #751312;
-  --bs-pagination-active-border-color: #751312;
-  --bs-pagination-hover-color: #751312;
+  --bs-pagination-active-bg: #3b2008;
+  --bs-pagination-active-border-color: #3b2008;
+  --bs-pagination-hover-color: #3b2008;
 }
 
 .pagination .page-link {
@@ -580,12 +580,12 @@
 .pagination .page-link:hover {
   background-color: #f8f9fa;
   border-color: #dee2e6;
-  color: #751312;
+  color: #3b2008;
 }
 
 .pagination .page-item.active .page-link {
-  background-color: #751312;
-  border-color: #751312;
+  background-color: #3b2008;
+  border-color: #3b2008;
   color: white;
   font-weight: 600;
 }
@@ -607,13 +607,13 @@
 }
 
 .btn-danger, .btn-primary {
-  background-color: #751312;
-  border-color: #751312;
+  background-color: #3b2008;
+  border-color: #3b2008;
 }
 
 .btn-danger:hover, .btn-primary:hover {
-  background-color: #5a0f0e;
-  border-color: #5a0f0e;
+  background-color: #2a1505;
+  border-color: #2a1505;
 }
 
 .modal-content {

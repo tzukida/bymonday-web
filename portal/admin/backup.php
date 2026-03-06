@@ -94,11 +94,11 @@
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <h3 class="h3 mb-0" style="color: #751312;">Database Backup</h3>
+          <h3 class="h3 mb-0" style="color: #3b2008;">Database Backup</h3>
           <p class="text-muted mb-0">Create and manage your database backups</p>
         </div>
         <div>
-          <a href="<?php echo getBaseURL(); ?>/dashboard.php" class="btn btn-outline-danger">
+          <a href="<?php echo getBaseURL(); ?>/dashboard.php" class="btn btn-outline-secondary">
             <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
           </a>
         </div>
@@ -109,7 +109,7 @@
   <!-- Stats Cards Row -->
   <div class="row g-3 mb-4">
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #751312 0%, #5a0f0e 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #3b2008 0%, #2a1505 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-database fa-2x opacity-75"></i>
@@ -121,7 +121,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #198754 0%, #146c43 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #6b3a1f 0%, #3d1c02 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-table fa-2x opacity-75"></i>
@@ -133,7 +133,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #5a2d00 0%, #3d1c02 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-server fa-2x opacity-75"></i>
@@ -145,7 +145,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #6c757d 0%, #545b62 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #c87533 0%, #a05a20 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-clock fa-2x opacity-75"></i>
@@ -169,8 +169,8 @@
   <div class="row g-4">
     <!-- Backup Generator Card -->
     <div class="col-lg-8">
-      <div class="card h-100 border-success">
-        <div class="card-header text-white" style="background: linear-gradient(135deg, #198754 0%, #146c43 100%);">
+      <div class="card h-100" style="border-color: #6b3a1f !important;">
+        <div class="card-header text-white" style="background: linear-gradient(135deg, #6b3a1f 0%, #3d1c02 100%);">
           <h5 class="mb-0">
             <i class="fas fa-download me-2"></i>Generate New Backup
           </h5>
@@ -192,7 +192,7 @@
               <div class="mt-8">
                 <form method="POST" onsubmit="return confirmBackup();">
                   <div class="d-grid">
-                    <button type="submit" class="btn btn-success btn-lg">
+                    <button type="submit" class="btn btn-lg text-white" style="background-color: #6b3a1f; border-color: #6b3a1f;">
                       <i class="fas fa-download me-2"></i>Generate Backup Now
                     </button>
                   </div>
@@ -300,7 +300,7 @@
       <div class="card">
         <div class="card-header bg-white">
           <h5 class="mb-0">
-            <i class="fas fa-history me-2 icon-red"></i>Recent Backup History
+            <i class="fas fa-history me-2 icon-brown"></i>Recent Backup History
           </h5>
         </div>
         <div class="card-body p-0">
@@ -328,7 +328,7 @@
                       <strong><?php echo $index + 1; ?></strong>
                     </td>
                     <td>
-                      <i class="fas fa-file-archive text-success me-2"></i>
+                      <i class="fas fa-file-archive me-2" style="color: #c87533;"></i>
                       <strong><?php echo htmlspecialchars(str_replace('Created database backup: ', '', $backup['details'])); ?></strong>
                     </td>
                     <td>
@@ -360,12 +360,12 @@
 </div>
 
 <style>
-.icon-red {
-  color: #751312;
+.icon-brown {
+  color: #3b2008;
 }
 
-.bg-red {
-  background-color: #751312;
+.bg-brown {
+  background-color: #3b2008;
   color: #fff;
 }
 
@@ -376,7 +376,7 @@
 }
 
 .card:hover {
-  box-shadow: 0 0.5rem 1rem rgba(117, 19, 18, 0.15);
+  box-shadow: 0 0.5rem 1rem rgba(59, 32, 8, 0.15);
 }
 
 .table thead th {
@@ -396,13 +396,13 @@
 }
 
 .btn-success {
-  background-color: #198754;
-  border-color: #198754;
+  background-color: #6b3a1f;
+  border-color: #6b3a1f;
 }
 
 .btn-success:hover {
-  background-color: #146c43;
-  border-color: #146c43;
+  background-color: #3d1c02;
+  border-color: #3d1c02;
 }
 
 code {

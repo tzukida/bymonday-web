@@ -73,7 +73,7 @@
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <h3 class="h3 mb-0" style="color: #751312;">
+          <h3 class="h3 mb-0" style="color: #3b2008;">
             <i class="fas fa-plus-circle me-2"></i>Add New Inventory Item
           </h3>
           <p class="text-muted mb-0">Add a new raw ingredient or item to your inventory</p>
@@ -93,7 +93,7 @@
       <div class="card">
         <div class="card-header bg-white py-3">
           <h5 class="mb-0">
-            <i class="fas fa-box me-2 icon-red"></i>Item Information
+            <i class="fas fa-box me-2 icon-brown"></i>Item Information
           </h5>
         </div>
         <div class="card-body">
@@ -324,8 +324,8 @@
 </div>
 
 <style>
-.icon-red {
-  color: #751312;
+.icon-brown {
+  color: #3b2008;
 }
 
 .hover-shadow {
@@ -333,9 +333,9 @@
 }
 
 .hover-shadow:hover {
-  box-shadow: 0 0.25rem 0.5rem rgba(117, 19, 18, 0.15);
+  box-shadow: 0 0.25rem 0.5rem rgba(59, 32, 8, 0.15);
   transform: translateY(-2px);
-  border-color: #751312 !important;
+  border-color: #3b2008 !important;
 }
 
 .cursor-pointer {
@@ -358,18 +358,18 @@
 }
 
 .btn-danger {
-  background-color: #751312;
-  border-color: #751312;
+  background-color: #3b2008;
+  border-color: #3b2008;
 }
 
 .btn-danger:hover {
-  background-color: #5a0f0e;
-  border-color: #5a0f0e;
+  background-color: #2a1505;
+  border-color: #2a1505;
 }
 
 .example-item.active .hover-shadow {
   background-color: #f8f9fa;
-  border-color: #751312 !important;
+  border-color: #3b2008 !important;
 }
 </style>
 

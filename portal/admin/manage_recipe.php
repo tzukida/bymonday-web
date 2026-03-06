@@ -221,7 +221,7 @@
     <!-- Add Ingredient Form -->
     <div class="col-lg-4">
       <div class="card sticky-top" style="top: 20px;">
-        <div class="card-header bg-danger text-white">
+        <div class="card-header text-white" style="background-color: #3b2008;">
           <h5 class="mb-0"><i class="fas fa-plus me-2"></i>Add Ingredient</h5>
         </div>
         <div class="card-body">
@@ -316,5 +316,24 @@ function getMaxServings($menu_item_id) {
     return $max_servings == PHP_INT_MAX ? 0 : $max_servings;
 }
 ?>
+
+<style>
+.btn-danger {
+  background-color: #3b2008;
+  border-color: #3b2008;
+}
+.btn-danger:hover {
+  background-color: #2a1505;
+  border-color: #2a1505;
+}
+.btn-primary {
+  background-color: #3b2008;
+  border-color: #3b2008;
+}
+.btn-primary:hover {
+  background-color: #2a1505;
+  border-color: #2a1505;
+}
+</style>
 
 <?php require_once BASE_PATH . '/includes/footer.php'; ?>

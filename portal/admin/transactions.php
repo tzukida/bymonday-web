@@ -134,7 +134,7 @@
           <p class="text-muted mb-0">Track all inventory stock movements</p>
         </div>
         <div>
-          <a href="<?php echo getBaseURL(); ?>/inventory.php" class="btn btn-outline-danger">
+          <a href="<?php echo getBaseURL(); ?>/inventory.php" class="btn btn-outline-secondary" style="color: #6b3a1f; border-color: #6b3a1f;">
             <i class="fas fa-arrow-left me-2"></i>Back to Inventory
           </a>
         </div>
@@ -145,7 +145,7 @@
   <!-- Stats Cards Row -->
   <div class="row g-3 mb-4">
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #751312 0%, #5a0f0e 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #3b2008 0%, #2a1505 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-list fa-2x opacity-75"></i>
@@ -157,7 +157,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #198754 0%, #146c43 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #6b3a1f 0%, #3d1c02 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-arrow-up fa-2x opacity-75"></i>
@@ -169,7 +169,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #5a2d00 0%, #3d1c02 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-arrow-down fa-2x opacity-75"></i>
@@ -181,7 +181,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #c87533 0%, #a05a20 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-balance-scale fa-2x opacity-75"></i>
@@ -258,7 +258,7 @@
                   <a href="transactions.php" class="btn btn-outline-secondary btn-sm">
                     <i class="fas fa-times"></i>
                   </a>
-                  <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="collapse" data-bs-target="#dateFilter">
+                  <button type="button" class="btn btn-outline-secondary btn-sm" style="color: #6b3a1f; border-color: #6b3a1f;" data-bs-toggle="collapse" data-bs-target="#dateFilter">
                     <i class="fas fa-calendar-alt"></i>
                   </button>
                 </div>
@@ -331,9 +331,9 @@
       <div class="card">
         <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
           <h5 class="mb-0">
-            <i class="fas fa-history me-2 icon-red"></i>Stock Movement Records
+            <i class="fas fa-history me-2 icon-brown"></i>Stock Movement Records
           </h5>
-          <span class="badge bg-red">
+          <span class="badge bg-brown">
             <?php echo number_format($total_items); ?> Records
           </span>
         </div>
@@ -344,7 +344,7 @@
               <h5 class="text-muted">No stock movements found</h5>
               <?php if (!empty($search) || $item_id || $type || $date_from || $date_to || $user_filter): ?>
                 <p class="text-muted mb-3">Try adjusting your filters</p>
-                <a href="transactions.php" class="btn btn-outline-danger">Clear Filters</a>
+                <a href="transactions.php" class="btn btn-outline-secondary" style="color: #6b3a1f; border-color: #6b3a1f;">Clear Filters</a>
               <?php else: ?>
                 <p class="text-muted mb-3">Start recording stock movements</p>
                 <div class="d-flex gap-2 justify-content-center">
@@ -524,12 +524,12 @@
 </div>
 
 <style>
-.icon-red {
-  color: #751312;
+.icon-brown {
+  color: #3b2008;
 }
 
-.bg-red {
-  background-color: #751312;
+.bg-brown {
+  background-color: #3b2008;
   color: #fff;
 }
 
@@ -544,7 +544,7 @@
 }
 
 .card:hover {
-  box-shadow: 0 0.5rem 1rem rgba(117, 19, 18, 0.15);
+  box-shadow: 0 0.5rem 1rem rgba(59, 32, 8, 0.15);
 }
 
 .table thead th {
@@ -579,41 +579,41 @@
 }
 
 .btn-primary {
-  background-color: #751312;
-  border-color: #751312;
+  background-color: #6b3a1f;
+  border-color: #6b3a1f;
 }
 
 .btn-primary:hover {
-  background-color: #5a0f0e;
-  border-color: #5a0f0e;
+  background-color: #3d1c02;
+  border-color: #3d1c02;
 }
 
 .btn-success {
-  background-color: #198754;
-  border-color: #198754;
+  background-color: #6b3a1f;
+  border-color: #6b3a1f;
 }
 
 .btn-success:hover {
-  background-color: #146c43;
-  border-color: #146c43;
+  background-color: #3d1c02;
+  border-color: #3d1c02;
 }
 
 .btn-warning {
-  background-color: #ffc107;
-  border-color: #ffc107;
-  color: #000;
+  background-color: #c87533;
+  border-color: #c87533;
+  color: #fff;
 }
 
 .btn-warning:hover {
-  background-color: #e0a800;
-  border-color: #e0a800;
-  color: #000;
+  background-color: #a05a20;
+  border-color: #a05a20;
+  color: #fff;
 }
 
 .pagination {
-  --bs-pagination-active-bg: #751312;
-  --bs-pagination-active-border-color: #751312;
-  --bs-pagination-hover-color: #751312;
+  --bs-pagination-active-bg: #3b2008;
+  --bs-pagination-active-border-color: #3b2008;
+  --bs-pagination-hover-color: #3b2008;
 }
 
 .pagination .page-link {
@@ -626,12 +626,12 @@
 .pagination .page-link:hover {
   background-color: #f8f9fa;
   border-color: #dee2e6;
-  color: #751312;
+  color: #3b2008;
 }
 
 .pagination .page-item.active .page-link {
-  background-color: #751312;
-  border-color: #751312;
+  background-color: #3b2008;
+  border-color: #3b2008;
   color: white;
   font-weight: 600;
 }

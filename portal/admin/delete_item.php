@@ -146,7 +146,7 @@
       <div class="card mb-4">
         <div class="card-header bg-white py-3">
           <h5 class="mb-0">
-            <i class="fas fa-box me-2 icon-red"></i>Item to be Deleted
+            <i class="fas fa-box me-2 icon-brown"></i>Item to be Deleted
           </h5>
         </div>
         <div class="card-body">
@@ -157,7 +157,7 @@
             </div>
             <div class="col-md-6 mb-3">
               <label class="text-muted small mb-1">Current Stock</label>
-              <div class="fw-bold fs-5" style="color: #751312;">
+              <div class="fw-bold fs-5" style="color: #3b2008;">
                 <?php echo number_format($item['quantity'], 2); ?> <?php echo htmlspecialchars($item['unit']); ?>
               </div>
             </div>
@@ -238,7 +238,7 @@
 
       <!-- Confirmation Form -->
       <div class="card border-danger">
-        <div class="card-header bg-danger text-white py-3">
+        <div class="card-header text-white py-3" style="background-color: #3b2008;">
           <h5 class="mb-0">
             <i class="fas fa-shield-alt me-2"></i>Confirm Deletion
           </h5>
@@ -318,8 +318,8 @@
 </div>
 
 <style>
-.icon-red {
-  color: #751312;
+.icon-brown {
+  color: #3b2008;
 }
 
 .card {
@@ -339,13 +339,13 @@ code {
 }
 
 .btn-danger {
-  background-color: #dc3545;
-  border-color: #dc3545;
+  background-color: #3b2008;
+  border-color: #3b2008;
 }
 
 .btn-danger:hover:not(:disabled) {
-  background-color: #bb2d3b;
-  border-color: #b02a37;
+  background-color: #2a1505;
+  border-color: #2a1505;
 }
 
 .btn-danger:disabled {

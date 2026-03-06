@@ -24,11 +24,11 @@
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <h1 class="h3 mb-0" style="color: #751312;">Point of Sale</h1>
+          <h1 class="h3 mb-0" style="color: #3b2008;">Point of Sale</h1>
           <p class="text-muted mb-0">Select items to create a new sale</p>
         </div>
         <div class="d-flex gap-2">
-          <a href="sales_report.php" class="btn btn-outline-danger">
+          <a href="sales_report.php" class="btn btn-outline-secondary" style="color: #6b3a1f; border-color: #6b3a1f;">
             <i class="fas fa-chart-line me-2"></i>Sales Report
           </a>
           <?php if ($is_admin): ?>
@@ -48,14 +48,14 @@
         <div class="card-header bg-white border-bottom py-3">
           <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
             <h5 class="mb-0">
-              <i class="fas fa-utensils me-2 icon-red"></i>Menu Items
+              <i class="fas fa-utensils me-2 icon-brown"></i>Menu Items
             </h5>
             <div class="btn-group flex-wrap" role="group">
-              <button type="button" class="btn btn-danger active" data-filter="all">
+              <button type="button" class="btn btn-brown active" data-filter="all">
                 <i class="fas fa-th me-1"></i>All
               </button>
               <?php foreach ($categories as $cat): ?>
-                <button type="button" class="btn btn-outline-danger" data-filter="<?php echo htmlspecialchars($cat); ?>">
+                <button type="button" class="btn btn-outline-brown" data-filter="<?php echo htmlspecialchars($cat); ?>">
                   <?php echo htmlspecialchars($cat); ?>
                 </button>
               <?php endforeach; ?>
@@ -100,7 +100,7 @@
                         </div>
                       <?php endif; ?>
                       <?php if (!$item['can_fulfill']): ?>
-                        <span class="badge bg-danger position-absolute top-0 end-0 m-2">
+                        <span class="badge position-absolute top-0 end-0 m-2 text-white" style="background-color: #6b3a1f;">
                           <i class="fas fa-exclamation-triangle me-1"></i>Out of Stock
                         </span>
                       <?php endif; ?>
@@ -111,11 +111,11 @@
                         <?php echo htmlspecialchars($item['description'] ?: 'No description available'); ?>
                       </p>
                       <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="h4 text-danger mb-0 fw-bold">₱<?php echo number_format($item['price'], 2); ?></span>
-                        <span class="badge bg-danger fs-12"><?php echo htmlspecialchars($item['category']); ?></span>
+                        <span class="h4 mb-0 fw-bold" style="color: #3b2008;">₱<?php echo number_format($item['price'], 2); ?></span>
+                        <span class="badge fs-12 text-white" style="background-color: #c87533;"><?php echo htmlspecialchars($item['category']); ?></span>
                       </div>
                       <?php if ($item['can_fulfill']): ?>
-                        <button class="btn btn-danger btn-lg w-100 add-to-cart">
+                        <button class="btn btn-brown btn-lg w-100 add-to-cart">
                           <i class="fas fa-plus-circle me-2"></i>Add to Cart
                         </button>
                       <?php else: ?>
@@ -136,10 +136,10 @@
     <!-- Cart Section -->
     <div class="col-lg-4">
       <div class="card sticky-top" style="top: 20px;">
-        <div class="card-header text-white py-3" style="background: linear-gradient(135deg, #751312 0%, #5a0f0e 100%);">
+        <div class="card-header text-white py-3" style="background: linear-gradient(135deg, #3b2008 0%, #2a1505 100%);">
           <h5 class="mb-0">
             <i class="fas fa-shopping-cart me-2"></i>Current Order
-            <span class="badge bg-white text-danger float-end" id="cartCount">0</span>
+            <span class="badge bg-white float-end" style="color: #3b2008;" id="cartCount">0</span>
           </h5>
         </div>
         <div class="card-body p-0" style="max-height: 400px; overflow-y: auto;">
@@ -154,7 +154,7 @@
         <div class="card-footer bg-white p-3">
           <div class="d-flex justify-content-between mb-3 pb-3 border-bottom">
             <h5 class="mb-0 text-muted">Subtotal:</h5>
-            <h4 class="fw-bold text-danger mb-0" id="cartTotal">₱0.00</h4>
+            <h4 class="fw-bold mb-0" style="color: #3b2008;" id="cartTotal">₱0.00</h4>
           </div>
 
           <div class="mb-3">
@@ -183,10 +183,10 @@
           </div>
 
           <div class="d-grid gap-2">
-            <button class="btn btn-danger btn-lg" id="processOrderBtn" disabled>
+            <button class="btn btn-brown btn-lg" id="processOrderBtn" disabled>
               <i class="fas fa-check-circle me-2"></i>Process Order
             </button>
-            <button class="btn btn-outline-danger btn-lg" id="clearCartBtn">
+            <button class="btn btn-outline-brown btn-lg" id="clearCartBtn">
               <i class="fas fa-trash me-2"></i>Clear Cart
             </button>
           </div>
@@ -223,7 +223,7 @@
             </div>
             <div class="col-6">
               <small class="text-muted d-block mb-1">Total Amount</small>
-              <strong class="text-danger" id="modalOrderTotal">₱0.00</strong>
+              <strong style="color: #3b2008;" id="modalOrderTotal">₱0.00</strong>
             </div>
           </div>
         </div>
@@ -244,7 +244,7 @@
 <div class="modal fade" id="errorModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header text-white border-0" style="background: linear-gradient(135deg, #dc3545 0%, #b02a37 100%);">
+      <div class="modal-header text-white border-0" style="background: linear-gradient(135deg, #5c3010 0%, #3b2008 100%);">
         <h5 class="modal-title">
           <i class="fas fa-exclamation-circle me-2"></i>Order Failed
         </h5>
@@ -272,8 +272,8 @@
 </div>
 
 <style>
-.icon-red {
-  color: #751312;
+.icon-brown {
+  color: #3b2008;
 }
 
 .menu-card {
@@ -285,8 +285,8 @@
 
 .menu-card:hover:not(.out-of-stock) {
   transform: translateY(-8px);
-  box-shadow: 0 12px 24px rgba(117, 19, 18, 0.25);
-  border-color: #751312;
+  box-shadow: 0 12px 24px rgba(59, 32, 8, 0.25);
+  border-color: #3b2008;
 }
 
 .menu-card.out-of-stock {
@@ -305,7 +305,7 @@
 .menu-image-placeholder {
   width: 100%;
   height: 220px;
-  background: linear-gradient(135deg, #751312 0%, #5a0f0e 100%);
+  background: linear-gradient(135deg, #3b2008 0%, #2a1505 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -370,20 +370,20 @@
 }
 
 .btn-danger {
-  background-color: #751312;
-  border-color: #751312;
+  background-color: #3b2008;
+  border-color: #3b2008;
 }
 
 .btn-danger:hover {
-  background-color: #5a0f0e;
-  border-color: #5a0f0e;
+  background-color: #2a1505;
+  border-color: #2a1505;
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(117, 19, 18, 0.3);
+  box-shadow: 0 4px 8px rgba(59, 32, 8, 0.3);
 }
 
 .btn-outline-danger:hover {
-  background-color: #751312;
-  border-color: #751312;
+  background-color: #3b2008;
+  border-color: #3b2008;
 }
 
 .card {
@@ -418,7 +418,7 @@
 }
 
 .btn-group .btn.active {
-  box-shadow: 0 2px 4px rgba(117, 19, 18, 0.3);
+  box-shadow: 0 2px 4px rgba(59, 32, 8, 0.3);
 }
 
 .success-icon, .error-icon {
@@ -432,7 +432,7 @@
 }
 
 .error-icon {
-  background-color: rgba(220, 53, 69, 0.1);
+  background-color: rgba(59, 32, 8, 0.1);
 }
 
 .success-icon i, .error-icon i {
@@ -485,6 +485,36 @@
     padding: 1rem !important;
   }
 }
+.btn-brown {
+  background-color: #6b3a1f;
+  border-color: #6b3a1f;
+  color: #fff;
+}
+
+.btn-brown:hover {
+  background-color: #3d1c02;
+  border-color: #3d1c02;
+  color: #fff;
+}
+
+.btn-brown:disabled {
+  background-color: #6b3a1f;
+  border-color: #6b3a1f;
+  color: #fff;
+  opacity: 0.65;
+}
+
+.btn-outline-brown {
+  background-color: transparent;
+  border-color: #6b3a1f;
+  color: #6b3a1f;
+}
+
+.btn-outline-brown:hover {
+  background-color: #6b3a1f;
+  border-color: #6b3a1f;
+  color: #fff;
+}
 </style>
 
 <script>
@@ -498,11 +528,11 @@ document.querySelectorAll('[data-filter]').forEach(btn => {
 
     // Update active button
     document.querySelectorAll('[data-filter]').forEach(b => {
-      b.classList.remove('active', 'btn-danger');
-      b.classList.add('btn-outline-danger');
+      b.classList.remove('active', 'btn-brown');
+      b.classList.add('btn-outline-brown');
     });
-    this.classList.remove('btn-outline-danger');
-    this.classList.add('active', 'btn-danger');
+    this.classList.remove('btn-outline-brown');
+    this.classList.add('active', 'btn-brown');
 
     // Filter items with animation
     document.querySelectorAll('.menu-item').forEach(item => {
@@ -543,13 +573,13 @@ document.querySelectorAll('.add-to-cart').forEach(btn => {
     // Visual feedback
     const originalHTML = this.innerHTML;
     this.innerHTML = '<i class="fas fa-check me-2"></i>Added!';
-    this.classList.remove('btn-danger');
+    this.classList.remove('btn-brown');
     this.classList.add('btn-success');
 
     setTimeout(() => {
       this.innerHTML = originalHTML;
       this.classList.remove('btn-success');
-      this.classList.add('btn-danger');
+      this.classList.add('btn-brown');
     }, 600);
 
     updateCart();
@@ -592,7 +622,7 @@ function updateCart() {
             <h6 class="mb-1 fw-bold text-dark">${item.name}</h6>
             <small class="text-muted">₱${item.price.toFixed(2)} each</small>
           </div>
-          <button class="btn btn-sm btn-link text-danger p-0 ms-2" onclick="removeFromCart(${index})" title="Remove item">
+          <button class="btn btn-sm btn-link p-0 ms-2" style="color: #3b2008;" onclick="removeFromCart(${index})" title="Remove item">
             <i class="fas fa-times fs-5"></i>
           </button>
         </div>
@@ -606,7 +636,7 @@ function updateCart() {
               <i class="fas fa-plus"></i>
             </button>
           </div>
-          <strong class="text-danger fs-5">₱${subtotal.toFixed(2)}</strong>
+          <strong style="color: #3b2008;" class="fs-5">₱${subtotal.toFixed(2)}</strong>
         </div>
       </div>
     `;

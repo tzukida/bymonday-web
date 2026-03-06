@@ -104,7 +104,7 @@ require_once BASE_PATH . '/includes/header.php';
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <h3 class="h3 mb-0" style="color: #751312;">Staff Management</h3>
+          <h3 class="h3 mb-0" style="color: #3b2008;">Staff Management</h3>
           <p class="text-muted mb-0">Manage staff accounts and permissions</p>
         </div>
         <div>
@@ -119,7 +119,7 @@ require_once BASE_PATH . '/includes/header.php';
   <!-- Stats Cards Row -->
   <div class="row g-3 mb-4">
     <div class="col-xl-4 col-md-4">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #751312 0%, #5a0f0e 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #3b2008 0%, #2a1505 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-users fa-2x opacity-75"></i>
@@ -131,7 +131,7 @@ require_once BASE_PATH . '/includes/header.php';
     </div>
 
     <div class="col-xl-4 col-md-4">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #198754 0%, #146c43 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #6b3a1f 0%, #3d1c02 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-user-check fa-2x opacity-75"></i>
@@ -143,7 +143,7 @@ require_once BASE_PATH . '/includes/header.php';
     </div>
 
     <div class="col-xl-4 col-md-4">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #c87533 0%, #a05a20 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-user-slash fa-2x opacity-75"></i>
@@ -203,9 +203,9 @@ require_once BASE_PATH . '/includes/header.php';
       <div class="card">
         <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
           <h5 class="mb-0">
-            <i class="fas fa-users-cog me-2 icon-red"></i>Staff Accounts
+            <i class="fas fa-users-cog me-2 icon-brown"></i>Staff Accounts
           </h5>
-          <span class="badge bg-red">
+          <span class="badge bg-brown">
             <?php echo number_format($total_users); ?> Total Staff
           </span>
         </div>
@@ -379,8 +379,8 @@ require_once BASE_PATH . '/includes/header.php';
 </div>
 
 <style>
-.icon-red {
-  color: #751312;
+.icon-brown {
+  color: #3b2008;
 }
 
 .card {
@@ -390,7 +390,7 @@ require_once BASE_PATH . '/includes/header.php';
 }
 
 .card:hover {
-  box-shadow: 0 0.5rem 1rem rgba(117, 19, 18, 0.15);
+  box-shadow: 0 0.5rem 1rem rgba(59, 32, 8, 0.15);
 }
 
 .table thead th {
@@ -413,7 +413,7 @@ require_once BASE_PATH . '/includes/header.php';
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #751312 0%, #5a0f0e 100%);
+  background: linear-gradient(135deg, #3b2008 0%, #2a1505 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -438,9 +438,9 @@ require_once BASE_PATH . '/includes/header.php';
 }
 
 .pagination {
-  --bs-pagination-active-bg: #751312;
-  --bs-pagination-active-border-color: #751312;
-  --bs-pagination-hover-color: #751312;
+  --bs-pagination-active-bg: #3b2008;
+  --bs-pagination-active-border-color: #3b2008;
+  --bs-pagination-hover-color: #3b2008;
 }
 
 .pagination .page-link {
@@ -453,12 +453,12 @@ require_once BASE_PATH . '/includes/header.php';
 .pagination .page-link:hover {
   background-color: #f8f9fa;
   border-color: #dee2e6;
-  color: #751312;
+  color: #3b2008;
 }
 
 .pagination .page-item.active .page-link {
-  background-color: #751312;
-  border-color: #751312;
+  background-color: #3b2008;
+  border-color: #3b2008;
   color: white;
   font-weight: 600;
 }
@@ -475,23 +475,23 @@ require_once BASE_PATH . '/includes/header.php';
 }
 
 .btn-danger {
-  background-color: #751312;
-  border-color: #751312;
+  background-color: #3b2008;
+  border-color: #3b2008;
 }
 
 .btn-danger:hover {
-  background-color: #5a0f0e;
-  border-color: #5a0f0e;
+  background-color: #2a1505;
+  border-color: #2a1505;
 }
 
 .btn-primary {
-  background-color: #751312;
-  border-color: #751312;
+  background-color: #3b2008;
+  border-color: #3b2008;
 }
 
 .btn-primary:hover {
-  background-color: #5a0f0e;
-  border-color: #5a0f0e;
+  background-color: #2a1505;
+  border-color: #2a1505;
 }
 
 .badge {

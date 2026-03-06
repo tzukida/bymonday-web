@@ -99,7 +99,7 @@
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <h3 class="h3 mb-0" style="color: #751312;">
+          <h3 class="h3 mb-0" style="color: #3b2008;">
             <i class="fas fa-user-plus me-2"></i>Add New Staff Member
           </h3>
           <p class="text-muted mb-0">Create a new staff account for your team</p>
@@ -119,7 +119,7 @@
       <div class="card">
         <div class="card-header bg-white py-3">
           <h5 class="mb-0">
-            <i class="fas fa-user me-2 icon-red"></i>Staff Information
+            <i class="fas fa-user me-2 icon-brown"></i>Staff Information
           </h5>
         </div>
         <div class="card-body">
@@ -328,8 +328,8 @@
 </div>
 
 <style>
-.icon-red {
-  color: #751312;
+.icon-brown {
+  color: #3b2008;
 }
 
 .card {
@@ -343,13 +343,13 @@
 }
 
 .btn-danger {
-  background-color: #751312;
-  border-color: #751312;
+  background-color: #3b2008;
+  border-color: #3b2008;
 }
 
 .btn-danger:hover {
-  background-color: #5a0f0e;
-  border-color: #5a0f0e;
+  background-color: #2a1505;
+  border-color: #2a1505;
 }
 
 .avatar-circle-sm {
@@ -374,8 +374,8 @@
 }
 
 .form-check-input:checked {
-  background-color: #751312;
-  border-color: #751312;
+  background-color: #3b2008;
+  border-color: #3b2008;
 }
 
 code {
