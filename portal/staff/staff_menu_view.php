@@ -177,7 +177,7 @@
                 <option value="unavailable" <?php echo $status_filter === 'unavailable' ? 'selected' : ''; ?>>Unavailable</option>
               </select>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2 d-flex align-items-end">
               <div class="btn-group w-100">
                 <button type="submit" class="btn btn-primary">
                   <i class="fas fa-filter me-1"></i>Apply
@@ -308,7 +308,7 @@
                         <div class="col-6">
                           <div class="border rounded p-3 text-center h-100">
                             <small class="text-muted d-block mb-1">Price</small>
-                            <h4 class="mb-0" style="color: #382417;">₱<?php echo number_format($item['price'], 2); ?></h4>
+                            <h5 class="mb-0 text-nowrap" style="color: #382417; font-weight: 700;">₱<?php echo number_format($item['price'], 2); ?></h5>
                           </div>
                         </div>
                         <div class="col-6">
@@ -326,7 +326,7 @@
                       </div>
 
                       <!-- View Recipe Button -->
-                      <button class="btn btn-outline-danger w-100"
+                      <button class="btn btn-outline-danger w-100 mt-auto"
                               data-bs-toggle="modal"
                               data-bs-target="#ingredientsModal<?php echo $item['id']; ?>">
                         <i class="fas fa-book me-2"></i>View Recipe
@@ -390,7 +390,7 @@
                   <small class="text-muted d-block mb-2">
                     <i class="fas fa-peso-sign me-1"></i>Price
                   </small>
-                  <h4 class="mb-0" style="color: #382417;">₱<?php echo number_format($item['price'], 2); ?></h4>
+                  <h5 class="mb-0 text-nowrap" style="color: #382417; font-weight: 700;">₱<?php echo number_format($item['price'], 2); ?></h5>
                 </div>
               </div>
             </div>

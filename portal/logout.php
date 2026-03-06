@@ -5,4 +5,5 @@
 
   logoutUser();
 
-  redirect('index.php?success=logout');
+header('Location: ' . rtrim(BASE_URL, '/') . '/index.php?success=logout');
+exit();

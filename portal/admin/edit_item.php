@@ -3,6 +3,7 @@
   require_once BASE_PATH . '/config/config.php';
   require_once BASE_PATH . '/includes/auth.php';
   require_once BASE_PATH . '/includes/functions.php';
+  require_once BASE_PATH . '/includes/mailer.php';
   requireAdmin();
 
   $item_id = $_GET['id'] ?? null;
@@ -44,10 +45,11 @@
     if (!verifyCsrfToken($_POST[CSRF_TOKEN_NAME] ?? '')) {
         $_SESSION['error_message'] = 'Security token mismatch. Please try again.';
     } else {
-        $item_name = sanitizeInput($_POST['item_name'] ?? '');
-        $description = sanitizeInput($_POST['description'] ?? '');
-        $unit = sanitizeInput($_POST['unit'] ?? '');
-        $quantity = (float)($_POST['quantity'] ?? 0);
+        $item_name      = sanitizeInput($_POST['item_name'] ?? '');
+        $description    = sanitizeInput($_POST['description'] ?? '');
+        $unit           = sanitizeInput($_POST['unit'] ?? '');
+        $quantity       = (float)($_POST['quantity'] ?? 0);
+        $supplier_email = sanitizeInput($_POST['supplier_email'] ?? '');
 
         $required_fields = ['item_name', 'unit'];
         $errors = validateRequired($required_fields, $_POST);
@@ -57,6 +59,9 @@
         }
         if ($quantity < 0) {
             $errors[] = 'Quantity cannot be negative';
+        }
+        if (!empty($supplier_email) && !filter_var($supplier_email, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = 'Please enter a valid supplier email address';
         }
 
         // Check for duplicate name
@@ -72,8 +77,8 @@
         }
 
         if (empty($errors)) {
-            $stmt = $conn->prepare("UPDATE inventory SET item_name = ?, description = ?, unit = ?, quantity = ? WHERE id = ?");
-            $stmt->bind_param("sssdi", $item_name, $description, $unit, $quantity, $item_id);
+            $stmt = $conn->prepare("UPDATE inventory SET item_name = ?, description = ?, supplier_email = ?, unit = ?, quantity = ? WHERE id = ?");
+            $stmt->bind_param("ssssdi", $item_name, $description, $supplier_email, $unit, $quantity, $item_id);
 
             if ($stmt->execute()) {
                 $stmt->close();
@@ -102,10 +107,11 @@
   require_once BASE_PATH . '/includes/header.php';
 
   $form_data = [
-    'item_name' => $_POST['item_name'] ?? $item['item_name'],
-    'description' => $_POST['description'] ?? $item['description'],
-    'unit' => $_POST['unit'] ?? $item['unit'],
-    'quantity' => $_POST['quantity'] ?? $item['quantity'],
+    'item_name'      => $_POST['item_name'] ?? $item['item_name'],
+    'description'    => $_POST['description'] ?? $item['description'],
+    'supplier_email' => $_POST['supplier_email'] ?? $item['supplier_email'],
+    'unit'           => $_POST['unit'] ?? $item['unit'],
+    'quantity'       => $_POST['quantity'] ?? $item['quantity'],
   ];
 ?>
 
@@ -204,6 +210,19 @@
                         rows="3"
                         placeholder="Brief description of the item..."><?php echo htmlspecialchars($form_data['description']); ?></textarea>
               <small class="text-muted">Provide additional details about this inventory item</small>
+            </div>
+
+            <div class="mb-3">
+              <label for="supplier_email" class="form-label">
+                <i class="fas fa-envelope me-1"></i>Supplier Email <small class="text-muted">(Optional — for low stock alerts)</small>
+              </label>
+              <input type="email"
+                     class="form-control"
+                     id="supplier_email"
+                     name="supplier_email"
+                     value="<?php echo htmlspecialchars($form_data['supplier_email'] ?? ''); ?>"
+                     placeholder="supplier@example.com">
+              <small class="text-muted">An email alert will be sent to this address when stock drops below <?= LOW_STOCK_THRESHOLD ?></small>
             </div>
 
             <div class="row">

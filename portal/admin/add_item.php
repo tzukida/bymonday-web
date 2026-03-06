@@ -4,22 +4,27 @@
   require_once BASE_PATH . '/config/config.php';
   require_once BASE_PATH . '/includes/auth.php';
   require_once BASE_PATH . '/includes/functions.php';
+  require_once BASE_PATH . '/includes/mailer.php';
   requireAdmin();
 
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!verifyCsrfToken($_POST[CSRF_TOKEN_NAME] ?? '')) {
       $_SESSION['error_message'] = 'Security token mismatch. Please try again.';
     } else {
-      $item_name   = sanitizeInput($_POST['item_name'] ?? '');
-      $description = sanitizeInput($_POST['description'] ?? '');
-      $unit        = sanitizeInput($_POST['unit'] ?? '');
-      $quantity    = (float)($_POST['quantity'] ?? 0);
+      $item_name      = sanitizeInput($_POST['item_name'] ?? '');
+      $description    = sanitizeInput($_POST['description'] ?? '');
+      $unit           = sanitizeInput($_POST['unit'] ?? '');
+      $quantity       = (float)($_POST['quantity'] ?? 0);
+      $supplier_email = sanitizeInput($_POST['supplier_email'] ?? '');
 
       $required_fields = ['item_name', 'unit'];
       $errors = validateRequired($required_fields, $_POST);
 
       if (strlen($item_name) < 2) $errors[] = 'Item name must be at least 2 characters long';
       if ($quantity < 0) $errors[] = 'Quantity cannot be negative';
+      if (!empty($supplier_email) && !filter_var($supplier_email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = 'Please enter a valid supplier email address';
+      }
 
       if (empty($errors)) {
         try {
@@ -35,9 +40,9 @@
             $_SESSION['error_message'] = 'An item with this name already exists.';
           } else {
             $stmt = $conn->prepare(
-              "INSERT INTO inventory (item_name, description, unit, quantity) VALUES (?, ?, ?, ?)"
+              "INSERT INTO inventory (item_name, description, supplier_email, unit, quantity) VALUES (?, ?, ?, ?, ?)"
             );
-            $stmt->bind_param("sssd", $item_name, $description, $unit, $quantity);
+            $stmt->bind_param("ssssd", $item_name, $description, $supplier_email, $unit, $quantity);
 
             if ($stmt->execute()) {
               $item_id = $conn->insert_id;
@@ -157,6 +162,19 @@
                         rows="3"
                         placeholder="Brief description of the item..."><?php echo htmlspecialchars($_POST['description'] ?? ''); ?></textarea>
               <small class="text-muted">Provide additional details about this inventory item</small>
+            </div>
+
+            <div class="mb-3">
+              <label for="supplier_email" class="form-label">
+                <i class="fas fa-envelope me-1"></i>Supplier Email <small class="text-muted">(Optional — for low stock alerts)</small>
+              </label>
+              <input type="email"
+                     class="form-control"
+                     id="supplier_email"
+                     name="supplier_email"
+                     value="<?php echo htmlspecialchars($_POST['supplier_email'] ?? ''); ?>"
+                     placeholder="supplier@example.com">
+              <small class="text-muted">An email alert will be sent to this address when stock drops below <?= LOW_STOCK_THRESHOLD ?></small>
             </div>
 
             <div class="row">

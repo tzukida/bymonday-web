@@ -3,6 +3,7 @@
   require_once BASE_PATH . '/config/config.php';
   require_once BASE_PATH . '/includes/auth.php';
   require_once BASE_PATH . '/includes/functions.php';
+  require_once BASE_PATH . '/includes/mailer.php';
   requireAdmin();
 
   $item_id = $_GET['id'] ?? $_GET['item_id'] ?? null;
@@ -65,7 +66,29 @@
             $conn->commit();
 
             logActivity($_SESSION['user_id'], 'Stock Out', "Removed {$quantity_out} {$item['unit']} from {$item['item_name']}");
-            $_SESSION['success_message'] = "Successfully removed {$quantity_out} {$item['unit']} from inventory.";
+
+            // ── Low stock email alert ──────────────────────────────
+            if ($new_qty <= LOW_STOCK_THRESHOLD) {
+                // Always alert the admin
+                sendLowStockAlert(
+                    'angelaccortes01@gmail.com',
+                    $item['item_name'],
+                    $new_qty,
+                    $item['unit']
+                );
+                // Also alert supplier if set
+                if (!empty($item['supplier_email']) && $item['supplier_email'] !== 'angelaccortes01@gmail.com') {
+                    sendLowStockAlert(
+                        $item['supplier_email'],
+                        $item['item_name'],
+                        $new_qty,
+                        $item['unit']
+                    );
+                }
+            }
+
+            $_SESSION['success_message'] = "Successfully removed {$quantity_out} {$item['unit']} from inventory."
+                . ($new_qty <= LOW_STOCK_THRESHOLD ? " ⚠️ Stock is now low!" : "");
             redirect('admin/inventory.php?success=stock_out');
 
         } catch (Exception $e) {

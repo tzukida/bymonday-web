@@ -129,12 +129,11 @@
     if (!defined('BASE_URL')) {
       die("BASE_URL is not defined.");
     }
-    $path = ltrim($location, '/');
+    $location = ltrim($location, '/');
     $url = rtrim(BASE_URL, '/') . '/' . $location;
     header("Location: " . $url);
     exit();
-  }
-
+}
   function getBaseURL() {
     $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
     $host = $_SERVER['HTTP_HOST'];

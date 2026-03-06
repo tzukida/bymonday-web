@@ -16,6 +16,7 @@ $method_labels = [
     'gcash'   => 'GCash',
     'paymaya' => 'Maya',
     'card'    => 'Credit / Debit Card',
+    'crypto'  => 'Cryptocurrency',
 ];
 $method_display = $method_labels[$method] ?? ucfirst($method);
 
@@ -23,8 +24,9 @@ $method_display = $method_labels[$method] ?? ucfirst($method);
 $method_icons = [
     'cash'    => '<i class="fa-solid fa-money-bill-1-wave"></i>',
     'gcash'   => '<i class="fa-solid fa-mobile-screen-button"></i>',
-    'paymaya' => '<i class="fa-solid fa-mobile-screen-button">',
+    'paymaya' => '<i class="fa-solid fa-mobile-screen-button"></i>',
     'card'    => '<i class="fa-regular fa-credit-card"></i>',
+    'crypto'  => '₿',
 ];
 $method_icon = $method_icons[$method] ?? '💳';
 
@@ -277,6 +279,12 @@ $first_name = explode(' ', trim($name))[0];
             gap: 12px;
             margin-bottom: 28px;
             animation: fadeUp 0.5s ease 1.1s both;
+        }
+
+        .detail-box.highlight {
+            border-color: rgba(201,123,43,0.35);
+            background: rgba(201,123,43,0.07);
+            grid-column: 1 / -1;
         }
 
         .detail-box {
@@ -612,6 +620,8 @@ document.addEventListener('DOMContentLoaded', () => {
     spawnParticles();
 
     // Clear cart from localStorage on success
+    localStorage.removeItem('mmCart');
+    localStorage.removeItem('pending_cart');
     localStorage.removeItem('cart');
 });
 </script>

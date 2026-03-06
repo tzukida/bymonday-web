@@ -46,6 +46,27 @@
   <link href="<?php echo getBaseURL(); ?>/assets/css/style.css?v=<?php echo time(); ?>" rel="stylesheet">
 </head>
 <body class="login-page">
+  <a href="<?= str_replace('/portal', '/shop', BASE_URL) ?>/index.php" style="
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: #3b2008;
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      transition: background 0.2s;
+      z-index: 999;
+  " onmouseover="this.style.background='#5a3412'" onmouseout="this.style.background='#3b2008'">
+       Home
+  </a>
+
   <div class="panel">
     <div class="logo-container">
       <img src="assets/img/logo-kape.png" alt="ByMonday Logo" onerror="this.style.display='none'" />

@@ -62,8 +62,8 @@ $customerLoggedIn = (
     <a href="customer_login.php" class="nav-link">Login</a>
 <?php endif; ?>
 
-      <button class="nav-btn" onclick="location.href='/bymonday/portal/index.php'">
-        <i class="fas fa-th"></i> Portal
+<button class="nav-btn" onclick="location.href='<?= str_replace('/shop', '/portal', BASE_URL) ?>/index.php'">
+          <i class="fas fa-th"></i> Portal
       </button>
     </div>
   </nav>

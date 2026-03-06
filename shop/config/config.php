@@ -31,8 +31,8 @@ Production:
 https://yourdomain.com/shop
 */
 
-define('BASE_URL', $scheme . '://' . $host . '/bymonday/shop');
-
+$basePath = str_replace('\\', '/', dirname(dirname($_SERVER['SCRIPT_NAME'])));
+define('BASE_URL', $scheme . '://' . $host . $basePath . '/shop');
 /* ================= DATABASE ================= */
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');

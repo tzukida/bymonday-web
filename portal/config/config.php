@@ -56,7 +56,11 @@ If production:
 https://bymonday.com/portal
 */
 
-define('BASE_URL', $scheme . '://' . $host . '/bymonday/portal');
+$scriptPath = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
+// Always extract everything up to and including /portal
+preg_match('#(.*?/portal)#', $scriptPath, $matches);
+$basePath = $matches[1] ?? '/portal';
+define('BASE_URL', $scheme . '://' . $host . $basePath);
 
 /* ================== DATABASE CONNECTION ================== */
 function getDBConnection() {

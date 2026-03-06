@@ -6,7 +6,30 @@
   requireStaff();
 
   $conn = getDBConnection();
+  // AJAX: return low stock items as JSON
+  if (isset($_GET['get_low_stock'])) {
+      $lsconn = getDBConnection();
+      $lsres = $lsconn->query("SELECT item_name as name, quantity, unit FROM inventory WHERE quantity <= 10 ORDER BY quantity ASC");
+      header('Content-Type: application/json');
+      echo json_encode($lsres->fetch_all(MYSQLI_ASSOC));
+      exit;
+  }
 
+  // Handle send restock email — ONE combined email
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_restock_email'])) {
+      require_once BASE_PATH . '/includes/mailer.php';
+      $supplier_email  = trim($_POST['supplier_email'] ?? '');
+      $low_stock_items = json_decode($_POST['low_stock_items'] ?? '[]', true);
+      if (!empty($low_stock_items)) {
+          sendRestockEmail('angelaccortes01@gmail.com', $low_stock_items);
+          if (!empty($supplier_email) && filter_var($supplier_email, FILTER_VALIDATE_EMAIL)) {
+              sendRestockEmail($supplier_email, $low_stock_items);
+          }
+      }
+      $_SESSION['success_message'] = '✅ Restock request email sent!';
+      header('Location: ' . $_SERVER['PHP_SELF']);
+      exit;
+  }
   // Get filter and search parameters
   $search = sanitizeInput($_GET['search'] ?? '');
   $filter = sanitizeInput($_GET['filter'] ?? '');
@@ -96,6 +119,10 @@
           <p class="text-muted mb-0">View inventory levels and manage stock</p>
         </div>
         <div>
+                    <button class="btn me-2" onclick="openEmailModal()" style="background:#c87533;border-color:#c87533;color:#fff;border:1px solid #c87533;">
+            <i class="fas fa-envelope me-2"></i>Email Supplier
+          </button>
+
           <span class="badge bg-brown-soft text-brown fs-6">
             <i class="fas fa-user me-1"></i>Staff View
           </span>
@@ -608,6 +635,305 @@ document.addEventListener('DOMContentLoaded', function() {
     return new bootstrap.Tooltip(tooltipTriggerEl);
   });
 });
+</script>
+
+
+<!-- ── Email Supplier Modal ── -->
+<style>
+#emailSupplierModal .modal-content {
+    background: #2e1c0e;
+    border: 1px solid rgba(201,123,43,0.3);
+    border-radius: 20px;
+    overflow: hidden;
+    color: #f7f2ec;
+}
+#emailSupplierModal .modal-header {
+    background: #1a0f08;
+    border-bottom: 1px solid rgba(201,123,43,0.2);
+    padding: 20px 24px;
+}
+#emailSupplierModal .modal-title {
+    font-family: Georgia, serif;
+    font-size: 1.1rem;
+    color: #f7f2ec;
+}
+#emailSupplierModal .modal-body {
+    background: #2e1c0e;
+    padding: 20px 24px;
+}
+#emailSupplierModal .modal-footer {
+    background: #1a0f08;
+    border-top: 1px solid rgba(201,123,43,0.2);
+    padding: 16px 24px;
+}
+#emailSupplierModal .restock-subtitle {
+    color: #c9b594;
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+#emailSupplierModal .restock-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #c97b2b;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+#restockItemsList {
+    background: rgba(26,15,8,0.6);
+    border: 1px solid rgba(201,123,43,0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    max-height: 280px;
+    overflow-y: auto;
+}
+.restock-item-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    border-bottom: 1px solid rgba(201,123,43,0.1);
+    transition: background 0.15s;
+}
+.restock-item-row:last-child { border-bottom: none; }
+.restock-item-row:hover { background: rgba(201,123,43,0.07); }
+.restock-item-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #f7f2ec;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+.restock-item-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #c97b2b;
+    flex-shrink: 0;
+}
+.restock-item-qty {
+    color: #dc3545;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: monospace;
+    min-width: 28px;
+    text-align: center;
+}
+.qty-btn {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    background: rgba(201,123,43,0.15);
+    border: 1px solid rgba(201,123,43,0.3);
+    color: #c97b2b;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    line-height: 1;
+}
+.qty-btn:hover { background: rgba(201,123,43,0.35); color: #f7f2ec; }
+.qty-control {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(26,15,8,0.4);
+    border: 1px solid rgba(201,123,43,0.2);
+    border-radius: 8px;
+    padding: 3px 8px;
+}
+.restock-item-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+.restock-item-unit {
+    color: #9b7e60;
+    font-size: 11px;
+    min-width: 28px;
+    text-align: left;
+}
+.restock-item-remove {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: rgba(220,53,69,0.15);
+    border: 1px solid rgba(220,53,69,0.3);
+    color: #dc3545;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    line-height: 1;
+}
+.restock-item-remove:hover { background: rgba(220,53,69,0.35); }
+#emailSupplierModal .supplier-email-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #c9b594;
+    margin-bottom: 8px;
+}
+#emailSupplierModal .form-control {
+    background: rgba(26,15,8,0.6);
+    border: 1px solid rgba(201,123,43,0.3);
+    border-radius: 10px;
+    color: #f7f2ec;
+    padding: 10px 14px;
+}
+#emailSupplierModal .form-control::placeholder { color: #9b7e60; }
+#emailSupplierModal .form-control:focus {
+    background: rgba(26,15,8,0.8);
+    border-color: #c97b2b;
+    box-shadow: 0 0 0 3px rgba(201,123,43,0.15);
+    color: #f7f2ec;
+}
+#emailSupplierModal .form-hint {
+    font-size: 11px;
+    color: #9b7e60;
+    margin-top: 5px;
+}
+#emailSupplierModal .btn-cancel {
+    background: rgba(201,123,43,0.1);
+    color: #c9b594;
+    border: 1px solid rgba(201,123,43,0.2);
+    border-radius: 10px;
+    padding: 10px 20px;
+}
+#emailSupplierModal .btn-cancel:hover { background: rgba(201,123,43,0.2); }
+#emailSupplierModal .btn-send {
+    background: linear-gradient(135deg, #c97b2b, #e09a4a);
+    color: #1a0f08;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 22px;
+    font-weight: 700;
+    box-shadow: 0 4px 16px rgba(201,123,43,0.35);
+}
+#emailSupplierModal .btn-send:hover { filter: brightness(1.08); }
+#emailSupplierModal .empty-msg {
+    padding: 20px;
+    text-align: center;
+    color: #9b7e60;
+    font-size: 13px;
+}
+</style>
+
+<div class="modal fade" id="emailSupplierModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered" style="max-width:480px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">✉️ &nbsp;Email Supplier</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p class="restock-subtitle">Review low-stock items and send a single restock request email.</p>
+
+        <div class="restock-label">
+          ⚠️ &nbsp;Restock List &nbsp;<span id="restockBadge" style="background:rgba(220,53,69,0.2);color:#dc3545;border-radius:20px;padding:2px 10px;font-size:11px;">0</span>
+        </div>
+
+        <div id="restockItemsList"></div>
+
+        <form method="POST" id="emailSupplierForm">
+          <input type="hidden" name="send_restock_email" value="1">
+          <input type="hidden" name="low_stock_items" id="lowStockItemsInput" value="">
+          <div>
+            <div class="supplier-email-label">@ &nbsp;Supplier Email &nbsp;<span style="font-weight:400;text-transform:none;letter-spacing:0;color:#9b7e60;">(optional)</span></div>
+            <input type="email" name="supplier_email" class="form-control" placeholder="supplier@example.com">
+            <div class="form-hint">Leave blank to only notify angelaccortes01@gmail.com</div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-send" onclick="submitEmailForm()">
+          <i class="fas fa-paper-plane me-2"></i>Send Restock Email
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let restockItems = [];
+
+function openEmailModal() {
+    fetch(window.location.pathname + '?get_low_stock=1')
+        .then(r => r.json())
+        .then(items => {
+            restockItems = items.map(i => ({...i, included: true, requestQty: 1}));
+            renderRestockList();
+            new bootstrap.Modal(document.getElementById('emailSupplierModal')).show();
+        });
+}
+
+function renderRestockList() {
+    const list = document.getElementById('restockItemsList');
+    const active = restockItems.filter(i => i.included);
+    document.getElementById('restockBadge').textContent = active.length;
+    document.getElementById('lowStockItemsInput').value = JSON.stringify(active);
+
+    if (active.length === 0) {
+        list.innerHTML = '<div class="empty-msg"><i class="fas fa-check-circle" style="color:#4ade80;margin-right:6px;"></i>No items selected.</div>';
+        return;
+    }
+
+    list.innerHTML = restockItems.map((item, idx) => item.included ? `
+        <div class="restock-item-row" id="row-${idx}">
+            <div class="restock-item-name">
+                <span class="restock-item-dot"></span>
+                ${item.name}
+            </div>
+            <div class="restock-item-actions">
+                <div class="qty-control">
+                    <button class="qty-btn" onclick="changeQty(${idx}, -1)">−</button>
+                    <span class="restock-item-qty" id="qty-${idx}">${item.requestQty}</span>
+                    <button class="qty-btn" onclick="changeQty(${idx}, 1)">+</button>
+                </div>
+                <span class="restock-item-unit">${item.unit}</span>
+                <button class="restock-item-remove" onclick="removeItem(${idx})" title="Remove">✕</button>
+            </div>
+        </div>` : ''
+    ).join('');
+}
+
+function removeItem(idx) {
+    restockItems[idx].included = false;
+    renderRestockList();
+}
+function changeQty(idx, delta) {
+    restockItems[idx].requestQty = Math.max(1, (restockItems[idx].requestQty || 1) + delta);
+    document.getElementById('qty-' + idx).textContent = restockItems[idx].requestQty;
+    // update hidden input live
+    const active = restockItems.filter(i => i.included).map(i => ({...i, quantity: i.requestQty}));
+    document.getElementById('lowStockItemsInput').value = JSON.stringify(active);
+}
+
+function submitEmailForm() {
+    const active = restockItems.filter(i => i.included).map(i => ({...i, quantity: i.requestQty}));
+    if (active.length === 0) {
+        alert('No items selected to send.');
+        return;
+    }
+    document.getElementById('lowStockItemsInput').value = JSON.stringify(active);
+    const btn = document.querySelector('#emailSupplierModal .btn-send');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Sending...';
+    document.getElementById('emailSupplierForm').submit();
+}
 </script>
 
 <?php require_once BASE_PATH . '/includes/footer.php'; ?>

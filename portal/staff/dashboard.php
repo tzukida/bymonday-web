@@ -166,7 +166,7 @@
     </div>
 
     <!-- Stats Cards -->
-    <div class="row g-3 mb-4">
+    <div class="row g-3 mb-4 align-items-stretch">
         <div class="col-xl-3 col-md-6">
             <div class="stats-card stats-card-brown">
                 <div class="stats-icon">
@@ -560,6 +560,8 @@ body {
     display: flex;
     align-items: center;
     gap: 1rem;
+    height: 100%;
+    min-height: 110px;
 }
 
 .stats-card:hover {
