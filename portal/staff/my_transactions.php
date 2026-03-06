@@ -132,7 +132,7 @@
           <p class="text-muted mb-0">View your sales and inventory transaction history</p>
         </div>
         <div>
-          <span class="badge bg-info fs-6">
+          <span class="badge bg-brown fs-6">
             <i class="fas fa-user me-2"></i><?php echo htmlspecialchars($_SESSION['username']); ?>
           </span>
         </div>
@@ -143,7 +143,7 @@
   <!-- Statistics Cards -->
   <div class="row g-3 mb-4">
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #382417 0%, #5a0f0e 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #382417 0%, #2a1505 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-cash-register fa-2x opacity-75"></i>
@@ -155,7 +155,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #198754 0%, #146c43 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #6b3a1f 0%, #3d1c02 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-peso-sign fa-2x opacity-75"></i>
@@ -167,7 +167,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #5a2d00 0%, #3d1c02 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-arrow-up fa-2x opacity-75"></i>
@@ -179,7 +179,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #c87533 0%, #a05a20 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-arrow-down fa-2x opacity-75"></i>
@@ -199,7 +199,7 @@
           <h5 class="mb-0">
             <i class="fas fa-shopping-cart me-2 icon-red"></i>My Sales History
           </h5>
-          <a href="<?php echo getBaseURL(); ?>/staff_pos.php" class="btn btn-sm btn-danger">
+          <a href="<?php echo getBaseURL(); ?>/staff_pos.php" class="btn btn-sm btn-brown">
             <i class="fas fa-plus me-1"></i>New Sale
           </a>
         </div>
@@ -453,11 +453,11 @@
                     </td>
                     <td class="text-center">
                       <?php if ($row['type'] === 'stock-in'): ?>
-                        <span class="badge bg-success">
+                        <span class="badge" style="background-color: #6b3a1f; color: #fff;">
                           <i class="fas fa-arrow-up me-1"></i>Stock In
                         </span>
                       <?php else: ?>
-                        <span class="badge bg-warning text-dark">
+                        <span class="badge" style="background-color: #c87533; color: #fff;">
                           <i class="fas fa-arrow-down me-1"></i>Stock Out
                         </span>
                       <?php endif; ?>
@@ -607,6 +607,11 @@ body {
   color: #fff;
 }
 
+.bg-brown {
+  background-color: #6b3a1f;
+  color: #fff;
+}
+
 .card {
   border: none;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
@@ -650,8 +655,8 @@ body {
 }
 
 .btn-primary:hover {
-  background-color: #5a0f0e;
-  border-color: #5a0f0e;
+  background-color: #2a1505;
+  border-color: #2a1505;
 }
 
 .btn-outline-danger {

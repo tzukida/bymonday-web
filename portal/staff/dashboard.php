@@ -168,7 +168,7 @@
     <!-- Stats Cards -->
     <div class="row g-3 mb-4">
         <div class="col-xl-3 col-md-6">
-            <div class="stats-card stats-card-brown">
+            <div class="stats-card stats-card-brown h-100">
                 <div class="stats-icon">
                     <i class="fas fa-shopping-cart"></i>
                 </div>
@@ -181,7 +181,7 @@
         </div>
 
         <div class="col-xl-3 col-md-6">
-            <div class="stats-card stats-card-success">
+            <div class="stats-card stats-card-success h-100">
                 <div class="stats-icon">
                     <i class="fas fa-cash-register"></i>
                 </div>
@@ -194,7 +194,7 @@
         </div>
 
         <div class="col-xl-3 col-md-6">
-            <div class="stats-card stats-card-warning">
+            <div class="stats-card stats-card-warning h-100">
                 <div class="stats-icon">
                     <i class="fas fa-exchange-alt"></i>
                 </div>
@@ -207,7 +207,7 @@
         </div>
 
         <div class="col-xl-3 col-md-6">
-            <div class="stats-card stats-card-danger">
+            <div class="stats-card stats-card-danger h-100">
                 <div class="stats-icon">
                     <i class="fas fa-exclamation-triangle"></i>
                 </div>
@@ -265,7 +265,7 @@
             <div class="card h-100">
                 <div class="card-header bg-white border-bottom">
                     <h5 class="mb-0">
-                        <i class="fas fa-bolt me-2 text-warning"></i>
+                        <i class="fas fa-bolt me-2 icon-brown"></i>
                         Quick Actions
                     </h5>
                 </div>
@@ -277,7 +277,7 @@
                         <a href="<?php echo getBaseURL(); ?>/staff_inventory.php" class="btn btn-outline-brown">
                             <i class="fas fa-boxes me-2"></i>View Inventory
                         </a>
-                        <a href="<?php echo getBaseURL(); ?>/staff_menu_view.php" class="btn btn-outline-success">
+                        <a href="<?php echo getBaseURL(); ?>/staff_menu_view.php" class="btn btn-outline-brown">
                             <i class="fas fa-utensils me-2"></i>View Menu
                         </a>
                         <a href="<?php echo getBaseURL(); ?>/my_transactions.php" class="btn btn-outline-secondary">
@@ -301,7 +301,7 @@
                     <!-- Performance Badge -->
                     <div class="card mt-3 border-0 performance-badge">
                         <div class="card-body text-center">
-                            <i class="fas fa-trophy fa-2x text-warning mb-2"></i>
+                            <i class="fas fa-trophy fa-2x icon-brown mb-2"></i>
                             <h6 class="mb-1 text-brown">Your Performance</h6>
                             <p class="text-muted small mb-0">
                                 Avg. <?php echo $avg_sales_per_day; ?> sales/day
@@ -321,7 +321,7 @@
                 <div class="card-header bg-white border-bottom">
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">
-                            <i class="fas fa-receipt me-2 text-success"></i>
+                            <i class="fas fa-receipt me-2 icon-brown"></i>
                             Recent Sales
                         </h5>
                         <a href="<?php echo getBaseURL(); ?>/my_transactions.php" class="btn btn-sm btn-outline-brown">
@@ -337,7 +337,7 @@
                             <div class="d-flex justify-content-between align-items-start">
                                 <div class="flex-grow-1">
                                     <div class="d-flex align-items-center mb-1">
-                                        <span class="badge bg-success me-2">
+                                        <span class="badge bg-brown me-2">
                                             Sale #<?php echo str_pad($sale['id'], 4, '0', STR_PAD_LEFT); ?>
                                         </span>
                                         <small class="text-muted">
@@ -350,7 +350,7 @@
                                     </small>
                                 </div>
                                 <div class="text-end">
-                                    <h6 class="mb-0 text-success">
+                                    <h6 class="mb-0 text-brown">
                                         ₱<?php echo number_format($sale['total_amount'], 2); ?>
                                     </h6>
                                 </div>
@@ -399,7 +399,7 @@
                                         <?php echo htmlspecialchars($item['item_name']); ?>
                                     </td>
                                     <td class="text-center">
-                                        <span class="badge bg-danger">
+                                        <span class="badge" style="background-color: #6b3a1f;">
                                             <?php echo $item['quantity'] . ' ' . htmlspecialchars($item['unit']); ?>
                                         </span>
                                     </td>
@@ -451,9 +451,9 @@
                         <div class="col-md-3">
                             <div class="performance-stat">
                                 <div class="stat-icon bg-success-soft">
-                                    <i class="fas fa-calendar-week text-success"></i>
+                                    <i class="fas fa-calendar-week icon-brown"></i>
                                 </div>
-                                <h4 class="mt-3 mb-1 text-success"><?php echo number_format($week_transactions); ?></h4>
+                                <h4 class="mt-3 mb-1 text-brown"><?php echo number_format($week_transactions); ?></h4>
                                 <p class="text-muted mb-0">This Week</p>
                                 <small class="text-muted">Transactions</small>
                             </div>
@@ -461,9 +461,9 @@
                         <div class="col-md-3">
                             <div class="performance-stat">
                                 <div class="stat-icon bg-warning-soft">
-                                    <i class="fas fa-calendar-day text-warning"></i>
+                                    <i class="fas fa-calendar-day icon-brown"></i>
                                 </div>
-                                <h4 class="mt-3 mb-1 text-warning"><?php echo number_format($today_transactions); ?></h4>
+                                <h4 class="mt-3 mb-1 text-brown"><?php echo number_format($today_transactions); ?></h4>
                                 <p class="text-muted mb-0">Today</p>
                                 <small class="text-muted">Transactions</small>
                             </div>
@@ -471,9 +471,9 @@
                         <div class="col-md-3">
                             <div class="performance-stat">
                                 <div class="stat-icon bg-info-soft">
-                                    <i class="fas fa-chart-line text-info"></i>
+                                    <i class="fas fa-chart-line icon-brown"></i>
                                 </div>
-                                <h4 class="mt-3 mb-1 text-info"><?php echo $avg_sales_per_day; ?></h4>
+                                <h4 class="mt-3 mb-1 text-brown"><?php echo $avg_sales_per_day; ?></h4>
                                 <p class="text-muted mb-0">Daily Average</p>
                                 <small class="text-muted">Sales per day</small>
                             </div>
@@ -494,6 +494,11 @@ body {
 
 .text-brown {
   color: #4a301f !important;
+}
+
+.bg-brown {
+  background-color: #6b3a1f;
+  color: #fff;
 }
 
 .icon-brown {
@@ -560,6 +565,7 @@ body {
     display: flex;
     align-items: center;
     gap: 1rem;
+    height: 100%;
 }
 
 .stats-card:hover {
@@ -572,15 +578,15 @@ body {
 }
 
 .stats-card-success {
-    background: linear-gradient(135deg, #198754 0%, #146c43 100%);
+    background: linear-gradient(135deg, #6b3a1f 0%, #3d1c02 100%);
 }
 
 .stats-card-warning {
-    background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+    background: linear-gradient(135deg, #5a2d00 0%, #3d1c02 100%);
 }
 
 .stats-card-danger {
-    background: linear-gradient(135deg, #dc3545 0%, #b02a37 100%);
+    background: linear-gradient(135deg, #c87533 0%, #a05a20 100%);
 }
 
 .stats-icon {
@@ -611,8 +617,8 @@ body {
 }
 
 .badge.bg-success-soft {
-    background-color: rgba(25, 135, 84, 0.1);
-    color: #198754;
+    background-color: rgba(107, 58, 31, 0.1);
+    color: #6b3a1f;
 }
 
 .badge.bg-warning-soft {
@@ -649,15 +655,15 @@ body {
 }
 
 .bg-success-soft {
-    background-color: rgba(25, 135, 84, 0.1);
+    background-color: rgba(107, 58, 31, 0.1);
 }
 
 .bg-warning-soft {
-    background-color: rgba(255, 193, 7, 0.1);
+    background-color: rgba(200, 117, 51, 0.1);
 }
 
 .bg-info-soft {
-    background-color: rgba(13, 202, 240, 0.1);
+    background-color: rgba(90, 45, 0, 0.1);
 }
 
 .card {
@@ -671,7 +677,7 @@ body {
 }
 
 .low-stock-header {
-    background: linear-gradient(135deg, #dc3545 0%, #b02a37 100%);
+    background: linear-gradient(135deg, #6b3a1f 0%, #3d1c02 100%);
     color: white;
 }
 

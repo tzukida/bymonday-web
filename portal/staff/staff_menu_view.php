@@ -74,7 +74,7 @@
           <p class="text-muted mb-0">View available menu items and their recipes</p>
         </div>
         <div>
-          <span class="badge bg-info fs-6">
+          <span class="badge bg-red fs-6">
             <i class="fas fa-eye me-2"></i>Read-Only View
           </span>
         </div>
@@ -97,7 +97,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #198754 0%, #146c43 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #6b3a1f 0%, #3d1c02 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-check-circle fa-2x opacity-75"></i>
@@ -111,7 +111,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #dc3545 0%, #bb2d3b 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #5a2d00 0%, #3d1c02 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-times-circle fa-2x opacity-75"></i>
@@ -125,7 +125,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #0dcaf0 0%, #0aa2c0 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #c87533 0%, #a05a20 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-layer-group fa-2x opacity-75"></i>
@@ -449,7 +449,7 @@
                         </div>
                       </td>
                       <td class="text-center">
-                        <span class="badge bg-primary">
+                        <span class="badge bg-red">
                           <?php echo number_format($ing['quantity_needed'], 2) . ' ' . $ing['unit']; ?>
                         </span>
                       </td>
@@ -593,8 +593,8 @@ body {
 }
 
 .btn-primary:hover {
-  background-color: #5a0f0e;
-  border-color: #5a0f0e;
+  background-color: #2a1505;
+  border-color: #2a1505;
 }
 
 .btn-outline-danger {

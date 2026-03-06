@@ -389,7 +389,7 @@
             </div>
             <div class="col-md-4 mb-3 mb-md-0">
               <div class="d-flex align-items-center justify-content-center">
-                <i class="fas fa-clock text-warning me-2 fs-4"></i>
+                <i class="fas fa-clock icon-brown me-2 fs-4"></i>
                 <div class="text-start">
                   <small class="text-muted d-block">Last Updated</small>
                   <strong><?php echo date('M j, Y g:i A'); ?></strong>
@@ -398,7 +398,7 @@
             </div>
             <div class="col-md-4">
               <div class="d-flex align-items-center justify-content-center">
-                <i class="fas fa-user text-success me-2 fs-4"></i>
+                <i class="fas fa-user icon-brown me-2 fs-4"></i>
                 <div class="text-start">
                   <small class="text-muted d-block">Logged in as</small>
                   <strong><?php echo htmlspecialchars($current_user['username']); ?></strong>
@@ -464,15 +464,15 @@ body {
 }
 
 .stats-card-danger {
-  background: linear-gradient(135deg, #dc3545 0%, #bd2130 100%);
+  background: linear-gradient(135deg, #6b3a1f 0%, #3d1c02 100%);
 }
 
 .stats-card-warning {
-  background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+  background: linear-gradient(135deg, #5a2d00 0%, #3d1c02 100%);
 }
 
 .stats-card-success {
-  background: linear-gradient(135deg, #198754 0%, #146c43 100%);
+  background: linear-gradient(135deg, #c87533 0%, #a05a20 100%);
 }
 
 .card {
