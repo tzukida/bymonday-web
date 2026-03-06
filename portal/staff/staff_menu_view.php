@@ -297,7 +297,7 @@
                           <h5 class="card-title fw-bold mb-0" style="color: #382417;">
                             <?php echo htmlspecialchars($item['name']); ?>
                           </h5>
-                          <span class="badge bg-info"><?php echo htmlspecialchars($item['category']); ?></span>
+                          <span class="badge" style="background-color: #382417; color: #fff;"><?php echo htmlspecialchars($item['category']); ?></span>
                         </div>
                         <p class="card-text text-muted small mb-0 flex-grow-1">
                           <?php echo htmlspecialchars($item['description'] ?: 'No description available'); ?>
@@ -316,7 +316,7 @@
                             <small class="text-muted d-block mb-1">Ingredients</small>
                             <h4 class="mb-0">
                               <?php if ($ingredient_count > 0): ?>
-                                <span class="badge bg-primary fs-6"><?php echo $ingredient_count; ?></span>
+                                <span class="badge fs-6" style="background-color: #382417; color: #fff;"><?php echo $ingredient_count; ?></span>
                               <?php else: ?>
                                 <span class="badge bg-warning text-dark fs-6">0</span>
                               <?php endif; ?>
@@ -380,7 +380,7 @@
                   <small class="text-muted d-block mb-2">
                     <i class="fas fa-tag me-1"></i>Category
                   </small>
-                  <span class="badge bg-info fs-6"><?php echo htmlspecialchars($item['category']); ?></span>
+                  <span class="badge fs-6" style="background-color: #382417; color: #fff;"><?php echo htmlspecialchars($item['category']); ?></span>
                 </div>
               </div>
             </div>
@@ -401,7 +401,7 @@
                     <i class="fas fa-list-ul me-1"></i>Ingredients
                   </small>
                   <h4 class="mb-0">
-                    <span class="badge bg-primary fs-6"><?php echo count($ingredients); ?></span>
+                    <span class="badge fs-6" style="background-color: #382417; color: #fff;"><?php echo count($ingredients); ?></span>
                   </h4>
                 </div>
               </div>
