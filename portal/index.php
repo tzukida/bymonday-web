@@ -44,9 +44,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title><?= htmlspecialchars($page_title) ?></title>
   <link href="<?php echo getBaseURL(); ?>/assets/css/style.css?v=<?php echo time(); ?>" rel="stylesheet">
+  <style>
+    .back-btn {
+      background: transparent;
+      border: 1px solid #ccc;
+      color: #432109;
+      font-size: 10px;
+      cursor: pointer;
+      margin-bottom: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      border-radius: 20px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    .back-btn:hover {
+      background: #f5f0eb;
+      border-color: #432109;
+      color: #432109;
+    }
+  </style>
 </head>
 <body class="login-page">
   <div class="panel">
+    <a href="/bymonday/shop/" class="back-btn">&#8592; Back to Menu</a>
     <div class="logo-container">
       <img src="assets/img/logo-kape.png" alt="ByMonday Logo" onerror="this.style.display='none'" />
     </div>

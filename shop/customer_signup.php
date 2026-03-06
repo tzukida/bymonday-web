@@ -337,7 +337,7 @@ require_once BASE_PATH . '/config/config.php';
 </head>
 <body>
   <div class="signup-container">
-    <button class="back-btn" onclick="location.href='menu.php'">
+    <button class="back-btn" onclick="location.href='index.php'">
       <i class="fas fa-arrow-left"></i> Back to Menu
     </button>
     <div class="logo-small">
