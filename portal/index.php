@@ -44,33 +44,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title><?= htmlspecialchars($page_title) ?></title>
   <link href="<?php echo getBaseURL(); ?>/assets/css/style.css?v=<?php echo time(); ?>" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">  
   <style>
     .back-btn {
-      background: transparent;
-      border: 1px solid #ccc;
-      color: #432109;
-      font-size: 10px;
-      cursor: pointer;
-      margin-bottom: 10px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 8px;
-      border-radius: 20px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      text-decoration: none;
-    }
-    .back-btn:hover {
-      background: #f5f0eb;
-      border-color: #432109;
-      color: #432109;
-    }
+    background: transparent;
+    border: 2px solid #ccc;
+    color: #432109;
+    font-size: 10px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: 400;
+    transition: all 0.3s ease;
+   }
+
+  .back-btn:hover {
+    background: #f5f0eb;
+    border-color: #432109;
+    color: #432109;
+    transform: translateX(-5px);
+   }
   </style>
 </head>
 <body class="login-page">
   <div class="panel">
-    <a href="/bymonday/shop/" class="back-btn">&#8592; Back to Menu</a>
+    <button class="back-btn" onclick="location.href='/bymonday/shop/'">
+        <i class="fas fa-arrow-left"></i>
+    </button>
     <div class="logo-container">
       <img src="assets/img/logo-kape.png" alt="ByMonday Logo" onerror="this.style.display='none'" />
     </div>
