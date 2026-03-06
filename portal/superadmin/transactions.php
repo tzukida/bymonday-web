@@ -258,7 +258,7 @@
                   <a href="transactions.php" class="btn btn-outline-secondary btn-sm">
                     <i class="fas fa-times"></i>
                   </a>
-                  <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="collapse" data-bs-target="#dateFilter">
+                  <button type="button" class="btn btn-outline-brown btn-sm" data-bs-toggle="collapse" data-bs-target="#dateFilter">
                     <i class="fas fa-calendar-alt"></i>
                   </button>
                 </div>
@@ -414,14 +414,14 @@
                       <?php endif; ?>
                     </td>
                     <td class="text-center">
-                      <span class="badge bg-info text-white">
+                      <span class="badge bg-brown">
                         <i class="fas fa-user me-1"></i>
                         <?php echo htmlspecialchars($transaction['username']); ?>
                       </span>
                     </td>
                     <td class="text-muted small">
                       <div>
-                        <i class="fas fa-calendar me-1"></i>
+                        <i class="fas fa-calendar me-1" style="color: #3b2008;"></i>
                         <?php echo date('M j, Y', strtotime($transaction['timestamp'])); ?>
                       </div>
                       <div>
@@ -561,7 +561,9 @@ body {
   background-color: transparent;
 }
 
-.btn-outline-brown:hover {
+.btn-outline-brown:hover,
+.btn-outline-brown:active,
+.btn-outline-brown:focus {
   background-color: #382417;
   border-color: #382417;
   color: white;

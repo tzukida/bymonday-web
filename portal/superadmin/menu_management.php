@@ -108,7 +108,7 @@
   <!-- Stats Cards Row -->
   <div class="row g-3 mb-4">
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #4a301f 0%, #3a2518 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #3b2008 0%, #2a1505 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-utensils fa-2x opacity-75"></i>
@@ -120,7 +120,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #198754 0%, #146c43 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #6b3a1f 0%, #3d1c02 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-check-circle fa-2x opacity-75"></i>
@@ -132,7 +132,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #6c757d 0%, #545b62 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #5a2d00 0%, #3d1c02 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-times-circle fa-2x opacity-75"></i>
@@ -144,7 +144,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #5d3d28 0%, #4a301f 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #7a4a28 0%, #3b2008 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-layer-group fa-2x opacity-75"></i>
@@ -279,7 +279,7 @@
                                    alt="<?php echo htmlspecialchars($item['name']); ?>">
                             <?php else: ?>
                               <div class="rounded d-flex align-items-center justify-content-center"
-                                   style="width: 60px; height: 60px; background: linear-gradient(135deg, #4a301f 0%, #3a2518 100%);">
+                                   style="width: 60px; height: 60px; background: linear-gradient(135deg, #3b2008 0%, #2a1505 100%);">
                                 <i class="fas fa-utensils text-white"></i>
                               </div>
                             <?php endif; ?>
@@ -293,7 +293,7 @@
                         </div>
                       </td>
                       <td class="text-center align-middle">
-                        <span class="badge bg-info text-white">
+                        <span class="badge bg-brown text-white">
                           <?php echo htmlspecialchars($item['category']); ?>
                         </span>
                       </td>
@@ -436,7 +436,7 @@
   <div class="modal fade" id="ingredientsModal<?php echo $item['id']; ?>" tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header text-white" style="background: linear-gradient(135deg, #4a301f 0%, #3a2518 100%);">
+        <div class="modal-header text-white" style="background: linear-gradient(135deg, #3b2008 0%, #2a1505 100%);">
           <h5 class="modal-title">
             <i class="fas fa-list me-2"></i>
             Recipe for <?php echo htmlspecialchars($item['name']); ?>

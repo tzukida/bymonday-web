@@ -124,7 +124,7 @@
           <div class="mt-3 pt-3 border-top">
             <div class="d-flex justify-content-between align-items-center">
               <small class="text-muted">Total Revenue</small>
-              <strong class="text-success">₱<?php echo number_format($stats['total_revenue'], 2); ?></strong>
+              <strong class="text-brown">₱<?php echo number_format($stats['total_revenue'], 2); ?></strong>
             </div>
           </div>
         </div>
@@ -156,7 +156,7 @@
             <div class="list-group list-group-flush">
               <?php
               $rank_colors = [
-                1 => 'bg-warning text-dark',
+                1 => 'bg-brown text-white',
                 2 => 'bg-secondary text-white',
                 3 => 'bg-bronze text-white',
               ];
@@ -176,7 +176,7 @@
                       </div>
                     </div>
                     <div class="text-end">
-                      <strong class="text-success d-block">₱<?php echo number_format($item['total_revenue'], 2); ?></strong>
+                      <strong class="text-brown d-block">₱<?php echo number_format($item['total_revenue'], 2); ?></strong>
                     </div>
                   </div>
                   <?php if ($index < count($top_items) - 1): ?>
@@ -255,7 +255,7 @@
                     </span>
                   </td>
                   <td class="text-center">
-                    <span class="badge bg-info text-white">
+                    <span class="badge bg-brown text-white">
                       <?php echo htmlspecialchars($sale['username']); ?>
                     </span>
                   </td>
@@ -321,14 +321,14 @@
                     <?php echo htmlspecialchars($item['item_name']); ?>
                   </td>
                   <td class="text-center align-middle">
-                    <span class="badge bg-warning text-dark">
+                    <span class="badge bg-brown">
                       <i class="fas fa-box-open me-1"></i>
                       <?php echo $item['quantity']; ?> <?php echo $item['unit']; ?>
                     </span>
                   </td>
                   <td class="text-center align-middle">
                     <a href="<?php echo getBaseURL(); ?>/stock_in.php?item_id=<?php echo $item['id']; ?>"
-                       class="btn btn-sm btn-outline-success">
+                       class="btn btn-sm btn-outline-brown-restock">
                       <i class="fas fa-plus me-1"></i>Restock
                     </a>
                   </td>
@@ -385,11 +385,11 @@
                   </td>
                   <td class="align-middle">
                     <?php if ($activity['type'] === 'stock-in'): ?>
-                      <span class="badge bg-success">
+                      <span class="badge bg-brown">
                         <i class="fas fa-arrow-up me-1"></i>Stock In
                       </span>
                     <?php else: ?>
-                      <span class="badge bg-warning text-dark">
+                      <span class="badge" style="background-color: #c87533; color: #fff;">
                         <i class="fas fa-arrow-down me-1"></i>Stock Out
                       </span>
                     <?php endif; ?>
@@ -719,6 +719,19 @@ body {
 .btn-brown:hover {
   background-color: #4d3420;
   color: white;
+}
+
+.btn-outline-brown-restock {
+  color: #6b3a1f;
+  border-color: #6b3a1f;
+  background-color: transparent;
+}
+.btn-outline-brown-restock:hover,
+.btn-outline-brown-restock:active,
+.btn-outline-brown-restock:focus {
+  background-color: #6b3a1f;
+  border-color: #6b3a1f;
+  color: #fff;
 }
 
 .rank-badge {

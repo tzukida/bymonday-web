@@ -245,7 +245,7 @@
   <div class="row">
     <div class="col-12">
       <div class="card">
-        <div class="card- bg-white d-flex justify-content-between align-items-center py-3">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
           <h5 class="mb-0">
             <i class="fas fa-users-cog me-2 icon-brown"></i>User Accounts
           </h5>

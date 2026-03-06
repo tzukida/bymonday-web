@@ -152,7 +152,7 @@
             </div>
             <div class="col-md-2">
               <div class="dropdown w-100">
-                <button class="btn btn-outline-success dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                <button class="btn btn-outline-brown dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
                   <i class="fas fa-download me-1"></i>Export
                 </button>
                 <ul class="dropdown-menu">
@@ -247,7 +247,7 @@
                         <a href="edit_item.php?id=<?php echo $item['id']; ?>" class="btn btn-outline-primary" title="Edit">
                           <i class="fas fa-edit"></i>
                         </a>
-                        <a href="stock_in.php?item_id=<?php echo $item['id']; ?>" class="btn btn-outline-success" title="Stock In">
+                        <a href="stock_in.php?item_id=<?php echo $item['id']; ?>" class="btn btn-outline-brown btn-sm" title="Stock In">
                           <i class="fas fa-plus"></i>
                         </a>
                         <a href="stock_out.php?item_id=<?php echo $item['id']; ?>" class="btn btn-outline-warning" title="Stock Out">
@@ -390,7 +390,9 @@ body {
   background-color: transparent;
 }
 
-.btn-outline-brown:hover {
+.btn-outline-brown:hover,
+.btn-outline-brown:active,
+.btn-outline-brown:focus {
   background-color: #4a301f;
   border-color: #4a301f;
   color: white;
