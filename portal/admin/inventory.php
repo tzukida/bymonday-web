@@ -244,16 +244,16 @@
                     <td class="text-muted small"><?php echo formatDate($item['updated_at'], 'M j, Y'); ?></td>
                     <td class="text-center">
                       <div class="btn-group btn-group-sm" role="group">
-                        <a href="edit_item.php?id=<?php echo $item['id']; ?>" class="btn btn-outline-primary" title="Edit">
+                        <a href="edit_item.php?id=<?php echo $item['id']; ?>" class="btn btn-outline-brown" title="Edit">
                           <i class="fas fa-edit"></i>
                         </a>
-                        <a href="stock_in.php?item_id=<?php echo $item['id']; ?>" class="btn btn-outline-success" title="Stock In">
+                        <a href="stock_in.php?item_id=<?php echo $item['id']; ?>" class="btn btn-outline-brown" title="Stock In">
                           <i class="fas fa-plus"></i>
                         </a>
-                        <a href="stock_out.php?item_id=<?php echo $item['id']; ?>" class="btn btn-outline-warning" title="Stock Out">
+                        <a href="stock_out.php?item_id=<?php echo $item['id']; ?>" class="btn btn-outline-brown" title="Stock Out">
                           <i class="fas fa-minus"></i>
                         </a>
-                        <a href="delete_item.php?id=<?php echo $item['id']; ?>" class="btn btn-outline-danger" title="Delete" onclick="return confirm('Are you sure you want to delete this item?')">
+                        <a href="delete_item.php?id=<?php echo $item['id']; ?>" class="btn btn-outline-brown" title="Delete" onclick="return confirm('Are you sure you want to delete this item?')">
                           <i class="fas fa-trash"></i>
                         </a>
                       </div>
@@ -458,6 +458,19 @@
 }
 
 .btn-outline-primary:hover {
+  background-color: #6b3a1f;
+  border-color: #6b3a1f;
+  color: #fff;
+}
+
+.btn-outline-brown {
+  color: #6b3a1f;
+  border-color: #6b3a1f;
+}
+
+.btn-outline-brown:hover,
+.btn-outline-brown:active,
+.btn-outline-brown:focus {
   background-color: #6b3a1f;
   border-color: #6b3a1f;
   color: #fff;

@@ -98,7 +98,7 @@
           <p class="text-muted mb-0">Create and manage your database backups</p>
         </div>
         <div>
-          <a href="<?php echo getBaseURL(); ?>/dashboard.php" class="btn btn-outline-secondary">
+          <a href="<?php echo getBaseURL(); ?>/dashboard.php" class="btn btn-outline-brown">
             <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
           </a>
         </div>
@@ -178,7 +178,7 @@
         <div class="card-body d-flex flex-column">
           <div class="row flex-grow-1">
             <div class="col-md-7 d-flex flex-column">
-              <div class="alert alert-info mb-4 htable">
+              <div class="alert alert-warning mb-4 htable">
                 <i class="fas fa-info-circle me-2"></i>
                 <strong>Backup Information</strong>
                 <ul class="mt-2">
@@ -216,10 +216,10 @@
                 <?php foreach ($db_stats as $table => $count): ?>
                 <div class="d-flex justify-content-between align-items-center p-2 bg-light rounded mb-2">
                   <span class="text-capitalize small">
-                    <i class="fas fa-table text-primary me-2" style="font-size: 0.75rem;"></i>
+                    <i class="fas fa-table me-2" style="font-size: 0.75rem; color: #3b2008;"></i>
                     <?php echo str_replace('_', ' ', $table); ?>
                   </span>
-                  <span class="badge bg-secondary"><?php echo number_format($count); ?></span>
+                  <span class="badge bg-brown"><?php echo number_format($count); ?></span>
                 </div>
                 <?php endforeach; ?>
               </div>
@@ -242,7 +242,7 @@
             <div class="d-flex mb-3">
               <div class="me-3">
                 <div class="bg-success bg-opacity-10 rounded p-2">
-                  <i class="fas fa-check-circle text-success fa-lg"></i>
+                  <i class="fas fa-check-circle fa-lg" style="color: #3b2008;"></i>
                 </div>
               </div>
               <div>
@@ -253,7 +253,7 @@
             <div class="d-flex mb-3">
               <div class="me-3">
                 <div class="bg-primary bg-opacity-10 rounded p-2">
-                  <i class="fas fa-shield-alt text-primary fa-lg"></i>
+                  <i class="fas fa-shield-alt fa-lg" style="color: #3b2008;"></i>
                 </div>
               </div>
               <div>
@@ -264,7 +264,7 @@
             <div class="d-flex mb-3">
               <div class="me-3">
                 <div class="bg-warning bg-opacity-10 rounded p-2">
-                  <i class="fas fa-vial text-warning fa-lg"></i>
+                  <i class="fas fa-vial fa-lg" style="color: #3b2008;"></i>
                 </div>
               </div>
               <div>
@@ -275,7 +275,7 @@
             <div class="d-flex">
               <div class="me-3">
                 <div class="bg-info bg-opacity-10 rounded p-2">
-                  <i class="fas fa-copy text-info fa-lg"></i>
+                  <i class="fas fa-copy fa-lg" style="color: #3b2008;"></i>
                 </div>
               </div>
               <div>
@@ -332,7 +332,7 @@
                       <strong><?php echo htmlspecialchars(str_replace('Created database backup: ', '', $backup['details'])); ?></strong>
                     </td>
                     <td>
-                      <span class="badge bg-info text-white">
+                      <span class="badge bg-brown">
                         <i class="fas fa-user me-1"></i>
                         <?php echo htmlspecialchars($backup['username']); ?>
                       </span>
@@ -366,6 +366,20 @@
 
 .bg-brown {
   background-color: #3b2008;
+  color: #fff;
+}
+
+.btn-outline-brown {
+  color: #3b2008;
+  border-color: #3b2008;
+  background-color: transparent;
+}
+
+.btn-outline-brown:hover,
+.btn-outline-brown:active,
+.btn-outline-brown:focus {
+  background-color: #3b2008;
+  border-color: #3b2008;
   color: #fff;
 }
 

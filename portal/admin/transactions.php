@@ -414,7 +414,7 @@
                       <?php endif; ?>
                     </td>
                     <td class="text-center">
-                      <span class="badge bg-info text-white">
+                      <span class="badge bg-brown">
                         <i class="fas fa-user me-1"></i>
                         <?php echo htmlspecialchars($transaction['username']); ?>
                       </span>

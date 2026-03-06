@@ -366,7 +366,7 @@
                         <?php echo htmlspecialchars($sale['customer_name'] ?: 'Walk-in Customer'); ?>
                       </td>
                       <td class="text-center align-middle">
-                        <span class="badge bg-info text-white">
+                        <span class="badge bg-brown">
                           <?php echo htmlspecialchars($sale['username']); ?>
                         </span>
                       </td>
@@ -392,13 +392,13 @@
                         </span>
                       </td>
                       <td class="text-end align-middle">
-                        <span class="fw-bold text-danger" style="font-size: 1.1rem;">
+                        <span class="fw-bold text-brown" style="font-size: 1.1rem;">
                           ₱<?php echo number_format($sale['total_amount'], 2); ?>
                         </span>
                       </td>
                       <td class="text-center align-middle">
                         <a href="receipt.php?sale_id=<?php echo $sale['id']; ?>"
-                           class="btn btn-sm btn-outline-primary"
+                           class="btn btn-sm btn-outline-brown"
                            target="_blank"
                            title="View Receipt">
                           <i class="fas fa-receipt"></i>
@@ -411,7 +411,7 @@
                   <tr>
                     <td colspan="5" class="text-end fw-bold">Total:</td>
                     <td class="text-end">
-                      <strong class="text-danger" style="font-size: 1.2rem;">
+                      <strong class="text-brown" style="font-size: 1.2rem;">
                         ₱<?php echo number_format($total_revenue, 2); ?>
                       </strong>
                     </td>
@@ -538,7 +538,7 @@
                       </div>
                     </div>
                     <div class="text-end">
-                      <strong class="text-success d-block">
+                      <strong class="text-brown d-block">
                         ₱<?php echo number_format($item['total_revenue'], 2); ?>
                       </strong>
                     </div>
@@ -567,24 +567,24 @@
             <?php foreach ($payment_breakdown as $payment):
               $percentage = ($payment['total'] / $total_revenue) * 100;
               $method_colors = [
-                'cash' => 'success',
-                'gcash' => 'primary',
-                'card' => 'warning'
+                'cash'  => '#382417',
+                'gcash' => '#4d3420',
+                'card'  => '#654529'
               ];
-              $color = $method_colors[strtolower($payment['payment_method'])] ?? 'secondary';
+              $color = $method_colors[strtolower($payment['payment_method'])] ?? '#7d5633';
             ?>
               <div class="mb-3">
                 <div class="d-flex justify-content-between align-items-center mb-1">
                   <span class="text-muted">
-                    <i class="fas fa-circle text-<?php echo $color; ?> me-2" style="font-size: 0.6rem;"></i>
+                    <i class="fas fa-circle me-2" style="font-size: 0.6rem; color: <?php echo $color; ?>;"></i>
                     <?php echo ucfirst($payment['payment_method']); ?>
                   </span>
                   <strong>₱<?php echo number_format($payment['total'], 2); ?></strong>
                 </div>
                 <div class="progress" style="height: 8px;">
-                  <div class="progress-bar bg-<?php echo $color; ?>"
+                  <div class="progress-bar"
                        role="progressbar"
-                       style="width: <?php echo $percentage; ?>%">
+                       style="width: <?php echo $percentage; ?>%; background-color: <?php echo $color; ?>;">
                   </div>
                 </div>
                 <small class="text-muted">
@@ -607,6 +607,24 @@
 
 .bg-brown {
   background-color: #3b2008;
+  color: #fff;
+}
+
+.text-brown {
+  color: #3b2008;
+}
+
+.btn-outline-brown {
+  color: #3b2008;
+  border-color: #3b2008;
+  background-color: transparent;
+}
+
+.btn-outline-brown:hover,
+.btn-outline-brown:active,
+.btn-outline-brown:focus {
+  background-color: #3b2008;
+  border-color: #3b2008;
   color: #fff;
 }
 

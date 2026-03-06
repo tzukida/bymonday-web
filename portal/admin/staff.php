@@ -248,7 +248,7 @@ require_once BASE_PATH . '/includes/header.php';
                       </div>
                     </td>
                     <td class="align-middle">
-                      <span class="badge bg-secondary">
+                      <span class="badge bg-brown">
                         <i class="fas fa-user me-1"></i><?php echo ucfirst($staff['role']); ?>
                       </span>
                     </td>
@@ -279,7 +279,7 @@ require_once BASE_PATH . '/includes/header.php';
                     </td>
                     <td class="align-middle">
                       <a href="edit_staff.php?id=<?php echo $staff['id']; ?>"
-                         class="btn btn-outline-primary btn-sm"
+                         class="btn btn-outline-brown btn-sm"
                          title="Edit Staff">
                         <i class="fas fa-edit"></i>
                       </a>
@@ -381,6 +381,25 @@ require_once BASE_PATH . '/includes/header.php';
 <style>
 .icon-brown {
   color: #3b2008;
+}
+
+.bg-brown {
+  background-color: #3b2008;
+  color: #fff;
+}
+
+.btn-outline-brown {
+  color: #3b2008;
+  border-color: #3b2008;
+  background-color: transparent;
+}
+
+.btn-outline-brown:hover,
+.btn-outline-brown:active,
+.btn-outline-brown:focus {
+  background-color: #3b2008;
+  border-color: #3b2008;
+  color: #fff;
 }
 
 .card {
