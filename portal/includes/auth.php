@@ -46,7 +46,7 @@
 
   function requireAdmin() {
     requireAuth();
-    if (!(isAdmin())) {
+    if (!(isAdmin() || isSuperAdmin())) {
       redirect('/staff/dashboard.php');
     }
   }
