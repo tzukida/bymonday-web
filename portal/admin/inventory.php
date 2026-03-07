@@ -438,7 +438,7 @@
 }
 
 .btn-danger {
-  background-color: #3b2008;
+  background-color: #3b2008 !important;
   border-color: #3b2008;
 }
 
@@ -447,14 +447,26 @@
   border-color: #2a1505;
 }
 
+.btn-danger:active, .btn-danger:focus, .btn-danger:focus-visible {
+  background-color: #2a1505 !important;
+  border-color: #2a1505 !important;
+  box-shadow: 0 0 0 0.25rem rgba(59, 32, 8, 0.4) !important;
+}
+
 .btn-primary {
-  background-color: #3b2008;
+  background-color: #3b2008 !important;
   border-color: #3b2008;
 }
 
 .btn-primary:hover {
   background-color: #2a1505;
   border-color: #2a1505;
+}
+
+.btn-primary:active, .btn-primary:focus, .btn-primary:focus-visible {
+  background-color: #2a1505 !important;
+  border-color: #2a1505 !important;
+  box-shadow: 0 0 0 0.25rem rgba(59, 32, 8, 0.4) !important;
 }
 
 .btn-outline-primary:hover {
@@ -517,6 +529,24 @@
     font-size: 0.875rem;
   }
 }
+.form-select:focus,
+.form-control:focus,
+.form-check-input:focus {
+  border-color: #3b2008 !important;
+  box-shadow: 0 0 0 0.2rem rgba(59, 32, 8, 0.25) !important;
+  outline: none !important;
+}
+
+.form-select {
+  accent-color: #3b2008;
+}
+
+option:checked,
+option:hover {
+  background-color: #3b2008 !important;
+  color: #fff !important;
+}
+
 </style>
 
 <script>

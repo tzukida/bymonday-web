@@ -195,7 +195,7 @@
               </small>
             </div>
 
-            <div class="alert alert-info border-0">
+            <div class="alert alert-warning border-0">
               <i class="fas fa-info-circle me-2"></i>
               <strong>Note:</strong> New staff accounts will be created as <strong>Active</strong> and can login immediately.
               Password resets can be requested from SuperAdmin.
@@ -226,7 +226,7 @@
       <div class="card mb-3">
         <div class="card-header bg-white py-3">
           <h6 class="mb-0">
-            <i class="fas fa-chart-bar me-2 text-info"></i>Current Staff
+            <i class="fas fa-chart-bar me-2 " style="color:#3b2008;"></i>Current Staff
           </h6>
         </div>
         <div class="card-body">
@@ -242,11 +242,11 @@
 
           <div class="d-flex justify-content-between align-items-center mb-2">
             <span class="text-muted small">Active Staff:</span>
-            <strong class="text-success"><?php echo $active_staff; ?></strong>
+            <strong class="text-warning"><?php echo $active_staff; ?></strong>
           </div>
           <div class="d-flex justify-content-between align-items-center">
             <span class="text-muted small">Inactive Staff:</span>
-            <strong class="text-warning"><?php echo $staff_count - $active_staff; ?></strong>
+            <strong class="text-brown"><?php echo $staff_count - $active_staff; ?></strong>
           </div>
         </div>
       </div>
@@ -268,27 +268,27 @@
 
           <ul class="list-unstyled mb-0 small">
             <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
+              <i class="fas fa-check-circle  me-2"></i>
               Point of Sale access
             </li>
             <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
+              <i class="fas fa-check-circle  me-2"></i>
               View inventory items
             </li>
             <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
+              <i class="fas fa-check-circle  me-2"></i>
               View menu items
             </li>
             <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
+              <i class="fas fa-check-circle  me-2"></i>
               View own sales history
             </li>
             <li class="mb-2">
-              <i class="fas fa-times-circle text-danger me-2"></i>
+              <i class="fas fa-times-circle  me-2"></i>
               <del>Cannot manage inventory</del>
             </li>
             <li class="mb-0">
-              <i class="fas fa-times-circle text-danger me-2"></i>
+              <i class="fas fa-times-circle  me-2"></i>
               <del>Cannot manage other users</del>
             </li>
           </ul>
@@ -299,21 +299,21 @@
       <div class="card">
         <div class="card-header bg-white py-3">
           <h6 class="mb-0">
-            <i class="fas fa-lightbulb me-2 text-warning"></i>Account Management
+            <i class="fas fa-lightbulb me-2 " style="color:#3b2008;"></i>Account Management
           </h6>
         </div>
         <div class="card-body">
           <ul class="list-unstyled mb-0 small">
             <li class="mb-2">
-              <i class="fas fa-info-circle text-info me-2"></i>
+              <i class="fas fa-info-circle  me-2"></i>
               You can edit staff usernames and roles
             </li>
             <li class="mb-2">
-              <i class="fas fa-key text-warning me-2"></i>
+              <i class="fas fa-key  me-2"></i>
               Password resets require SuperAdmin
             </li>
             <li class="mb-2">
-              <i class="fas fa-user-shield text-primary me-2"></i>
+              <i class="fas fa-user-shield  me-2"></i>
               Creating Admin accounts requires SuperAdmin
             </li>
             <li class="mb-0">
@@ -388,6 +388,27 @@ code {
 del {
   opacity: 0.6;
 }
+
+.bg-brown { background-color: #3b2008; color: #fff; }
+.text-brown { color: #3b2008; }
+.btn-outline-brown { color: #3b2008; border-color: #3b2008; background-color: transparent; }
+.btn-outline-brown:hover, .btn-outline-brown:active, .btn-outline-brown:focus {
+  background-color: #3b2008; border-color: #3b2008; color: #fff;
+}
+.btn-primary { background-color: #3b2008; border-color: #3b2008; }
+.btn-primary:hover { background-color: #2a1505; border-color: #2a1505; }
+
+
+.form-select:focus,
+.form-control:focus,
+.form-check-input:focus {
+  border-color: #3b2008 !important;
+  box-shadow: 0 0 0 0.2rem rgba(59, 32, 8, 0.25) !important;
+  outline: none !important;
+}
+.form-select { accent-color: #3b2008; }
+option:checked, option:hover { background-color: #3b2008 !important; color: #fff !important; }
+
 </style>
 
 <script>

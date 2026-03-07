@@ -377,15 +377,15 @@
                             'card' => 'fa-credit-card'
                           ];
                           $payment_colors = [
-                            'cash' => 'success',
-                            'gcash' => 'primary',
-                            'card' => 'warning'
+                            'cash' => '#7a3b10',
+                            'gcash' => '#b85c1a',
+                            'card' => '#d4873a'
                           ];
                           $method = strtolower($sale['payment_method']);
                           $icon = $payment_icons[$method] ?? 'fa-money-bill-wave';
                           $color = $payment_colors[$method] ?? 'secondary';
                         ?>
-                        <span class="badge bg-<?php echo $color; ?>">
+                        <span class="badge" style="background-color: <?php echo $color; ?>; color: #fff;">
                           <i class="fas <?php echo $icon; ?> me-1"></i>
                           <?php echo ucfirst($sale['payment_method']); ?>
                         </span>
@@ -737,6 +737,19 @@ body {
     min-width: 32px;
   }
 }
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #4a301f !important;
+  box-shadow: 0 0 0 0.2rem rgba(74, 48, 31, 0.25) !important;
+  outline: none !important;
+}
+
+.form-select option:checked {
+  background-color: #3b2008 !important;
+  color: #fff !important;
+}
+
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>

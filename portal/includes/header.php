@@ -22,6 +22,33 @@
   <script src="../assets/js/main.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="../assets/css/style.css?v=<?php echo time(); ?>" rel="stylesheet">
+
+  <style>
+    /* ── Flash alert overrides ── */
+    .alert-success {
+      background-color: #fff3e0 !important;
+      border-color: #c87533 !important;
+      color: #3b2008 !important;
+    }
+    .alert-success .btn-close { filter: none; }
+    .alert-success i { color: #3b2008; }
+
+    .alert-danger {
+      background-color: #fdf0e8 !important;
+      border-color: #c87533 !important;
+      color: #3b2008 !important;
+    }
+    .alert-danger .btn-close { filter: none; }
+    .alert-danger i { color: #3b2008; }
+
+    .alert-warning {
+      background-color: #fff8ec !important;
+      border-color: #c87533 !important;
+      color: #3b2008 !important;
+    }
+    .alert-warning .btn-close { filter: none; }
+    .alert-warning i { color: #3b2008; }
+  </style>
 </head>
 
 <body class="<?php echo isLoggedIn() ? 'dashboard' : 'login-page'; ?>">

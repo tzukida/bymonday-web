@@ -296,7 +296,7 @@
                         <div>
                           <strong><?php echo htmlspecialchars($user['username']); ?></strong>
                           <?php if ($user['id'] == $_SESSION['user_id']): ?>
-                            <span class="badge bg-info ms-1">You</span>
+                            <span class="badge bg-secondary ms-1">You</span>
                           <?php endif; ?>
                         </div>
                       </div>
@@ -320,7 +320,7 @@
                                <?php echo $user['id'] == $_SESSION['user_id'] ? 'disabled' : ''; ?>
                                style="cursor: pointer;">
                       </div>
-                      <small class="d-block mt-1 status-text <?php echo $user['status'] === 'active' ? 'text-success' : 'text-muted'; ?>">
+                      <small class="d-block mt-1 status-text <?php echo $user['status'] === 'active' ? 'text-brown' : 'text-muted'; ?>">
                         <?php echo ucfirst($user['status']); ?>
                       </small>
                     </td>
@@ -462,19 +462,19 @@
     <div class="modal-content">
       <div class="modal-header border-0 pb-0">
         <h5 class="modal-title">
-          <i class="fas fa-key text-warning me-2"></i>Reset Password
+          <i class="fas fa-key icon-brown me-2"></i>Reset Password
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body pt-2">
         <div class="text-center mb-3">
-          <div class="avatar-circle-lg mx-auto mb-3" style="background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);">
+          <div class="avatar-circle-lg mx-auto mb-3" style="background: linear-gradient(135deg, #3b2008 0%, #2a1505 100%);">
             <i class="fas fa-user-lock text-white"></i>
           </div>
           <p class="mb-2">Are you sure you want to reset the password for</p>
           <h5 class="text-dark mb-0" id="resetUsername"></h5>
         </div>
-        <div class="alert alert-info border-0" style="background-color: #e7f3ff;">
+        <div class="alert border-0" style="background-color: #fff3e0; border-left: 3px solid #4a301f !important; color: #3b2008;">
           <i class="fas fa-info-circle me-2"></i>
           <small>The password will be reset to: <code class="text-dark"><?php echo DEFAULT_RESET_PASSWORD; ?></code></small>
         </div>
@@ -484,7 +484,7 @@
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           <i class="fas fa-times me-1"></i>Cancel
         </button>
-        <button type="button" class="btn btn-warning" id="confirmResetBtn">
+        <button type="button" class="btn btn-brown" id="confirmResetBtn">
           <i class="fas fa-key me-1"></i>Reset Password
         </button>
       </div>
@@ -596,8 +596,8 @@ body {
 }
 
 .form-check-input.status-toggle:checked {
-  background-color: #198754;
-  border-color: #198754;
+  background-color: #382417;
+  border-color: #382417;
 }
 
 .status-text {
@@ -687,6 +687,23 @@ body {
     font-size: 0.75rem;
   }
 }
+.form-control:focus,
+.form-select:focus {
+  border-color: #4a301f !important;
+  box-shadow: 0 0 0 0.2rem rgba(74, 48, 31, 0.25) !important;
+  outline: none !important;
+}
+
+.form-check-input:focus {
+  border-color: #4a301f;
+  box-shadow: 0 0 0 0.2rem rgba(74, 48, 31, 0.2);
+}
+
+.form-select option:checked {
+  background-color: #3b2008 !important;
+  color: #fff !important;
+}
+
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -716,9 +733,9 @@ $(document).ready(function() {
                 if (response.success) {
                     $statusText.text(newStatus.charAt(0).toUpperCase() + newStatus.slice(1));
                     if (newStatus === 'active') {
-                        $statusText.removeClass('text-muted').addClass('text-success');
+                        $statusText.removeClass('text-muted').addClass('text-brown');
                     } else {
-                        $statusText.removeClass('text-success').addClass('text-muted');
+                        $statusText.removeClass('text-brown').addClass('text-muted');
                     }
                     showAlert('success', response.message);
                 } else {

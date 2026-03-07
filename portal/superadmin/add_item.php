@@ -211,7 +211,7 @@
       <div class="card">
         <div class="card-header bg-white py-3">
           <h6 class="mb-0">
-            <i class="fas fa-lightbulb me-2 text-warning"></i>Quick Add Examples
+            <i class="fas fa-lightbulb me-2 icon-brown"></i>Quick Add Examples
           </h6>
         </div>
         <div class="card-body">
@@ -220,7 +220,7 @@
           <div class="example-item" data-name="White Rice" data-unit="kg" data-desc="Premium white rice for cooking">
             <div class="d-flex align-items-center mb-3 p-3 border rounded hover-shadow cursor-pointer">
               <div class="example-icon me-3">
-                <i class="fas fa-seedling fa-2x text-success"></i>
+                <i class="fas fa-seedling fa-2x icon-brown"></i>
               </div>
               <div>
                 <h6 class="mb-0">White Rice</h6>
@@ -232,7 +232,7 @@
           <div class="example-item" data-name="Chicken Breast" data-unit="kg" data-desc="Fresh chicken breast meat">
             <div class="d-flex align-items-center mb-3 p-3 border rounded hover-shadow cursor-pointer">
               <div class="example-icon me-3">
-                <i class="fas fa-drumstick-bite fa-2x text-warning"></i>
+                <i class="fas fa-drumstick-bite fa-2x icon-brown"></i>
               </div>
               <div>
                 <h6 class="mb-0">Chicken Breast</h6>
@@ -256,7 +256,7 @@
           <div class="example-item" data-name="Cooking Oil" data-unit="liters" data-desc="Vegetable cooking oil">
             <div class="d-flex align-items-center mb-3 p-3 border rounded hover-shadow cursor-pointer">
               <div class="example-icon me-3">
-                <i class="fas fa-oil-can fa-2x text-info"></i>
+                <i class="fas fa-oil-can fa-2x icon-brown"></i>
               </div>
               <div>
                 <h6 class="mb-0">Cooking Oil</h6>
@@ -268,7 +268,7 @@
           <div class="example-item" data-name="Eggs" data-unit="pcs" data-desc="Fresh chicken eggs">
             <div class="d-flex align-items-center mb-3 p-3 border rounded hover-shadow cursor-pointer">
               <div class="example-icon me-3">
-                <i class="fas fa-egg fa-2x" style="color: #7d5633;"></i>
+                <i class="fas fa-egg fa-2x icon-brown"></i>
               </div>
               <div>
                 <h6 class="mb-0">Eggs</h6>
@@ -280,7 +280,7 @@
           <div class="example-item" data-name="Onions" data-unit="kg" data-desc="Fresh yellow onions">
             <div class="d-flex align-items-center mb-3 p-3 border rounded hover-shadow cursor-pointer">
               <div class="example-icon me-3">
-                <i class="fas fa-spa fa-2x" style="color: #a855f7;"></i>
+                <i class="fas fa-spa fa-2x icon-brown"></i>
               </div>
               <div>
                 <h6 class="mb-0">Onions</h6>
@@ -411,6 +411,36 @@ body {
 .alert-info-brown strong {
   color: #382417;
 }
+.form-control.is-valid,
+.form-select.is-valid,
+.was-validated .form-control:valid,
+.was-validated .form-select:valid {
+  --bs-form-valid-border-color: #4a301f;
+  --bs-form-valid-color: #4a301f;
+  border-color: #4a301f !important;
+  background-color: #fff8f3 !important;
+  background-image: none !important;
+  color: inherit !important;
+}
+
+.form-control.is-valid:focus,
+.form-select.is-valid:focus,
+.was-validated .form-control:valid:focus,
+.was-validated .form-select:valid:focus {
+  border-color: #4a301f !important;
+  background-color: #fff8f3 !important;
+  box-shadow: 0 0 0 0.2rem rgba(74, 48, 31, 0.25) !important;
+}
+
+.valid-feedback {
+  color: #4a301f !important;
+}
+
+:root {
+  --bs-form-valid-color: #4a301f;
+  --bs-form-valid-border-color: #4a301f;
+}
+
 </style>
 
 <script>

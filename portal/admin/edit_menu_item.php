@@ -6,7 +6,6 @@ require_once BASE_PATH . '/includes/functions.php';
 
 requireAdmin();
 
-
 $errors = [];
 $menu_item_id = (int)($_GET['id'] ?? 0);
 
@@ -143,16 +142,17 @@ require_once BASE_PATH . '/includes/header.php';
 ?>
 
 <div class="container-fluid">
+    <!-- Page Header -->
     <div class="row mb-4">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <h3 class="h3 mb-0" style="color: #3b2008;">
+                    <h3 class="h3 mb-0" style="color: #4a301f;">
                         <i class="fas fa-edit me-2"></i>Edit Menu Item
                     </h3>
-                    <p class="text-muted mb-0">Update menu item details</p>
+                    <p class="text-muted mb-0">Update menu item details for <strong class="text-brown"><?php echo htmlspecialchars($item['name']); ?></strong></p>
                 </div>
-                <a href="menu_management.php" class="btn btn-outline-secondary">
+                <a href="menu_management.php" class="btn btn-outline-brown">
                     <i class="fas fa-arrow-left me-2"></i>Back to Menu
                 </a>
             </div>
@@ -173,17 +173,20 @@ require_once BASE_PATH . '/includes/header.php';
     <?php endif; ?>
 
     <div class="row">
-        <div class="col-lg-8 mx-auto">
-            <div class="card shadow-sm">
-                <div class="card-header text-white" style="background-color: #3b2008;">
-                    <h5 class="mb-0"><i class="fas fa-utensils me-2"></i>Menu Item Details</h5>
+        <!-- Main Form -->
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0">
+                        <i class="fas fa-utensils me-2 icon-brown"></i>Menu Item Details
+                    </h5>
                 </div>
                 <div class="card-body">
                     <form method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">
-                                    <i class="fas fa-tag me-1"></i>Item Name <span class="text-danger">*</span>
+                                <label class="form-label">
+                                    <i class="fas fa-tag me-1"></i>Item Name <span class="text-brown">*</span>
                                 </label>
                                 <input type="text"
                                        class="form-control"
@@ -194,33 +197,36 @@ require_once BASE_PATH . '/includes/header.php';
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">
-                                    <i class="fas fa-layer-group me-1"></i>Category <span class="text-danger">*</span>
+                                <label class="form-label">
+                                    <i class="fas fa-layer-group me-1"></i>Category <span class="text-brown">*</span>
                                 </label>
                                 <select class="form-select" name="category" required>
                                     <option value="">Select Category</option>
-                                    <option value="Rice Meals" <?php echo $item['category'] === 'Rice Meals' ? 'selected' : ''; ?>>Rice Meals</option>
                                     <option value="Desserts" <?php echo $item['category'] === 'Desserts' ? 'selected' : ''; ?>>Desserts</option>
-                                    <option value="Beverages" <?php echo $item['category'] === 'Beverages' ? 'selected' : ''; ?>>Beverages</option>
-                                    <option value="Snacks" <?php echo $item['category'] === 'Snacks' ? 'selected' : ''; ?>>Snacks</option>
-                                    <option value="Combo Meals" <?php echo $item['category'] === 'Combo Meals' ? 'selected' : ''; ?>>Combo Meals</option>
+                                    <option value="Drinks" <?php echo $item['category'] === 'Drinks' ? 'selected' : ''; ?>>Drinks</option>
+                                    <option value="Cookies" <?php echo $item['category'] === 'Cookies' ? 'selected' : ''; ?>>Cookies</option>
+                                    <option value="Waffles" <?php echo $item['category'] === 'Waffles' ? 'selected' : ''; ?>>Waffles</option>
+                                    <option value="Muffins" <?php echo $item['category'] === 'Muffins' ? 'selected' : ''; ?>>Muffins</option>
+                                    <option value="Pasta" <?php echo $item['category'] === 'Pasta' ? 'selected' : ''; ?>>Pasta</option>
+                                    <option value="Rice Bowls" <?php echo $item['category'] === 'Rice Bowls' ? 'selected' : ''; ?>>Rice Bowls</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold">
-                                <i class="fas fa-align-left me-1"></i>Description
+                            <label class="form-label">
+                                <i class="fas fa-align-left me-1"></i>Description <small class="text-muted">(Optional)</small>
                             </label>
                             <textarea class="form-control"
                                       name="description"
                                       rows="3"
-                                      placeholder="Brief description of the item"><?php echo htmlspecialchars($item['description']); ?></textarea>
+                                      placeholder="Brief description of the item..."><?php echo htmlspecialchars($item['description']); ?></textarea>
+                            <small class="text-muted">Provide details about this menu item</small>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold">
-                                <i class="fas fa-peso-sign me-1"></i>Price <span class="text-danger">*</span>
+                            <label class="form-label">
+                                <i class="fas fa-peso-sign me-1"></i>Price <span class="text-brown">*</span>
                             </label>
                             <div class="input-group">
                                 <span class="input-group-text">₱</span>
@@ -233,25 +239,29 @@ require_once BASE_PATH . '/includes/header.php';
                                        placeholder="0.00"
                                        required>
                             </div>
+                            <small class="text-muted">Current selling price</small>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold">
+                            <label class="form-label">
                                 <i class="fas fa-image me-1"></i>Item Image
                             </label>
 
                             <?php if (!empty($item['image_url'])): ?>
                                 <div class="mb-3 position-relative" id="currentImageContainer">
-                                    <div class="d-flex align-items-start gap-3">
-                                        <img src="<?php echo htmlspecialchars(rtrim(BASE_URL, '/') . '/' . ltrim($item['image_url'], '/')); ?>"
-                                             alt="Current image"
-                                             class="current-menu-image"
-                                             onerror="this.src='<?php echo BASE_URL; ?>/assets/img/no-image.png';">
-                                        <div>
-                                            <p class="text-muted small mb-2">Current image</p>
-                                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="confirmRemoveImage()">
-                                                <i class="fas fa-trash me-1"></i>Remove Image
-                                            </button>
+                                    <div class="current-image-wrapper p-3 border rounded bg-light">
+                                        <div class="d-flex align-items-start gap-3">
+                                            <img src="<?php echo htmlspecialchars(rtrim(BASE_URL, '/') . '/' . ltrim($item['image_url'], '/')); ?>"
+                                                 alt="Current image"
+                                                 class="current-menu-image"
+                                                 onerror="this.src='<?php echo BASE_URL; ?>/assets/img/no-image.png';">
+                                            <div class="flex-grow-1">
+                                                <p class="text-muted small mb-1"><i class="fas fa-check-circle text-brown me-1"></i><strong>Current image</strong></p>
+                                                <p class="text-muted small mb-2">This image is currently displayed for this menu item</p>
+                                                <button type="button" class="btn btn-sm btn-outline-brown" onclick="confirmRemoveImage()">
+                                                    <i class="fas fa-trash me-1"></i>Remove Image
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -264,17 +274,20 @@ require_once BASE_PATH . '/includes/header.php';
                                    id="imageInput">
                             <small class="text-muted">
                                 <?php echo !empty($item['image_url']) ? 'Upload a new image to replace the current one' : 'Upload an image for this menu item'; ?>
+                                (JPG, PNG, GIF, WEBP - Max 5MB)
                             </small>
 
                             <!-- Image Preview -->
                             <div id="imagePreview" class="mt-3" style="display: none;">
-                                <p class="fw-bold text-muted small">New image preview:</p>
-                                <img id="previewImg" src="" alt="Preview" class="preview-menu-image">
+                                <div class="p-3 border rounded bg-light">
+                                    <p class="small mb-2"><i class="fas fa-eye text-brown me-1"></i><strong>New image preview:</strong></p>
+                                    <img id="previewImg" src="" alt="Preview" class="preview-menu-image">
+                                </div>
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold">
+                            <label class="form-label">
                                 <i class="fas fa-link me-1"></i>Or Enter Image URL
                             </label>
                             <input type="url"
@@ -292,27 +305,122 @@ require_once BASE_PATH . '/includes/header.php';
                                        id="is_available"
                                        name="is_available"
                                        <?php echo $item['is_available'] ? 'checked' : ''; ?>>
-                                <label class="form-check-label fw-bold" for="is_available">
+                                <label class="form-check-label" for="is_available">
                                     <i class="fas fa-eye me-1"></i>Item is available for sale
                                 </label>
                             </div>
-                            <small class="text-muted">Unchecking this will hide the item from POS</small>
+                            <small class="text-muted">Unchecking this will hide the item from POS and customer ordering</small>
                         </div>
 
-                        <div class="d-flex gap-2 justify-content-between">
-                            <a href="manage_recipe.php?menu_id=<?php echo $menu_item_id; ?>" class="btn btn-outline-warning">
+                        <hr class="my-4">
+
+                        <div class="d-flex gap-2 justify-content-between align-items-center flex-wrap">
+                            <a href="manage_recipe.php?menu_id=<?php echo $menu_item_id; ?>" class="btn btn-outline-brown">
                                 <i class="fas fa-book me-2"></i>Manage Recipe
                             </a>
                             <div class="d-flex gap-2">
                                 <a href="menu_management.php" class="btn btn-outline-secondary">
                                     <i class="fas fa-times me-2"></i>Cancel
                                 </a>
-                                <button type="submit" class="btn btn-danger">
+                                <button type="submit" class="btn btn-brown">
                                     <i class="fas fa-save me-2"></i>Update Item
                                 </button>
                             </div>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Sidebar -->
+        <div class="col-lg-4">
+            <!-- Item Status Card -->
+            <div class="card mb-3">
+                <div class="card-header bg-white py-3">
+                    <h6 class="mb-0">
+                        <i class="fas fa-info-circle me-2 text-brown"></i>Item Status
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
+                        <div>
+                            <p class="text-muted small mb-0">Availability</p>
+                            <p class="mb-0 fw-bold">
+                                <?php if ($item['is_available']): ?>
+                                    <span class="badge bg-brown">
+                                        <i class="fas fa-check-circle me-1"></i>Available
+                                    </span>
+                                <?php else: ?>
+                                    <span class="badge bg-danger">
+                                        <i class="fas fa-times-circle me-1"></i>Unavailable
+                                    </span>
+                                <?php endif; ?>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 pb-3 border-bottom">
+                        <p class="text-muted small mb-1">Category</p>
+                        <p class="mb-0 fw-bold text-brown"><?php echo htmlspecialchars($item['category']); ?></p>
+                    </div>
+
+                    <div class="mb-3 pb-3 border-bottom">
+                        <p class="text-muted small mb-1">Current Price</p>
+                        <p class="mb-0 fw-bold" style="font-size: 1.25rem; color: #4a301f;">₱<?php echo number_format($item['price'], 2); ?></p>
+                    </div>
+
+                    <div>
+                        <p class="text-muted small mb-1">Created</p>
+                        <p class="mb-0 small"><?php echo date('M d, Y', strtotime($item['created_at'])); ?></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions Card -->
+            <div class="card mb-3">
+                <div class="card-header bg-white py-3">
+                    <h6 class="mb-0">
+                        <i class="fas fa-bolt me-2 text-brown"></i>Quick Actions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="manage_recipe.php?menu_id=<?php echo $menu_item_id; ?>" class="btn btn-outline-brown btn-sm">
+                            <i class="fas fa-list me-2"></i>View/Edit Recipe
+                        </a>
+                        <button type="button" class="btn btn-outline-brown btn-sm" onclick="toggleAvailability()">
+                            <i class="fas fa-toggle-on me-2"></i>Toggle Availability
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips Card -->
+            <div class="card">
+                <div class="card-header bg-white py-3">
+                    <h6 class="mb-0">
+                        <i class="fas fa-lightbulb me-2 text-brown"></i>Tips
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0 small">
+                        <li class="mb-2">
+                            <i class="fas fa-check-circle text-brown me-2"></i>
+                            Keep item names clear and descriptive
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check-circle text-brown me-2"></i>
+                            Use high-quality images for better appeal
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check-circle text-brown me-2"></i>
+                            Update prices regularly based on costs
+                        </li>
+                        <li class="mb-0">
+                            <i class="fas fa-check-circle text-brown me-2"></i>
+                            Disable items that are temporarily out of stock
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -325,34 +433,77 @@ require_once BASE_PATH . '/includes/header.php';
 </form>
 
 <style>
-.text-gradient {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+body {
+    background: linear-gradient(135deg, #f5f0eb 0%, #e8ddd4 100%);
+    min-height: 100vh;
+}
+
+.icon-brown {
+    color: #4a301f;
+}
+
+.text-brown {
+    color: #4a301f !important;
+}
+
+.btn-brown {
+    background-color: #382417;
+    border-color: #382417;
+    color: white;
+}
+
+.btn-brown:hover {
+    background-color: #4d3420;
+    border-color: #4d3420;
+    color: white;
+}
+
+.btn-outline-brown {
+    color: #382417;
+    border-color: #382417;
+    background-color: transparent;
+}
+
+.btn-outline-brown:hover {
+    background-color: #382417;
+    border-color: #382417;
+    color: white;
 }
 
 .card {
     border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
-.shadow-sm {
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+.form-label {
+    font-weight: 500;
+    color: #495057;
 }
 
-.btn-danger {
-    background-color: #3b2008;
-    border-color: #3b2008;
+.form-control:focus,
+.form-select:focus {
+    border-color: #3b2008 !important;
+    box-shadow: 0 0 0 0.2rem rgba(59, 32, 8, 0.25) !important;
+    outline: none !important;
 }
 
-.btn-danger:hover {
-    background-color: #2a1505;
-    border-color: #2a1505;
-}
+.form-select { accent-color: #3b2008; }
+option:checked, option:hover { background-color: #3b2008 !important; color: #fff !important; }
+.dropdown-item:active, .dropdown-item.active { background-color: #3b2008 !important; color: #fff !important; }
 
 .form-switch .form-check-input {
     width: 3rem;
     height: 1.5rem;
+}
+
+.form-switch .form-check-input:checked {
+    background-color: #382417;
+    border-color: #382417;
+}
+
+.form-switch .form-check-input:focus {
+    border-color: #3b2008 !important;
+    box-shadow: 0 0 0 0.2rem rgba(59, 32, 8, 0.25) !important;
 }
 
 .current-menu-image {
@@ -369,6 +520,21 @@ require_once BASE_PATH . '/includes/header.php';
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     border: 2px solid #dee2e6;
+}
+
+.current-image-wrapper {
+    background-color: #fffbf5;
+    border-color: #e0d4c3 !important;
+}
+
+.badge {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.6rem;
+}
+
+.bg-brown {
+    background-color: #3b2008 !important;
+    color: #fff !important;
 }
 </style>
 
@@ -393,6 +559,21 @@ function confirmRemoveImage() {
     if (confirm('Are you sure you want to remove this image? This action cannot be undone.')) {
         document.getElementById('removeImageForm').submit();
     }
+}
+
+// Toggle availability shortcut
+function toggleAvailability() {
+    const checkbox = document.getElementById('is_available');
+    checkbox.checked = !checkbox.checked;
+
+    // Highlight the switch
+    checkbox.parentElement.classList.add('bg-light', 'p-2', 'rounded');
+    setTimeout(() => {
+        checkbox.parentElement.classList.remove('bg-light', 'p-2', 'rounded');
+    }, 1000);
+
+    // Scroll to switch
+    checkbox.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 </script>
 

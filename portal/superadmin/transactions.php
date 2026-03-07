@@ -385,18 +385,18 @@
                       <small class="text-muted d-block">Unit: <?php echo htmlspecialchars($transaction['unit']); ?></small>
                     </td>
                     <td class="text-center">
-                      <strong class="fs-5 <?php echo $transaction['type'] === 'stock-in' ? 'text-success' : 'text-warning'; ?>">
+                      <strong style="font-size:1.1rem; font-weight:600; color: <?php echo $transaction['type'] === 'stock-in' ? '#382417' : '#b85c1a'; ?>;">
                         <?php echo $transaction['type'] === 'stock-in' ? '+' : '-'; ?>
                         <?php echo number_format($transaction['quantity']); ?>
                       </strong>
                     </td>
                     <td class="text-center">
                       <?php if ($transaction['type'] === 'stock-in'): ?>
-                        <span class="badge bg-success">
+                        <span class="badge" style="background-color:#382417; color:#fff;">
                           <i class="fas fa-arrow-up me-1"></i>Stock In
                         </span>
                       <?php else: ?>
-                        <span class="badge bg-warning text-dark">
+                        <span class="badge" style="background-color:#b85c1a; color:#fff;">
                           <i class="fas fa-arrow-down me-1"></i>Stock Out
                         </span>
                       <?php endif; ?>
@@ -705,6 +705,19 @@ body {
     width: 100%;
   }
 }
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #4a301f !important;
+  box-shadow: 0 0 0 0.2rem rgba(74, 48, 31, 0.25) !important;
+  outline: none !important;
+}
+
+.form-select option:checked {
+  background-color: #3b2008 !important;
+  color: #fff !important;
+}
+
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

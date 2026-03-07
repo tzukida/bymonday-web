@@ -32,7 +32,7 @@
             <i class="fas fa-chart-line me-2"></i>Sales Report
           </a>
           <?php if ($is_admin): ?>
-            <a href="menu_management.php" class="btn btn-danger">
+            <a href="menu_management.php" class="btn btn-brown">
               <i class="fas fa-cog me-2"></i>Manage Menu
             </a>
           <?php endif; ?>
@@ -200,7 +200,7 @@
 <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header text-white border-0" style="background: linear-gradient(135deg, #198754 0%, #146c43 100%);">
+      <div class="modal-header text-white border-0" style="background: linear-gradient(135deg, #3b2008 0%, #2a1505 100%);">
         <h5 class="modal-title">
           <i class="fas fa-check-circle me-2"></i>Order Successful
         </h5>
@@ -209,7 +209,7 @@
       <div class="modal-body text-center py-4">
         <div class="mb-4">
           <div class="success-icon mx-auto mb-3">
-            <i class="fas fa-check-circle text-success"></i>
+            <i class="fas fa-check-circle icon-brown"></i>
           </div>
           <h4 class="mb-2">Order Processed Successfully!</h4>
           <p class="text-muted mb-0">Your order has been recorded</p>
@@ -229,10 +229,10 @@
         </div>
       </div>
       <div class="modal-footer border-0">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+        <button type="button" class="btn btn-outline-brown" data-bs-dismiss="modal">
           <i class="fas fa-times me-2"></i>Close
         </button>
-        <button type="button" class="btn btn-primary" id="viewReceiptBtn">
+        <button type="button" class="btn btn-brown" id="viewReceiptBtn">
           <i class="fas fa-receipt me-2"></i>View Receipt
         </button>
       </div>
@@ -260,10 +260,10 @@
         </div>
       </div>
       <div class="modal-footer border-0">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+        <button type="button" class="btn btn-outline-brown" data-bs-dismiss="modal">
           <i class="fas fa-times me-2"></i>Close
         </button>
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+        <button type="button" class="btn btn-brown" data-bs-dismiss="modal">
           <i class="fas fa-redo me-2"></i>Try Again
         </button>
       </div>
@@ -370,7 +370,7 @@
 }
 
 .btn-danger {
-  background-color: #3b2008;
+  background-color: #3b2008 !important;
   border-color: #3b2008;
 }
 
@@ -379,6 +379,12 @@
   border-color: #2a1505;
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(59, 32, 8, 0.3);
+}
+
+.btn-danger:active, .btn-danger:focus, .btn-danger:focus-visible {
+  background-color: #2a1505 !important;
+  border-color: #2a1505 !important;
+  box-shadow: 0 0 0 0.25rem rgba(59, 32, 8, 0.4) !important;
 }
 
 .btn-outline-danger:hover {
@@ -486,6 +492,16 @@
   }
 }
 .btn-brown {
+  --bs-btn-bg: #6b3a1f;
+  --bs-btn-border-color: #6b3a1f;
+  --bs-btn-color: #fff;
+  --bs-btn-hover-bg: #3d1c02;
+  --bs-btn-hover-border-color: #3d1c02;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-bg: #6b3a1f;
+  --bs-btn-active-border-color: #6b3a1f;
+  --bs-btn-active-color: #fff;
+  --bs-btn-focus-shadow-rgb: 107, 58, 31;
   background-color: #6b3a1f;
   border-color: #6b3a1f;
   color: #fff;
@@ -495,6 +511,14 @@
   background-color: #3d1c02;
   border-color: #3d1c02;
   color: #fff;
+}
+
+.btn-brown:active, .btn-brown:focus, .btn-brown:focus-visible,
+.btn-brown:active:focus, .btn-brown.active, .btn-brown:active:hover {
+  background-color: #6b3a1f !important;
+  border-color: #6b3a1f !important;
+  color: #fff !important;
+  box-shadow: 0 0 0 0.25rem rgba(107, 58, 31, 0.4) !important;
 }
 
 .btn-brown:disabled {
@@ -515,6 +539,31 @@
   border-color: #6b3a1f;
   color: #fff;
 }
+
+.btn-outline-brown:active, .btn-outline-brown:focus, .btn-outline-brown:focus-visible {
+  background-color: #3d1c02 !important;
+  border-color: #3d1c02 !important;
+  color: #fff !important;
+  box-shadow: 0 0 0 0.25rem rgba(59, 32, 8, 0.4) !important;
+}
+.form-select:focus,
+.form-control:focus,
+.form-check-input:focus {
+  border-color: #3b2008 !important;
+  box-shadow: 0 0 0 0.2rem rgba(59, 32, 8, 0.25) !important;
+  outline: none !important;
+}
+
+.form-select {
+  accent-color: #3b2008;
+}
+
+option:checked,
+option:hover {
+  background-color: #3b2008 !important;
+  color: #fff !important;
+}
+
 </style>
 
 <script>
@@ -573,13 +622,13 @@ document.querySelectorAll('.add-to-cart').forEach(btn => {
     // Visual feedback
     const originalHTML = this.innerHTML;
     this.innerHTML = '<i class="fas fa-check me-2"></i>Added!';
-    this.classList.remove('btn-brown');
-    this.classList.add('btn-success');
+    this.style.backgroundColor = '#6b3a1f';
+    this.style.borderColor = '#6b3a1f';
 
     setTimeout(() => {
       this.innerHTML = originalHTML;
-      this.classList.remove('btn-success');
-      this.classList.add('btn-brown');
+      this.style.backgroundColor = '';
+      this.style.borderColor = '';
     }, 600);
 
     updateCart();
@@ -628,11 +677,11 @@ function updateCart() {
         </div>
         <div class="d-flex justify-content-between align-items-center">
           <div class="quantity-control">
-            <button class="btn btn-sm btn-outline-danger quantity-btn" onclick="decreaseQuantity(${index})">
+            <button class="btn btn-sm btn-outline-brown quantity-btn" onclick="decreaseQuantity(${index})">
               <i class="fas fa-minus"></i>
             </button>
             <span class="fw-bold px-2 fs-6">${item.quantity}</span>
-            <button class="btn btn-sm btn-outline-danger quantity-btn" onclick="increaseQuantity(${index})">
+            <button class="btn btn-sm btn-outline-brown quantity-btn" onclick="increaseQuantity(${index})">
               <i class="fas fa-plus"></i>
             </button>
           </div>

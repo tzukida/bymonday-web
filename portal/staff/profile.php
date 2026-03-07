@@ -110,12 +110,12 @@ include BASE_PATH . '/includes/header.php';
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-          <h3 class="h3 mb-0" style="color: #4a301f;">
+          <h3 class="h3 mb-0" style="color: #3b2008;">
             <i class="fas fa-user-cog me-2"></i>Profile Settings
           </h3>
           <p class="text-muted mb-0">Manage your account information and security</p>
         </div>
-        <a href="dashboard.php" class="btn btn-outline-brown">
+        <a href="dashboard.php" class="btn btn-outline-secondary">
           <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
         </a>
       </div>
@@ -137,7 +137,7 @@ include BASE_PATH . '/includes/header.php';
             <div class="mb-4">
               <label class="form-label fw-bold">
                 <i class="fas fa-user-tag me-1"></i>Username
-                <span class="text-brown">*</span>
+                <span class="text-danger">*</span>
               </label>
               <input type="text"
                      name="username"
@@ -260,7 +260,7 @@ include BASE_PATH . '/includes/header.php';
       </div>
 
       <!-- Security Notice -->
-      <div class="alert alert-info-brown">
+      <div class="alert alert-info">
         <i class="fas fa-info-circle me-2"></i>
         <strong>Security Tip:</strong> Use a strong password with a mix of letters, numbers, and special characters. Never share your password with anyone.
       </div>
@@ -269,47 +269,37 @@ include BASE_PATH . '/includes/header.php';
 </div>
 
 <style>
-
 body {
   background: linear-gradient(135deg, #f5f0eb 0%, #e8ddd4 100%);
   min-height: 100vh;
 }
 
-.icon-brown {
-  color: #4a301f;
-}
-
-.text-brown {
-  color: #4a301f;
-}
+.icon-brown { color: #3b2008; }
 
 .btn-brown {
-  background-color: #382417;
-  border-color: #382417;
-  color: white;
+  background-color: #3b2008;
+  border-color: #3b2008;
+  color: #fff;
+}
+.btn-brown:hover,
+.btn-brown:active,
+.btn-brown:focus,
+.btn-brown:focus-visible,
+.btn-brown.active {
+  background-color: #3b2008 !important;
+  border-color: #3b2008 !important;
+  color: #fff !important;
+  box-shadow: none !important;
 }
 
-.btn-brown:hover {
-  background-color: #4d3420;
-  border-color: #4d3420;
-  color: white;
-}
-
-.btn-outline-brown {
-  color: #382417;
-  border-color: #382417;
-  background-color: transparent;
-}
-
-.btn-outline-brown:hover {
-  background-color: #382417;
-  border-color: #382417;
-  color: white;
+.btn-outline-secondary {
+  color: #6c757d;
+  border-color: #6c757d;
 }
 
 .card {
   border: none;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
   border-radius: 0.5rem;
 }
 
@@ -324,8 +314,13 @@ body {
 }
 
 .form-control:focus {
-  border-color: #654529;
-  box-shadow: 0 0 0 0.2rem rgba(101, 69, 41, 0.25);
+  border-color: #3b2008;
+  box-shadow: 0 0 0 0.2rem rgba(59,32,8,0.25);
+}
+
+.form-select:focus {
+  border-color: #3b2008;
+  box-shadow: 0 0 0 0.2rem rgba(59,32,8,0.25);
 }
 
 .password-section {
@@ -336,32 +331,36 @@ body {
   border: 1px solid #ffcc80;
 }
 
-.input-group .btn-outline-secondary {
-  border-color: #ced4da;
-}
-
+.input-group .btn-outline-secondary { border-color: #ced4da; }
 .input-group .btn-outline-secondary:hover {
-  background-color: #654529;
-  border-color: #654529;
+  background-color: #3b2008;
+  border-color: #3b2008;
   color: white;
 }
 
-.alert-info-brown {
-  background-color: #fff3e0;
-  border: 1px solid #ffcc80;
-  color: #4a301f;
-  border-radius: 0.5rem;
-  padding: 1rem;
+/* Security tip box — brown tinted */
+.alert-info {
+  background-color: #f5ede6;
+  border: 1px solid #c8a080;
+  color: #3b2008;
 }
 
-.alert-info-brown strong {
-  color: #382417;
+/* Success notification — brown tinted */
+.alert-success {
+  background-color: #f5ede6;
+  border-color: #3b2008;
+  color: #3b2008;
+}
+
+/* Error notification */
+.alert-danger {
+  background-color: #fdecea;
+  border-color: #c0392b;
+  color: #7b1c14;
 }
 
 @media (max-width: 768px) {
-  .password-section {
-    padding: 1rem;
-  }
+  .password-section { padding: 1rem; }
 }
 </style>
 

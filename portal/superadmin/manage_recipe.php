@@ -182,20 +182,20 @@
                       </td>
                       <td><span class="badge bg-light text-dark"><?php echo htmlspecialchars($ing['unit']); ?></span></td>
                       <td>
-                        <span class="badge <?php echo $ing['available_quantity'] < $ing['quantity_needed'] ? 'bg-danger' : 'bg-success'; ?>">
+                        <span class="badge <?php echo $ing['available_quantity'] < $ing['quantity_needed'] ? 'bg-brown" style="opacity:0.6;' : 'bg-brown'; ?>">
                           <?php echo $ing['available_quantity']; ?> <?php echo htmlspecialchars($ing['inventory_unit']); ?>
                         </span>
                       </td>
                       <td>
                         <?php if ($ing['available_quantity'] >= $ing['quantity_needed']): ?>
-                          <span class="badge bg-success"><i class="fas fa-check me-1"></i>OK</span>
+                          <span class="badge bg-brown"><i class="fas fa-check me-1"></i>OK</span>
                         <?php else: ?>
-                          <span class="badge bg-danger"><i class="fas fa-exclamation-triangle me-1"></i>Low</span>
+                          <span class="badge bg-brown" style="opacity:0.6;"><i class="fas fa-exclamation-triangle me-1"></i>Low</span>
                         <?php endif; ?>
                       </td>
                       <td>
                         <a href="?menu_id=<?php echo $menu_id; ?>&delete_ingredient=<?php echo $ing['id']; ?>"
-                           class="btn btn-sm btn-outline-danger"
+                           class="btn btn-sm btn-outline-brown"
                            onclick="return confirm('Remove this ingredient from the recipe?')">
                           <i class="fas fa-trash"></i>
                         </a>
@@ -225,10 +225,10 @@
               <strong>Recipe Incomplete!</strong> Please add ingredients to complete this recipe.
             </div>
           <?php elseif ($can_make): ?>
-            <div class="alert alert-success-brown mb-0">
+            <div class="alert mb-0" style="background-color: #fff3e0; border: 1px solid #c87533; color: #3b2008;">
               <div class="d-flex align-items-center">
                 <div class="flex-shrink-0">
-                  <i class="fas fa-check-circle fa-2x text-success"></i>
+                  <i class="fas fa-check-circle fa-2x icon-brown"></i>
                 </div>
                 <div class="flex-grow-1 ms-3">
                   <h6 class="alert-heading mb-1">Ready to Sell!</h6>
@@ -236,7 +236,7 @@
                   <hr class="my-2">
                   <p class="mb-0 small">
                     <i class="fas fa-chart-line me-1"></i>
-                    <strong>Maximum servings:</strong> Approximately <strong class="text-success"><?php echo $max_servings; ?></strong> servings can be made with current stock.
+                    <strong>Maximum servings:</strong> Approximately <strong class="text-brown"><?php echo $max_servings; ?></strong> servings can be made with current stock.
                   </p>
                 </div>
               </div>
@@ -296,8 +296,8 @@
                     }
                   }
                 ?>
-                <i class="fas fa-exclamation-circle fa-2x <?php echo $low_stock_count > 0 ? 'text-danger' : 'text-success'; ?> mb-2"></i>
-                <h4 class="mb-0 <?php echo $low_stock_count > 0 ? 'text-danger' : 'text-success'; ?>"><?php echo $low_stock_count; ?></h4>
+                <i class="fas fa-exclamation-circle fa-2x icon-brown mb-2"></i>
+                <h4 class="mb-0 text-brown"><?php echo $low_stock_count; ?></h4>
                 <small class="text-muted">Low Stock Items</small>
               </div>
             </div>
@@ -368,7 +368,7 @@
 
         <div class="card-footer bg-light">
           <h6 class="mb-2">
-            <i class="fas fa-lightbulb me-2 text-warning"></i>Tips
+            <i class="fas fa-lightbulb me-2 icon-brown"></i>Tips
           </h6>
           <ul class="small mb-0 ps-3">
             <li class="mb-1">Add all required ingredients</li>
@@ -383,7 +383,7 @@
       <div class="card mt-3">
         <div class="card-header bg-white py-3">
           <h6 class="mb-0">
-            <i class="fas fa-bolt me-2 text-warning"></i>Quick Actions
+            <i class="fas fa-bolt me-2 icon-brown"></i>Quick Actions
           </h6>
         </div>
         <div class="card-body">

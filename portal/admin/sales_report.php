@@ -693,7 +693,7 @@
 }
 
 .btn-primary, .btn-danger {
-  background-color: #3b2008;
+  background-color: #3b2008 !important;
   border-color: #3b2008;
 }
 
@@ -732,6 +732,24 @@
     min-width: 32px;
   }
 }
+.form-select:focus,
+.form-control:focus,
+.form-check-input:focus {
+  border-color: #3b2008 !important;
+  box-shadow: 0 0 0 0.2rem rgba(59, 32, 8, 0.25) !important;
+  outline: none !important;
+}
+
+.form-select {
+  accent-color: #3b2008;
+}
+
+option:checked,
+option:hover {
+  background-color: #3b2008 !important;
+  color: #fff !important;
+}
+
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>

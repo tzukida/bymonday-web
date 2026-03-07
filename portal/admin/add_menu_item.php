@@ -207,7 +207,7 @@ require_once BASE_PATH . '/includes/header.php';
                             <small class="text-muted">If you prefer to use an external image URL</small>
                         </div>
 
-                        <div class="alert alert-info">
+                        <div class="alert alert-warning" style="background-color: #fff3e0; border-color: #ffcc80; color: #3b2008;">
                             <i class="fas fa-info-circle me-2"></i>
                             <strong>Note:</strong> After adding this menu item, you'll be redirected to set up the recipe (ingredients required).
                         </div>
@@ -216,7 +216,7 @@ require_once BASE_PATH . '/includes/header.php';
                             <a href="menu_management.php" class="btn btn-outline-secondary">
                                 <i class="fas fa-times me-2"></i>Cancel
                             </a>
-                            <button type="submit" class="btn btn-danger">
+                            <button type="submit" class="btn btn-brown">
                                 <i class="fas fa-save me-2"></i>Save & Setup Recipe
                             </button>
                         </div>
@@ -243,15 +243,29 @@ require_once BASE_PATH . '/includes/header.php';
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
 }
 
-.btn-danger {
+.btn-brown {
     background-color: #3b2008;
     border-color: #3b2008;
+    color: #fff;
 }
 
-.btn-danger:hover {
+.btn-brown:hover, .btn-brown:active, .btn-brown:focus {
     background-color: #2a1505;
     border-color: #2a1505;
+    color: #fff;
 }
+
+.form-select:focus,
+.form-control:focus,
+.form-check-input:focus {
+  border-color: #3b2008 !important;
+  box-shadow: 0 0 0 0.2rem rgba(59, 32, 8, 0.25) !important;
+  outline: none !important;
+}
+.form-select { accent-color: #3b2008; }
+option:checked, option:hover { background-color: #3b2008 !important; color: #fff !important; }
+.dropdown-item:active, .dropdown-item.active { background-color: #3b2008 !important; color: #fff !important; }
+
 </style>
 
 <script>

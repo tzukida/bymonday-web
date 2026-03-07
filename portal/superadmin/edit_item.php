@@ -122,11 +122,11 @@
         </div>
         <div class="d-flex gap-2">
           <a href="delete_item.php?id=<?php echo $item_id; ?>"
-             class="btn btn-outline-danger"
+             class="btn btn-outline-brown"
              onclick="return confirm('Are you sure you want to delete this item?');">
             <i class="fas fa-trash me-2"></i>Delete Item
           </a>
-          <a href="inventory.php" class="btn btn-outline-brown">
+          <a href="inventory.php" class="btn btn-outline-secondary">
             <i class="fas fa-arrow-left me-2"></i>Back to Inventory
           </a>
         </div>
@@ -261,7 +261,7 @@
       <div class="card mb-3">
         <div class="card-header bg-white py-3">
           <h6 class="mb-0">
-            <i class="fas fa-info-circle me-2 text-info"></i>Current Status
+            <i class="fas fa-info-circle me-2 icon-brown"></i>Current Status
           </h6>
         </div>
         <div class="card-body">
@@ -275,11 +275,11 @@
             <div class="d-flex justify-content-between align-items-center mb-2">
               <span class="text-muted">Status:</span>
               <?php if ($item['quantity'] < 10): ?>
-                <span class="badge bg-danger">
+                <span class="badge bg-brown">
                   <i class="fas fa-exclamation-triangle me-1"></i>Low Stock
                 </span>
               <?php elseif ($item['quantity'] < 50): ?>
-                <span class="badge bg-warning text-dark">
+                <span class="badge bg-brown" style="opacity:0.75;">
                   <i class="fas fa-circle-exclamation me-1"></i>Medium Stock
                 </span>
               <?php else: ?>
@@ -330,7 +330,7 @@
                         <i class="fas fa-arrow-up me-1"></i>Stock In
                       </span>
                     <?php else: ?>
-                      <span class="badge bg-warning text-dark mb-1">
+                      <span class="badge bg-brown mb-1" style="opacity:0.75;">
                         <i class="fas fa-arrow-down me-1"></i>Stock Out
                       </span>
                     <?php endif; ?>
@@ -434,6 +434,36 @@ body {
 .list-group-item:last-child {
   border-bottom: none;
 }
+.form-control.is-valid,
+.form-select.is-valid,
+.was-validated .form-control:valid,
+.was-validated .form-select:valid {
+  --bs-form-valid-border-color: #4a301f;
+  --bs-form-valid-color: #4a301f;
+  border-color: #4a301f !important;
+  background-color: #fff8f3 !important;
+  background-image: none !important;
+  color: inherit !important;
+}
+
+.form-control.is-valid:focus,
+.form-select.is-valid:focus,
+.was-validated .form-control:valid:focus,
+.was-validated .form-select:valid:focus {
+  border-color: #4a301f !important;
+  background-color: #fff8f3 !important;
+  box-shadow: 0 0 0 0.2rem rgba(74, 48, 31, 0.25) !important;
+}
+
+.valid-feedback {
+  color: #4a301f !important;
+}
+
+:root {
+  --bs-form-valid-color: #4a301f;
+  --bs-form-valid-border-color: #4a301f;
+}
+
 </style>
 
 <script>
