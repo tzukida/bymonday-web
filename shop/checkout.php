@@ -143,6 +143,18 @@ $customer = $stmt->get_result()->fetch_assoc();
                     <div class="pay-check">✓</div>
                 </label>
 
+                <!-- Crypto -->
+                <label class="pay-option">
+                    <input type="radio" name="payment" value="crypto" onchange="onPaymentChange(this.value)">
+                    <div class="pay-card">
+                        <div class="pay-logo">
+                            <div class="badge" style="background:#f7931a;color:#fff;font-size:20px;width:56px;height:34px;">₿</div>
+                        </div>
+                        <div class="pay-label">Crypto</div>
+                    </div>
+                    <div class="pay-check">✓</div>
+                </label>
+
             </div>
 
             <!-- Contextual hints -->
@@ -161,6 +173,11 @@ $customer = $stmt->get_result()->fetch_assoc();
             <div class="pay-note" id="noteCash">
                 <span class="pay-note-icon"><i class="fa-solid fa-money-bill-1-wave"></i></span>
                 <span><strong>Cash on Delivery</strong> — Pay in cash when your order arrives. Please have the exact amount ready for our rider.</span>
+
+            <div class="pay-note" id="noteCrypto">
+                <span class="pay-note-icon">₿</span>
+                <span><strong>Crypto (BTC / ETH / USDT)</strong> — You'll be shown a wallet address and QR code. Click "I've Sent the Payment" after broadcasting your transaction.</span>
+            </div>
             </div>
 
         </div>
@@ -273,11 +290,11 @@ function renderOrderSummary() {
 function onPaymentChange(method) {
     selectedPaymentMethod = method;
 
-    ['noteGcash','noteMaya','noteCard','noteCash'].forEach(id =>
+    ['noteGcash','noteMaya','noteCard','noteCash','noteCrypto'].forEach(id =>
         document.getElementById(id).classList.remove('visible')
     );
 
-    const map = { gcash:'noteGcash', paymaya:'noteMaya', card:'noteCard', cash:'noteCash' };
+    const map = { gcash:'noteGcash', paymaya:'noteMaya', card:'noteCard', cash:'noteCash', crypto:'noteCrypto' };
     if (map[method]) document.getElementById(map[method]).classList.add('visible');
 
     document.getElementById('placeOrderBtn').disabled = false;
@@ -347,6 +364,31 @@ function placeOrder() {
         })
         .catch(err => {
             console.error('COD error:', err);
+            showToast('Network error. Please try again.', 'error');
+            setLoading(false);
+        });
+        return;
+    }
+
+    // ── Crypto ────────────────────────────────────────────
+    if (selectedPaymentMethod === 'crypto') {
+        fetch('create_crypto_checkout.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ amount: subtotal, order_data: orderData })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.invoice_url) {
+                localStorage.setItem('pending_cart', JSON.stringify(cart));
+                window.location.href = data.invoice_url;
+            } else {
+                showToast(data.error || 'Failed to start crypto checkout.', 'error');
+                setLoading(false);
+            }
+        })
+        .catch(err => {
+            console.error('Crypto error:', err);
             showToast('Network error. Please try again.', 'error');
             setLoading(false);
         });

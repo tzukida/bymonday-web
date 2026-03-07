@@ -74,7 +74,7 @@
           <p class="text-muted mb-0">View available menu items and their recipes</p>
         </div>
         <div>
-          <span class="badge bg-red fs-6">
+          <span class="badge bg-info fs-6">
             <i class="fas fa-eye me-2"></i>Read-Only View
           </span>
         </div>
@@ -97,7 +97,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #6b3a1f 0%, #3d1c02 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #198754 0%, #146c43 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-check-circle fa-2x opacity-75"></i>
@@ -111,7 +111,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #5a2d00 0%, #3d1c02 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #dc3545 0%, #bb2d3b 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-times-circle fa-2x opacity-75"></i>
@@ -125,7 +125,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6">
-      <div class="card text-white h-100" style="background: linear-gradient(135deg, #c87533 0%, #a05a20 100%);">
+      <div class="card text-white h-100" style="background: linear-gradient(135deg, #0dcaf0 0%, #0aa2c0 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
             <i class="fas fa-layer-group fa-2x opacity-75"></i>
@@ -292,14 +292,14 @@
 
                     <!-- Card Body -->
                     <div class="card-body d-flex flex-column">
-                      <div class="mb-3">
+                      <div class="mb-3" style="min-height: 90px;">
                         <div class="d-flex justify-content-between align-items-start mb-2">
-                          <h5 class="card-title fw-bold mb-0" style="color: #382417;">
+                          <h5 class="card-title fw-bold mb-0" style="color: #382417; min-height: 48px;">
                             <?php echo htmlspecialchars($item['name']); ?>
                           </h5>
-                          <span class="badge" style="background-color: #382417; color: #fff;"><?php echo htmlspecialchars($item['category']); ?></span>
+                          <span class="badge bg-info flex-shrink-0 ms-2"><?php echo htmlspecialchars($item['category']); ?></span>
                         </div>
-                        <p class="card-text text-muted small mb-0 flex-grow-1">
+                        <p class="card-text text-muted small mb-0">
                           <?php echo htmlspecialchars($item['description'] ?: 'No description available'); ?>
                         </p>
                       </div>
@@ -308,7 +308,7 @@
                         <div class="col-6">
                           <div class="border rounded p-3 text-center h-100">
                             <small class="text-muted d-block mb-1">Price</small>
-                            <h4 class="mb-0" style="color: #382417;">₱<?php echo number_format($item['price'], 2); ?></h4>
+                            <h5 class="mb-0 text-nowrap" style="color: #382417; font-weight: 700;">₱<?php echo number_format($item['price'], 2); ?></h5>
                           </div>
                         </div>
                         <div class="col-6">
@@ -316,7 +316,7 @@
                             <small class="text-muted d-block mb-1">Ingredients</small>
                             <h4 class="mb-0">
                               <?php if ($ingredient_count > 0): ?>
-                                <span class="badge fs-6" style="background-color: #382417; color: #fff;"><?php echo $ingredient_count; ?></span>
+                                <span class="badge bg-primary fs-6"><?php echo $ingredient_count; ?></span>
                               <?php else: ?>
                                 <span class="badge bg-warning text-dark fs-6">0</span>
                               <?php endif; ?>
@@ -380,7 +380,7 @@
                   <small class="text-muted d-block mb-2">
                     <i class="fas fa-tag me-1"></i>Category
                   </small>
-                  <span class="badge fs-6" style="background-color: #382417; color: #fff;"><?php echo htmlspecialchars($item['category']); ?></span>
+                  <span class="badge bg-info fs-6"><?php echo htmlspecialchars($item['category']); ?></span>
                 </div>
               </div>
             </div>
@@ -390,7 +390,7 @@
                   <small class="text-muted d-block mb-2">
                     <i class="fas fa-peso-sign me-1"></i>Price
                   </small>
-                  <h4 class="mb-0" style="color: #382417;">₱<?php echo number_format($item['price'], 2); ?></h4>
+                  <h5 class="mb-0 text-nowrap" style="color: #382417; font-weight: 700;">₱<?php echo number_format($item['price'], 2); ?></h5>
                 </div>
               </div>
             </div>
@@ -401,7 +401,7 @@
                     <i class="fas fa-list-ul me-1"></i>Ingredients
                   </small>
                   <h4 class="mb-0">
-                    <span class="badge fs-6" style="background-color: #382417; color: #fff;"><?php echo count($ingredients); ?></span>
+                    <span class="badge bg-primary fs-6"><?php echo count($ingredients); ?></span>
                   </h4>
                 </div>
               </div>
@@ -449,7 +449,7 @@
                         </div>
                       </td>
                       <td class="text-center">
-                        <span class="badge bg-red">
+                        <span class="badge bg-primary">
                           <?php echo number_format($ing['quantity_needed'], 2) . ' ' . $ing['unit']; ?>
                         </span>
                       </td>
@@ -593,8 +593,8 @@ body {
 }
 
 .btn-primary:hover {
-  background-color: #2a1505;
-  border-color: #2a1505;
+  background-color: #5a0f0e;
+  border-color: #5a0f0e;
 }
 
 .btn-outline-danger {

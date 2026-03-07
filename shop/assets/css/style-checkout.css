@@ -199,14 +199,13 @@ textarea { resize: vertical; min-height: 78px; line-height: 1.55; }
 
 .payment-grid {
     display: grid;
-    grid-template-columns: repeat(3, 180px); /* fixed width cards */
+    grid-template-columns: repeat(4, 1fr); /* 4 payment options */
     gap: 16px;
-    justify-content: center; /* 🔥 centers the whole row */
 }
 
 @media (max-width: 576px) {
     .payment-grid {
-        grid-template-columns: 1fr !important; /* 1 column */
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
         justify-content: center;
     }
 
