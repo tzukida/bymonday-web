@@ -244,7 +244,7 @@ require_once BASE_PATH . '/includes/header.php';
             <div class="card">
                 <div class="card-header bg-white py-3">
                     <h6 class="mb-0">
-                        <i class="fas fa-lightbulb me-2 text-warning"></i>Popular Menu Items
+                        <i class="fas fa-lightbulb me-2 icon-brown"></i>Popular Menu Items
                     </h6>
                 </div>
                 <div class="card-body">
@@ -253,7 +253,7 @@ require_once BASE_PATH . '/includes/header.php';
                     <div class="example-item" data-name="Chicken Adobo" data-category="Rice Meals" data-price="120.00" data-desc="Classic Filipino braised chicken in soy sauce and vinegar">
                         <div class="d-flex align-items-center mb-3 p-3 border rounded hover-shadow cursor-pointer">
                             <div class="example-icon me-3">
-                                <i class="fas fa-drumstick-bite fa-2x text-warning"></i>
+                                <i class="fas fa-drumstick-bite fa-2x icon-brown"></i>
                             </div>
                             <div>
                                 <h6 class="mb-0">Chicken Adobo</h6>
@@ -265,7 +265,7 @@ require_once BASE_PATH . '/includes/header.php';
                     <div class="example-item" data-name="Beef Sinigang" data-category="Rice Meals" data-price="150.00" data-desc="Savory and sour beef soup with vegetables">
                         <div class="d-flex align-items-center mb-3 p-3 border rounded hover-shadow cursor-pointer">
                             <div class="example-icon me-3">
-                                <i class="fas fa-pepper-hot fa-2x" style="color: #dc2626;"></i>
+                                <i class="fas fa-pepper-hot fa-2x icon-brown"></i>
                             </div>
                             <div>
                                 <h6 class="mb-0">Beef Sinigang</h6>
@@ -277,7 +277,7 @@ require_once BASE_PATH . '/includes/header.php';
                     <div class="example-item" data-name="Halo-Halo" data-category="Desserts" data-price="80.00" data-desc="Mixed shaved ice dessert with sweet beans, fruits, and ice cream">
                         <div class="d-flex align-items-center mb-3 p-3 border rounded hover-shadow cursor-pointer">
                             <div class="example-icon me-3">
-                                <i class="fas fa-ice-cream fa-2x" style="color: #a855f7;"></i>
+                                <i class="fas fa-ice-cream fa-2x icon-brown"></i>
                             </div>
                             <div>
                                 <h6 class="mb-0">Halo-Halo</h6>
@@ -289,7 +289,7 @@ require_once BASE_PATH . '/includes/header.php';
                     <div class="example-item" data-name="Mango Shake" data-category="Beverages" data-price="60.00" data-desc="Refreshing shake made with fresh Philippine mangoes">
                         <div class="d-flex align-items-center mb-3 p-3 border rounded hover-shadow cursor-pointer">
                             <div class="example-icon me-3">
-                                <i class="fas fa-glass-martini fa-2x text-warning"></i>
+                                <i class="fas fa-glass-martini fa-2x icon-brown"></i>
                             </div>
                             <div>
                                 <h6 class="mb-0">Mango Shake</h6>
@@ -316,7 +316,7 @@ require_once BASE_PATH . '/includes/header.php';
             <div class="card mt-3">
                 <div class="card-header bg-white py-3">
                     <h6 class="mb-0">
-                        <i class="fas fa-lightbulb me-2 text-info"></i>Best Practices
+                        <i class="fas fa-lightbulb me-2 icon-brown"></i>Best Practices
                     </h6>
                 </div>
                 <div class="card-body">

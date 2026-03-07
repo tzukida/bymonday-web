@@ -196,7 +196,7 @@
 <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header text-white border-0" style="background: linear-gradient(135deg, #198754 0%, #146c43 100%);">
+      <div class="modal-header text-white border-0" style="background: linear-gradient(135deg, #3b2008 0%, #2a1505 100%);">
         <h5 class="modal-title">
           <i class="fas fa-check-circle me-2"></i>Order Successful
         </h5>
@@ -279,6 +279,15 @@ body {
 
 .text-brown {
   color: #4a301f;
+}
+
+.dropdown-item:active, .dropdown-item.active {
+  background-color: #3b2008 !important;
+  color: #fff !important;
+}
+.dropdown-item:focus {
+  background-color: #f8f9fa !important;
+  color: #212529 !important;
 }
 
 .btn-brown {
@@ -455,7 +464,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(25, 135, 84, 0.1);
+  background-color: rgba(59, 32, 8, 0.1);
 }
 
 .error-icon {
@@ -570,13 +579,9 @@ document.querySelectorAll('.add-to-cart').forEach(btn => {
     // Visual feedback
     const originalHTML = this.innerHTML;
     this.innerHTML = '<i class="fas fa-check me-2"></i>Added!';
-    this.classList.remove('btn-brown');
-    this.classList.add('btn-success');
 
     setTimeout(() => {
       this.innerHTML = originalHTML;
-      this.classList.remove('btn-success');
-      this.classList.add('btn-brown');
     }, 600);
 
     updateCart();

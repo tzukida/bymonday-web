@@ -256,9 +256,9 @@ require_once BASE_PATH . '/includes/header.php';
                                                  class="current-menu-image"
                                                  onerror="this.src='<?php echo BASE_URL; ?>/assets/img/no-image.png';">
                                             <div class="flex-grow-1">
-                                                <p class="text-muted small mb-1"><i class="fas fa-check-circle text-success me-1"></i><strong>Current image</strong></p>
+                                                <p class="text-muted small mb-1"><i class="fas fa-check-circle icon-brown me-1"></i><strong>Current image</strong></p>
                                                 <p class="text-muted small mb-2">This image is currently displayed for this menu item</p>
-                                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="confirmRemoveImage()">
+                                                <button type="button" class="btn btn-sm btn-outline-brown" onclick="confirmRemoveImage()">
                                                     <i class="fas fa-trash me-1"></i>Remove Image
                                                 </button>
                                             </div>
@@ -315,7 +315,7 @@ require_once BASE_PATH . '/includes/header.php';
                         <hr class="my-4">
 
                         <div class="d-flex gap-2 justify-content-between align-items-center flex-wrap">
-                            <a href="manage_recipe.php?menu_id=<?php echo $menu_item_id; ?>" class="btn btn-outline-warning">
+                            <a href="manage_recipe.php?menu_id=<?php echo $menu_item_id; ?>" class="btn btn-outline-brown">
                                 <i class="fas fa-book me-2"></i>Manage Recipe
                             </a>
                             <div class="d-flex gap-2">
@@ -338,7 +338,7 @@ require_once BASE_PATH . '/includes/header.php';
             <div class="card mb-3">
                 <div class="card-header bg-white py-3">
                     <h6 class="mb-0">
-                        <i class="fas fa-info-circle me-2 text-info"></i>Item Status
+                        <i class="fas fa-info-circle me-2 icon-brown"></i>Item Status
                     </h6>
                 </div>
                 <div class="card-body">
@@ -347,13 +347,9 @@ require_once BASE_PATH . '/includes/header.php';
                             <p class="text-muted small mb-0">Availability</p>
                             <p class="mb-0 fw-bold">
                                 <?php if ($item['is_available']): ?>
-                                    <span class="badge bg-success">
-                                        <i class="fas fa-check-circle me-1"></i>Available
-                                    </span>
+                                    <span class="badge" style="background-color:#382417; color:#fff;"><i class="fas fa-check-circle me-1"></i>Available</span>
                                 <?php else: ?>
-                                    <span class="badge bg-danger">
-                                        <i class="fas fa-times-circle me-1"></i>Unavailable
-                                    </span>
+                                    <span class="badge" style="background-color:#382417; color:#fff;"><i class="fas fa-times-circle me-1"></i>Unavailable</span>
                                 <?php endif; ?>
                             </p>
                         </div>
@@ -380,7 +376,7 @@ require_once BASE_PATH . '/includes/header.php';
             <div class="card mb-3">
                 <div class="card-header bg-white py-3">
                     <h6 class="mb-0">
-                        <i class="fas fa-bolt me-2 text-warning"></i>Quick Actions
+                        <i class="fas fa-bolt me-2 icon-brown"></i>Quick Actions
                     </h6>
                 </div>
                 <div class="card-body">
@@ -399,7 +395,7 @@ require_once BASE_PATH . '/includes/header.php';
             <div class="card">
                 <div class="card-header bg-white py-3">
                     <h6 class="mb-0">
-                        <i class="fas fa-lightbulb me-2 text-warning"></i>Tips
+                        <i class="fas fa-lightbulb me-2 icon-brown"></i>Tips
                     </h6>
                 </div>
                 <div class="card-body">

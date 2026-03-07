@@ -97,7 +97,7 @@
           <a href="pos.php" class="btn btn-outline-secondary">
             <i class="fas fa-cash-register me-2"></i>Go to POS
           </a>
-          <a href="add_menu_item.php" class="btn btn-danger">
+          <a href="add_menu_item.php" class="btn btn-brown">
             <i class="fas fa-plus me-2"></i>Add Menu Item
           </a>
         </div>
@@ -198,7 +198,7 @@
             </div>
             <div class="col-md-4">
               <div class="btn-group w-100">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-brown">
                   <i class="fas fa-filter me-1"></i>Apply Filter
                 </button>
                 <a href="menu_management.php" class="btn btn-outline-secondary">
@@ -234,7 +234,7 @@
                 <a href="menu_management.php" class="btn btn-outline-secondary">Clear Filters</a>
               <?php else: ?>
                 <p class="text-muted">Add menu items to start selling</p>
-                <a href="add_menu_item.php" class="btn btn-danger">
+                <a href="add_menu_item.php" class="btn btn-brown">
                   <i class="fas fa-plus me-2"></i>Add First Menu Item
                 </a>
               <?php endif; ?>
@@ -466,27 +466,27 @@
                       <strong><?php echo htmlspecialchars($ing['item_name']); ?></strong>
                     </td>
                     <td class="text-center align-middle">
-                      <span class="badge bg-primary">
+                      <span class="badge bg-brown">
                         <?php echo $ing['quantity_needed'] . ' ' . $ing['unit']; ?>
                       </span>
                     </td>
                     <td class="text-center align-middle">
-                      <span class="badge bg-<?php echo $is_sufficient ? 'success' : 'danger'; ?>">
+                      <span class="badge bg-<?php echo $is_sufficient ? 'brown' : 'brown'; ?> <?php echo !$is_sufficient ? 'opacity-75' : ''; ?>">
                         <?php echo $ing['available_quantity'] . ' ' . $ing['inventory_unit']; ?>
                       </span>
                     </td>
                     <td class="text-center align-middle">
-                      <strong class="text-<?php echo $can_make > 0 ? 'success' : 'danger'; ?>">
+                      <strong style="color: #3b2008;">
                         <?php echo $can_make; ?> servings
                       </strong>
                     </td>
                     <td class="text-center align-middle">
                       <?php if ($is_sufficient): ?>
-                        <span class="badge bg-success">
+                        <span class="badge bg-brown">
                           <i class="fas fa-check me-1"></i>OK
                         </span>
                       <?php else: ?>
-                        <span class="badge bg-danger">
+                        <span class="badge bg-brown" style="opacity:0.75;">
                           <i class="fas fa-exclamation-triangle me-1"></i>Low
                         </span>
                       <?php endif; ?>
@@ -500,12 +500,12 @@
           <?php $can_fulfill = canFulfillOrder($item['id'], 1); ?>
           <div class="mt-3">
             <?php if (!$can_fulfill): ?>
-              <div class="alert alert-danger mb-0">
+              <div class="alert alert-warning mb-0">
                 <i class="fas fa-exclamation-circle me-2"></i>
                 <strong>Insufficient Stock!</strong> Cannot fulfill orders due to low ingredient levels.
               </div>
             <?php else: ?>
-              <div class="alert alert-success mb-0">
+              <div class="alert alert-warning mb-0" style="background-color: #fff3e0; border-color: #ffcc80; color: #3b2008;">
                 <i class="fas fa-check-circle me-2"></i>
                 <strong>Ready to Serve!</strong> All ingredients are in stock.
               </div>
@@ -513,7 +513,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <a href="manage_recipe.php?menu_id=<?php echo $item['id']; ?>" class="btn btn-primary">
+          <a href="manage_recipe.php?menu_id=<?php echo $item['id']; ?>" class="btn btn-brown">
             <i class="fas fa-edit me-2"></i>Edit Recipe
           </a>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -536,6 +536,21 @@
 
 .text-brown {
   color: #3b2008;
+}
+
+.btn-brown {
+  --bs-btn-bg: #6b3a1f;
+  --bs-btn-border-color: #6b3a1f;
+  --bs-btn-color: #fff;
+  --bs-btn-hover-bg: #3d1c02;
+  --bs-btn-hover-border-color: #3d1c02;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-bg: #6b3a1f;
+  --bs-btn-active-border-color: #6b3a1f;
+  --bs-btn-active-color: #fff;
+  background-color: #6b3a1f;
+  border-color: #6b3a1f;
+  color: #fff;
 }
 
 .btn-outline-brown {
@@ -624,14 +639,26 @@
   color: #495057;
 }
 
+.bg-brown {
+  background-color: #3b2008 !important;
+  color: #fff;
+}
+
 .btn-danger, .btn-primary {
-  background-color: #3b2008;
+  background-color: #3b2008 !important;
   border-color: #3b2008;
 }
 
 .btn-danger:hover, .btn-primary:hover {
   background-color: #2a1505;
   border-color: #2a1505;
+}
+
+.btn-danger:active, .btn-danger:focus, .btn-danger:focus-visible,
+.btn-primary:active, .btn-primary:focus, .btn-primary:focus-visible {
+  background-color: #2a1505 !important;
+  border-color: #2a1505 !important;
+  box-shadow: 0 0 0 0.25rem rgba(59, 32, 8, 0.4) !important;
 }
 
 .modal-content {
@@ -654,6 +681,24 @@
     font-size: 0.875rem;
   }
 }
+.form-select:focus,
+.form-control:focus,
+.form-check-input:focus {
+  border-color: #3b2008 !important;
+  box-shadow: 0 0 0 0.2rem rgba(59, 32, 8, 0.25) !important;
+  outline: none !important;
+}
+
+.form-select {
+  accent-color: #3b2008;
+}
+
+option:checked,
+option:hover {
+  background-color: #3b2008 !important;
+  color: #fff !important;
+}
+
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

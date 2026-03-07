@@ -579,7 +579,7 @@
 }
 
 .btn-primary {
-  background-color: #6b3a1f;
+  background-color: #6b3a1f !important;
   border-color: #6b3a1f;
 }
 
@@ -589,7 +589,7 @@
 }
 
 .btn-success {
-  background-color: #6b3a1f;
+  background-color: #6b3a1f !important;
   border-color: #6b3a1f;
 }
 
@@ -599,7 +599,7 @@
 }
 
 .btn-warning {
-  background-color: #c87533;
+  background-color: #c87533 !important;
   border-color: #c87533;
   color: #fff;
 }
@@ -679,6 +679,24 @@
     width: 100%;
   }
 }
+.form-select:focus,
+.form-control:focus,
+.form-check-input:focus {
+  border-color: #3b2008 !important;
+  box-shadow: 0 0 0 0.2rem rgba(59, 32, 8, 0.25) !important;
+  outline: none !important;
+}
+
+.form-select {
+  accent-color: #3b2008;
+}
+
+option:checked,
+option:hover {
+  background-color: #3b2008 !important;
+  color: #fff !important;
+}
+
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

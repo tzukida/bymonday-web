@@ -196,7 +196,7 @@
 <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header text-white border-0" style="background: linear-gradient(135deg, #198754 0%, #146c43 100%);">
+      <div class="modal-header text-white border-0" style="background: linear-gradient(135deg, #3b2008 0%, #2a1505 100%);">
         <h5 class="modal-title">
           <i class="fas fa-check-circle me-2"></i>Order Successful
         </h5>
@@ -205,7 +205,7 @@
       <div class="modal-body text-center py-4">
         <div class="mb-4">
           <div class="success-icon mx-auto mb-3">
-            <i class="fas fa-check-circle text-success"></i>
+            <i class="fas fa-check-circle icon-brown"></i>
           </div>
           <h4 class="mb-2">Order Processed Successfully!</h4>
           <p class="text-muted mb-0">Your order has been recorded</p>
@@ -225,10 +225,10 @@
         </div>
       </div>
       <div class="modal-footer border-0">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+        <button type="button" class="btn btn-outline-brown" data-bs-dismiss="modal">
           <i class="fas fa-times me-2"></i>Close
         </button>
-        <button type="button" class="btn btn-primary" id="viewReceiptBtn">
+        <button type="button" class="btn btn-brown" id="viewReceiptBtn">
           <i class="fas fa-receipt me-2"></i>View Receipt
         </button>
       </div>
@@ -512,6 +512,28 @@ body {
     padding: 1rem !important;
   }
 }
+
+.btn-added {
+  --bs-btn-bg: #2a1505;
+  --bs-btn-border-color: #2a1505;
+  --bs-btn-color: #fff;
+  background-color: #2a1505 !important;
+  border-color: #2a1505 !important;
+  color: #fff !important;
+}
+
+.form-select:focus,
+.form-control:focus,
+.form-check-input:focus {
+  border-color: #6b3a1f !important;
+  box-shadow: 0 0 0 0.2rem rgba(107, 58, 31, 0.25) !important;
+  outline: none !important;
+}
+
+.form-select option:checked {
+  background-color: #6b3a1f !important;
+  color: #fff !important;
+}
 </style>
 
 <script>
@@ -571,11 +593,11 @@ document.querySelectorAll('.add-to-cart').forEach(btn => {
     const originalHTML = this.innerHTML;
     this.innerHTML = '<i class="fas fa-check me-2"></i>Added!';
     this.classList.remove('btn-brown');
-    this.classList.add('btn-success');
+    this.classList.add('btn-added');
 
     setTimeout(() => {
       this.innerHTML = originalHTML;
-      this.classList.remove('btn-success');
+      this.classList.remove('btn-added');
       this.classList.add('btn-brown');
     }, 600);
 

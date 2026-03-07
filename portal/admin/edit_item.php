@@ -261,7 +261,7 @@
       <div class="card mb-3">
         <div class="card-header bg-white py-3">
           <h6 class="mb-0">
-            <i class="fas fa-info-circle me-2 text-info"></i>Current Status
+            <i class="fas fa-info-circle me-2 " style="color:#3b2008;"></i>Current Status
           </h6>
         </div>
         <div class="card-body">
@@ -283,7 +283,7 @@
                   <i class="fas fa-circle-exclamation me-1"></i>Medium Stock
                 </span>
               <?php else: ?>
-                <span class="badge bg-success">
+                <span class="badge bg-brown">
                   <i class="fas fa-check-circle me-1"></i>Good Stock
                 </span>
               <?php endif; ?>
@@ -404,6 +404,26 @@
 .list-group-item:last-child {
   border-bottom: none;
 }
+
+.bg-brown { background-color: #3b2008; color: #fff; }
+.text-brown { color: #3b2008; }
+.btn-outline-brown { color: #3b2008; border-color: #3b2008; background-color: transparent; }
+.btn-outline-brown:hover, .btn-outline-brown:active, .btn-outline-brown:focus {
+  background-color: #3b2008; border-color: #3b2008; color: #fff;
+}
+.btn-primary { background-color: #3b2008; border-color: #3b2008; }
+.btn-primary:hover { background-color: #2a1505; border-color: #2a1505; }
+
+
+.form-select:focus,
+.form-control:focus,
+.form-check-input:focus {
+  border-color: #3b2008 !important;
+  box-shadow: 0 0 0 0.2rem rgba(59, 32, 8, 0.25) !important;
+  outline: none !important;
+}
+.form-select { accent-color: #3b2008; }
+option:checked, option:hover { background-color: #3b2008 !important; color: #fff !important; }
 </style>
 
 <script>

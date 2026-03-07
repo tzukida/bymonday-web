@@ -166,15 +166,15 @@
                       </td>
                       <td><?php echo htmlspecialchars($ing['unit']); ?></td>
                       <td>
-                        <span class="badge <?php echo $ing['available_quantity'] < $ing['quantity_needed'] ? 'bg-danger' : 'bg-success'; ?>">
+                        <span class="badge <?php echo $ing['available_quantity'] < $ing['quantity_needed'] ? 'bg-brown' : 'bg-brown'; ?>" <?php echo $ing['available_quantity'] < $ing['quantity_needed'] ? 'style="opacity:0.75;"' : ''; ?>>
                           <?php echo $ing['available_quantity']; ?> <?php echo htmlspecialchars($ing['inventory_unit']); ?>
                         </span>
                       </td>
                       <td>
                         <?php if ($ing['available_quantity'] >= $ing['quantity_needed']): ?>
-                          <span class="badge bg-success"><i class="fas fa-check me-1"></i>OK</span>
+                          <span class="badge bg-brown"><i class="fas fa-check me-1"></i>OK</span>
                         <?php else: ?>
-                          <span class="badge bg-danger"><i class="fas fa-times me-1"></i>Low</span>
+                          <span class="badge bg-brown" style="opacity:0.75;"><i class="fas fa-times me-1"></i>Low</span>
                         <?php endif; ?>
                       </td>
                       <td>
@@ -202,14 +202,14 @@
             $max_servings = getMaxServings($menu_id);
           ?>
           <?php if ($can_make): ?>
-            <div class="alert alert-success mb-0">
+            <div class="alert mb-0" style="background-color: #fff3e0; border-color: #ffcc80; color: #3b2008;">
               <i class="fas fa-check-circle me-2"></i>
               <strong>Ready to Sell!</strong> This item can be prepared.
               <br>
               <small>You can make approximately <strong><?php echo $max_servings; ?></strong> servings with current stock.</small>
             </div>
           <?php else: ?>
-            <div class="alert alert-danger mb-0">
+            <div class="alert mb-0" style="background-color: #fdf0e8; border-color: #c87533; color: #3b2008;">
               <i class="fas fa-exclamation-triangle me-2"></i>
               <strong>Cannot Sell!</strong> Insufficient ingredients. Please restock low items.
             </div>
@@ -259,7 +259,7 @@
               <small class="text-muted">Enter quantity needed per serving</small>
             </div>
 
-            <div class="alert alert-info">
+            <div class="alert" style="background-color: #fff3e0; border-color: #ffcc80; color: #3b2008;">
               <i class="fas fa-info-circle me-2"></i>
               <small>The unit will be automatically taken from the inventory item.</small>
             </div>
@@ -326,6 +326,11 @@ function getMaxServings($menu_item_id) {
   background-color: #2a1505;
   border-color: #2a1505;
 }
+.btn-danger:active, .btn-danger:focus, .btn-danger:focus-visible {
+  background-color: #2a1505 !important;
+  border-color: #2a1505 !important;
+  box-shadow: 0 0 0 0.25rem rgba(59, 32, 8, 0.4) !important;
+}
 .btn-primary {
   background-color: #3b2008;
   border-color: #3b2008;
@@ -334,6 +339,27 @@ function getMaxServings($menu_item_id) {
   background-color: #2a1505;
   border-color: #2a1505;
 }
+.btn-primary:active, .btn-primary:focus, .btn-primary:focus-visible {
+  background-color: #2a1505 !important;
+  border-color: #2a1505 !important;
+  box-shadow: 0 0 0 0.25rem rgba(59, 32, 8, 0.4) !important;
+}
+.bg-brown {
+  background-color: #3b2008 !important;
+  color: #fff;
+}
+
+.form-select:focus,
+.form-control:focus,
+.form-check-input:focus {
+  border-color: #3b2008 !important;
+  box-shadow: 0 0 0 0.2rem rgba(59, 32, 8, 0.25) !important;
+  outline: none !important;
+}
+.form-select { accent-color: #3b2008; }
+option:checked, option:hover { background-color: #3b2008 !important; color: #fff !important; }
+.dropdown-item:active, .dropdown-item.active { background-color: #3b2008 !important; color: #fff !important; }
+
 </style>
 
 <?php require_once BASE_PATH . '/includes/footer.php'; ?>
