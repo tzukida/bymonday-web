@@ -315,7 +315,7 @@
           </div>
           <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
             <span class="text-muted small">Active Users:</span>
-            <strong class="text-success fs-5"><?php echo $active_users; ?></strong>
+            <strong class="text-brown fs-5"><?php echo $active_users; ?></strong>
           </div>
           <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
             <span class="text-muted small">Admins:</span>
@@ -332,7 +332,7 @@
       <div class="card">
         <div class="card-header bg-white py-3">
           <h6 class="mb-0">
-            <i class="fas fa-lightbulb me-2 text-warning"></i>Security Tips
+            <i class="fas fa-lightbulb me-2 icon-brown"></i>Security Tips
           </h6>
         </div>
         <div class="card-body">

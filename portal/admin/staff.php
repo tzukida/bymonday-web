@@ -494,7 +494,7 @@ require_once BASE_PATH . '/includes/header.php';
 }
 
 .btn-danger {
-  background-color: #3b2008;
+  background-color: #3b2008 !important;
   border-color: #3b2008;
 }
 
@@ -504,7 +504,7 @@ require_once BASE_PATH . '/includes/header.php';
 }
 
 .btn-primary {
-  background-color: #3b2008;
+  background-color: #3b2008 !important;
   border-color: #3b2008;
 }
 
@@ -534,6 +534,24 @@ require_once BASE_PATH . '/includes/header.php';
     font-size: 0.75rem;
   }
 }
+.form-select:focus,
+.form-control:focus,
+.form-check-input:focus {
+  border-color: #3b2008 !important;
+  box-shadow: 0 0 0 0.2rem rgba(59, 32, 8, 0.25) !important;
+  outline: none !important;
+}
+
+.form-select {
+  accent-color: #3b2008;
+}
+
+option:checked,
+option:hover {
+  background-color: #3b2008 !important;
+  color: #fff !important;
+}
+
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

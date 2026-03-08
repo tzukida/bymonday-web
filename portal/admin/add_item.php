@@ -178,7 +178,7 @@
               </div>
 
               <div class="col-md-6">
-                <div class="alert alert-info mb-0 mt-4">
+                <div class="alert alert-warning mb-0 mt-4">
                   <i class="fas fa-info-circle me-2"></i>
                   <small>
                     <strong>Note:</strong> If you enter a quantity greater than 0, it will be automatically recorded as a stock-in transaction.
@@ -191,7 +191,7 @@
 
             <div class="row">
               <div class="col-md-6">
-                <button type="submit" class="btn btn-danger w-100">
+                <button type="submit" class="btn btn-brown w-100">
                   <i class="fas fa-save me-2"></i>Add Item to Inventory
                 </button>
               </div>
@@ -211,7 +211,7 @@
       <div class="card">
         <div class="card-header bg-white py-3">
           <h6 class="mb-0">
-            <i class="fas fa-lightbulb me-2 text-warning"></i>Quick Add Examples
+            <i class="fas fa-lightbulb me-2 " style="color:#3b2008;"></i>Quick Add Examples
           </h6>
         </div>
         <div class="card-body">
@@ -220,7 +220,7 @@
           <div class="example-item" data-name="White Rice" data-unit="kg" data-desc="Premium white rice for cooking">
             <div class="d-flex align-items-center mb-3 p-3 border rounded hover-shadow cursor-pointer">
               <div class="example-icon me-3">
-                <i class="fas fa-seedling fa-2x text-success"></i>
+                <i class="fas fa-seedling fa-2x " style="color:#3b2008;"></i>
               </div>
               <div>
                 <h6 class="mb-0">White Rice</h6>
@@ -232,7 +232,7 @@
           <div class="example-item" data-name="Chicken Breast" data-unit="kg" data-desc="Fresh chicken breast meat">
             <div class="d-flex align-items-center mb-3 p-3 border rounded hover-shadow cursor-pointer">
               <div class="example-icon me-3">
-                <i class="fas fa-drumstick-bite fa-2x text-warning"></i>
+                <i class="fas fa-drumstick-bite fa-2x " style="color:#3b2008;"></i>
               </div>
               <div>
                 <h6 class="mb-0">Chicken Breast</h6>
@@ -244,7 +244,7 @@
           <div class="example-item" data-name="Soy Sauce" data-unit="bottles" data-desc="Traditional Japanese soy sauce">
             <div class="d-flex align-items-center mb-3 p-3 border rounded hover-shadow cursor-pointer">
               <div class="example-icon me-3">
-                <i class="fas fa-wine-bottle fa-2x text-primary"></i>
+                <i class="fas fa-wine-bottle fa-2x " style="color:#3b2008;"></i>
               </div>
               <div>
                 <h6 class="mb-0">Soy Sauce</h6>
@@ -256,7 +256,7 @@
           <div class="example-item" data-name="Cooking Oil" data-unit="liters" data-desc="Vegetable cooking oil">
             <div class="d-flex align-items-center mb-3 p-3 border rounded hover-shadow cursor-pointer">
               <div class="example-icon me-3">
-                <i class="fas fa-oil-can fa-2x text-info"></i>
+                <i class="fas fa-oil-can fa-2x " style="color:#3b2008;"></i>
               </div>
               <div>
                 <h6 class="mb-0">Cooking Oil</h6>
@@ -268,7 +268,7 @@
           <div class="example-item" data-name="Eggs" data-unit="pcs" data-desc="Fresh chicken eggs">
             <div class="d-flex align-items-center mb-3 p-3 border rounded hover-shadow cursor-pointer">
               <div class="example-icon me-3">
-                <i class="fas fa-egg fa-2x text-danger"></i>
+                <i class="fas fa-egg fa-2x" style="color: #3b2008;"></i>
               </div>
               <div>
                 <h6 class="mb-0">Eggs</h6>
@@ -280,7 +280,7 @@
           <div class="example-item" data-name="Onions" data-unit="kg" data-desc="Fresh yellow onions">
             <div class="d-flex align-items-center mb-3 p-3 border rounded hover-shadow cursor-pointer">
               <div class="example-icon me-3">
-                <i class="fas fa-spa fa-2x" style="color: #a855f7;"></i>
+                <i class="fas fa-spa fa-2x" style="color: #3b2008;"></i>
               </div>
               <div>
                 <h6 class="mb-0">Onions</h6>
@@ -295,25 +295,25 @@
       <div class="card mt-3">
         <div class="card-header bg-white py-3">
           <h6 class="mb-0">
-            <i class="fas fa-tips me-2 text-info"></i>Best Practices
+            <i class="fas fa-tips me-2 " style="color:#3b2008;"></i>Best Practices
           </h6>
         </div>
         <div class="card-body">
           <ul class="list-unstyled mb-0 small">
             <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
+              <i class="fas fa-check-circle  me-2"></i>
               Use descriptive names for easy identification
             </li>
             <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
+              <i class="fas fa-check-circle  me-2"></i>
               Choose appropriate units for accurate tracking
             </li>
             <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
+              <i class="fas fa-check-circle  me-2"></i>
               Add descriptions to clarify item specifics
             </li>
             <li class="mb-0">
-              <i class="fas fa-check-circle text-success me-2"></i>
+              <i class="fas fa-check-circle  me-2"></i>
               Enter initial quantity if you have stock on hand
             </li>
           </ul>
@@ -371,6 +371,43 @@
   background-color: #f8f9fa;
   border-color: #3b2008 !important;
 }
+
+.bg-brown { background-color: #3b2008; color: #fff; }
+.text-brown { color: #3b2008; }
+.btn-outline-brown { color: #3b2008; border-color: #3b2008; background-color: transparent; }
+.btn-outline-brown:hover, .btn-outline-brown:active, .btn-outline-brown:focus {
+  background-color: #3b2008; border-color: #3b2008; color: #fff;
+}
+.btn-primary { background-color: #3b2008; border-color: #3b2008; }
+.btn-primary:hover { background-color: #2a1505; border-color: #2a1505; }
+
+
+.icon-brown { color: #3b2008; }
+.bg-brown { background-color: #3b2008; color: #fff; }
+.text-brown { color: #3b2008; }
+.btn-brown { background-color: #3b2008 !important; border-color: #3b2008; color: white; }
+.btn-brown:hover, .btn-brown:active, .btn-brown:focus { background-color: #2a1505; border-color: #2a1505; color: white; }
+.btn-outline-brown { color: #3b2008; border-color: #3b2008; background-color: transparent; }
+.btn-outline-brown:hover, .btn-outline-brown:active, .btn-outline-brown:focus { background-color: #3b2008; border-color: #3b2008; color: #fff; }
+.btn-primary { background-color: #3b2008 !important; border-color: #3b2008; }
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus { background-color: #2a1505; border-color: #2a1505; }
+.btn-success { background-color: #3b2008 !important; border-color: #3b2008; }
+.btn-success:hover, .btn-success:active, .btn-success:focus { background-color: #2a1505; border-color: #2a1505; }
+.btn-danger { background-color: #3b2008 !important; border-color: #3b2008; }
+.btn-danger:hover, .btn-danger:active, .btn-danger:focus { background-color: #2a1505; border-color: #2a1505; }
+.alert-info-brown { background-color: #fff3e0; border: 1px solid #ffcc80; color: #4a301f; border-radius: 0.5rem; padding: 1rem; }
+.alert-success-brown { background-color: #fff3e0; border: 1px solid #ffcc80; color: #4a301f; border-radius: 0.5rem; padding: 1rem; }
+.quick-remark:hover { background-color: #6b3a1f; border-color: #6b3a1f; color: white; }
+.form-select:focus,
+.form-control:focus,
+.form-check-input:focus {
+  border-color: #3b2008 !important;
+  box-shadow: 0 0 0 0.2rem rgba(59, 32, 8, 0.25) !important;
+  outline: none !important;
+}
+.form-select { accent-color: #3b2008; }
+option:checked, option:hover { background-color: #3b2008 !important; color: #fff !important; }
+
 </style>
 
 <script>

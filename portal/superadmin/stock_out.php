@@ -91,7 +91,7 @@
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <h3 class="h3 mb-0 text-warning">
+          <h3 class="h3 mb-0" style="color: #4a301f;">
             <i class="fas fa-arrow-down me-2"></i>Stock Out - Remove Inventory
           </h3>
           <p class="text-muted mb-0">Record inventory items removed or used</p>
@@ -109,8 +109,8 @@
     <!-- Main Form -->
     <div class="col-lg-8">
       <!-- Item Info Card -->
-      <div class="card mb-4 border-warning border-2">
-        <div class="card-header text-dark py-3" style="background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);">
+      <div class="card mb-4" style="border: 2px solid #4a301f !important;">
+        <div class="card-header text-white py-3" style="background: linear-gradient(135deg, #3b2008 0%, #2a1505 100%);">
           <h5 class="mb-0">
             <i class="fas fa-box me-2"></i>Item Information
           </h5>
@@ -125,14 +125,14 @@
               <div class="d-flex gap-3 flex-wrap">
                 <div>
                   <small class="text-muted d-block">Current Stock</small>
-                  <span class="fw-bold fs-5" style="color: #ffc107;">
+                  <span class="fw-bold fs-5" style="color: #4a301f;">
                     <?php echo number_format($item['quantity'], 2); ?> <?php echo htmlspecialchars($item['unit']); ?>
                   </span>
                 </div>
                 <div class="vr"></div>
                 <div>
                   <small class="text-muted d-block">Unit</small>
-                  <span class="badge bg-info text-white">
+                  <span class="badge bg-brown">
                     <?php echo htmlspecialchars($item['unit']); ?>
                   </span>
                 </div>
@@ -140,11 +140,11 @@
                 <div>
                   <small class="text-muted d-block">Status</small>
                   <?php if ($item['quantity'] < 10): ?>
-                    <span class="badge bg-danger">Low Stock</span>
+                    <span class="badge bg-brown" style="opacity:0.6;">Low Stock</span>
                   <?php elseif ($item['quantity'] < 50): ?>
-                    <span class="badge bg-warning text-dark">Medium Stock</span>
+                    <span class="badge bg-brown" style="opacity:0.75;">Medium Stock</span>
                   <?php else: ?>
-                    <span class="badge bg-success">Good Stock</span>
+                    <span class="badge bg-brown">Good Stock</span>
                   <?php endif; ?>
                 </div>
               </div>
@@ -162,7 +162,7 @@
 
       <!-- Low Stock Warning -->
       <?php if ($item['quantity'] < 10): ?>
-      <div class="alert alert-danger mb-4">
+      <div class="alert mb-4" style="background-color: #fff3e0; border-color: #c87533; color: #3b2008;">
         <div class="d-flex align-items-center">
           <i class="fas fa-exclamation-triangle fa-2x me-3"></i>
           <div>
@@ -177,7 +177,7 @@
       <div class="card">
         <div class="card-header bg-white py-3">
           <h5 class="mb-0">
-            <i class="fas fa-clipboard-list me-2 text-warning"></i>Record Stock Out
+            <i class="fas fa-clipboard-list me-2 icon-brown"></i>Record Stock Out
           </h5>
         </div>
         <div class="card-body">
@@ -188,12 +188,12 @@
               <div class="col-md-6">
                 <div class="mb-4">
                   <label for="quantity" class="form-label fw-semibold">
-                    <i class="fas fa-minus-circle text-warning me-1"></i>
-                    Quantity to Remove <span class="text-danger">*</span>
+                    <i class="fas fa-minus-circle icon-brown me-1"></i>
+                    Quantity to Remove <span class="text-brown">*</span>
                   </label>
                   <div class="input-group input-group-lg">
                     <input type="number"
-                           class="form-control border-warning"
+                           class="form-control border-brown"
                            id="quantity"
                            name="quantity"
                            value="<?php echo htmlspecialchars($form_data['quantity']); ?>"
@@ -202,7 +202,7 @@
                            step="0.01"
                            placeholder="0.00"
                            required>
-                    <span class="input-group-text bg-warning text-dark">
+                    <span class="input-group-text bg-brown text-white">
                       <?php echo htmlspecialchars($item['unit']); ?>
                     </span>
                   </div>
@@ -226,13 +226,13 @@
                       <span class="fw-bold"><?php echo number_format($item['quantity'], 2); ?> <?php echo htmlspecialchars($item['unit']); ?></span>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mb-2">
-                      <span class="text-warning">- Removing:</span>
-                      <span class="fw-bold text-warning" id="removing-display">0.00 <?php echo htmlspecialchars($item['unit']); ?></span>
+                      <span style="color: #4a301f;">- Removing:</span>
+                      <span class="fw-bold" style="color: #4a301f;" id="removing-display">0.00 <?php echo htmlspecialchars($item['unit']); ?></span>
                     </div>
                     <hr class="my-2">
                     <div class="d-flex justify-content-between align-items-center">
                       <span class="fw-bold">Remaining:</span>
-                      <span class="fw-bold fs-5" id="remaining-total" style="color: #ffc107;">
+                      <span class="fw-bold fs-5" id="remaining-total" style="color: #4a301f;">
                         <?php echo number_format($item['quantity'], 2); ?> <?php echo htmlspecialchars($item['unit']); ?>
                       </span>
                     </div>
@@ -247,8 +247,8 @@
 
             <div class="mb-4">
               <label for="remarks" class="form-label fw-semibold">
-                <i class="fas fa-comment-dots text-warning me-1"></i>
-                Reason for Removal <span class="text-danger">*</span>
+                <i class="fas fa-comment-dots icon-brown me-1"></i>
+                Reason for Removal <span class="text-brown">*</span>
               </label>
               <textarea class="form-control"
                         id="remarks"
@@ -266,28 +266,28 @@
                 <i class="fas fa-bolt me-1"></i>Common Reasons
               </label>
               <div class="d-flex gap-2 flex-wrap">
-                <button type="button" class="btn btn-sm btn-outline-secondary quick-remark" data-remark="Used in production">
+                <button type="button" class="btn btn-sm btn-outline-brown quick-remark" data-remark="Used in production">
                   Used in production
                 </button>
-                <button type="button" class="btn btn-sm btn-outline-secondary quick-remark" data-remark="Spoilage/Expired">
+                <button type="button" class="btn btn-sm btn-outline-brown quick-remark" data-remark="Spoilage/Expired">
                   Spoilage/Expired
                 </button>
-                <button type="button" class="btn btn-sm btn-outline-secondary quick-remark" data-remark="Damaged during storage">
+                <button type="button" class="btn btn-sm btn-outline-brown quick-remark" data-remark="Damaged during storage">
                   Damaged during storage
                 </button>
-                <button type="button" class="btn btn-sm btn-outline-secondary quick-remark" data-remark="Quality control rejection">
+                <button type="button" class="btn btn-sm btn-outline-brown quick-remark" data-remark="Quality control rejection">
                   Quality control rejection
                 </button>
-                <button type="button" class="btn btn-sm btn-outline-secondary quick-remark" data-remark="Waste/Spillage">
+                <button type="button" class="btn btn-sm btn-outline-brown quick-remark" data-remark="Waste/Spillage">
                   Waste/Spillage
                 </button>
-                <button type="button" class="btn btn-sm btn-outline-secondary quick-remark" data-remark="Sample/Testing">
+                <button type="button" class="btn btn-sm btn-outline-brown quick-remark" data-remark="Sample/Testing">
                   Sample/Testing
                 </button>
               </div>
             </div>
 
-            <div class="alert alert-warning">
+            <div class="alert" style="background-color: #fff3e0; border-color: #c87533; color: #3b2008;">
               <i class="fas fa-exclamation-triangle me-2"></i>
               <strong>Important:</strong> This transaction will be permanently recorded in the inventory history.
               The current stock will be decreased by the amount you enter above. This action cannot be easily undone.
@@ -297,7 +297,7 @@
 
             <div class="row">
               <div class="col-md-6">
-                <button type="submit" class="btn btn-warning btn-lg w-100 text-dark" id="submitBtn">
+                <button type="submit" class="btn btn-brown btn-lg w-100" id="submitBtn">
                   <i class="fas fa-check me-2"></i>Confirm Stock Out
                 </button>
               </div>
@@ -318,18 +318,18 @@
       <div class="card mb-3">
         <div class="card-header bg-white py-3">
           <h6 class="mb-0">
-            <i class="fas fa-bolt me-2 text-warning"></i>Quick Actions
+            <i class="fas fa-bolt me-2 icon-brown"></i>Quick Actions
           </h6>
         </div>
         <div class="card-body">
           <div class="d-grid gap-2">
-            <a href="edit_item.php?id=<?php echo $item_id; ?>" class="btn btn-outline-primary btn-sm">
+            <a href="edit_item.php?id=<?php echo $item_id; ?>" class="btn btn-outline-brown btn-sm">
               <i class="fas fa-edit me-2"></i>Edit Item Details
             </a>
-            <a href="stock_in.php?item_id=<?php echo $item_id; ?>" class="btn btn-outline-success btn-sm">
+            <a href="stock_in.php?item_id=<?php echo $item_id; ?>" class="btn btn-outline-brown btn-sm">
               <i class="fas fa-arrow-up me-2"></i>Switch to Stock In
             </a>
-            <a href="transactions.php" class="btn btn-outline-info btn-sm">
+            <a href="transactions.php" class="btn btn-outline-brown btn-sm">
               <i class="fas fa-history me-2"></i>View All Transactions
             </a>
           </div>
@@ -341,7 +341,7 @@
       <div class="card">
         <div class="card-header bg-white py-3">
           <h6 class="mb-0">
-            <i class="fas fa-history me-2 text-warning"></i>Recent Stock Outs
+            <i class="fas fa-history me-2 icon-brown"></i>Recent Stock Outs
           </h6>
         </div>
         <div class="card-body p-0">
@@ -350,7 +350,7 @@
               <div class="list-group-item">
                 <div class="d-flex justify-content-between align-items-start">
                   <div class="flex-grow-1">
-                    <div class="fw-bold text-danger">
+                    <div class="fw-bold" style="color: #4a301f;">
                       -<?php echo number_format($trans['quantity'], 2); ?> <?php echo htmlspecialchars($item['unit']); ?>
                     </div>
                     <div class="small text-muted">
@@ -378,25 +378,25 @@
       <div class="card mt-3">
         <div class="card-header bg-white py-3">
           <h6 class="mb-0">
-            <i class="fas fa-lightbulb me-2 text-warning"></i>Best Practices
+            <i class="fas fa-lightbulb me-2 icon-brown"></i>Best Practices
           </h6>
         </div>
         <div class="card-body">
           <ul class="list-unstyled mb-0 small">
             <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
+              <i class="fas fa-check-circle icon-brown me-2"></i>
               Always provide a clear reason for removal
             </li>
             <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
+              <i class="fas fa-check-circle icon-brown me-2"></i>
               Double-check quantities before confirming
             </li>
             <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
+              <i class="fas fa-check-circle icon-brown me-2"></i>
               Document waste or spoilage for auditing
             </li>
             <li class="mb-0">
-              <i class="fas fa-check-circle text-success me-2"></i>
+              <i class="fas fa-check-circle icon-brown me-2"></i>
               Monitor low stock items regularly
             </li>
           </ul>
@@ -407,6 +407,58 @@
 </div>
 
 <style>
+
+.icon-brown {
+  color: #4a301f;
+}
+
+.text-brown {
+  color: #4a301f;
+}
+
+.bg-brown {
+  background-color: #4a301f;
+  color: #fff;
+}
+
+.btn-brown {
+  --bs-btn-bg: #4a301f;
+  --bs-btn-border-color: #4a301f;
+  --bs-btn-color: #fff;
+  --bs-btn-hover-bg: #5d3d28;
+  --bs-btn-hover-border-color: #5d3d28;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-bg: #4a301f;
+  --bs-btn-active-border-color: #4a301f;
+  --bs-btn-active-color: #fff;
+  background-color: #4a301f;
+  border-color: #4a301f;
+  color: #fff;
+}
+
+.btn-outline-brown {
+  color: #4a301f;
+  border-color: #4a301f;
+  background-color: transparent;
+}
+
+.btn-outline-brown:hover,
+.btn-outline-brown:active {
+  background-color: #4a301f;
+  border-color: #4a301f;
+  color: white;
+}
+
+.border-brown {
+  border-color: #4a301f !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #4a301f !important;
+  box-shadow: 0 0 0 0.2rem rgba(74, 48, 31, 0.25) !important;
+}
+
 body {
   background: linear-gradient(135deg, #f5f0eb 0%, #e8ddd4 100%);
   min-height: 100vh;
@@ -439,9 +491,9 @@ body {
 }
 
 .quick-remark:hover {
-  background-color: #ffc107;
-  border-color: #ffc107;
-  color: #000;
+  background-color: #4a301f;
+  border-color: #4a301f;
+  color: white;
 }
 
 #removing-display, #remaining-total {
@@ -483,13 +535,13 @@ $(document).ready(function() {
     // Color coding based on remaining stock
     const remainingTotal = $('#remaining-total');
     if (remaining < 10) {
-      remainingTotal.removeClass('text-success text-warning').addClass('text-danger');
+      remainingTotal.css('color', '#c0392b');
       lowStockWarning.show();
     } else if (remaining < 50) {
-      remainingTotal.removeClass('text-success text-danger').addClass('text-warning');
+      remainingTotal.css('color', '#c87533');
       lowStockWarning.hide();
     } else {
-      remainingTotal.removeClass('text-warning text-danger').addClass('text-success');
+      remainingTotal.css('color', '#4a301f');
       lowStockWarning.hide();
     }
   });

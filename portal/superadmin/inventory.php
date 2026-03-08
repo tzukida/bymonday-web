@@ -244,13 +244,13 @@
                     <td class="text-muted small"><?php echo formatDate($item['updated_at'], 'M j, Y'); ?></td>
                     <td class="text-center">
                       <div class="btn-group btn-group-sm" role="group">
-                        <a href="edit_item.php?id=<?php echo $item['id']; ?>" class="btn btn-outline-primary" title="Edit">
+                        <a href="edit_item.php?id=<?php echo $item['id']; ?>" class="btn btn-outline-brown" title="Edit">
                           <i class="fas fa-edit"></i>
                         </a>
                         <a href="stock_in.php?item_id=<?php echo $item['id']; ?>" class="btn btn-outline-brown btn-sm" title="Stock In">
                           <i class="fas fa-plus"></i>
                         </a>
-                        <a href="stock_out.php?item_id=<?php echo $item['id']; ?>" class="btn btn-outline-warning" title="Stock Out">
+                        <a href="stock_out.php?item_id=<?php echo $item['id']; ?>" class="btn btn-outline-brown" title="Stock Out">
                           <i class="fas fa-minus"></i>
                         </a>
                         <a href="delete_item.php?id=<?php echo $item['id']; ?>" class="btn btn-outline-brown" title="Delete" onclick="return confirm('Are you sure you want to delete this item?')">
@@ -489,6 +489,18 @@ body {
   .table {
     font-size: 0.875rem;
   }
+}
+
+.form-select:focus,
+.form-control:focus {
+  border-color: #4a301f !important;
+  box-shadow: 0 0 0 0.2rem rgba(74, 48, 31, 0.25) !important;
+  outline: none !important;
+}
+
+.form-select option:checked {
+  background-color: #4a301f !important;
+  color: #fff !important;
 }
 </style>
 

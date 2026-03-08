@@ -184,7 +184,7 @@
             <div class="col-md-4">
               <div class="text-center p-3 border rounded">
                 <div class="mb-2">
-                  <i class="fas fa-history fa-2x text-info"></i>
+                  <i class="fas fa-history fa-2x " style="color:#3b2008;"></i>
                 </div>
                 <div class="fw-bold fs-5"><?php echo number_format($transaction_count); ?></div>
                 <div class="small text-muted">Transactions</div>
@@ -193,7 +193,7 @@
             <div class="col-md-4">
               <div class="text-center p-3 border rounded">
                 <div class="mb-2">
-                  <i class="fas fa-utensils fa-2x <?php echo $is_used_in_recipes ? 'text-warning' : 'text-success'; ?>"></i>
+                  <i class="fas fa-utensils fa-2x <?php echo $is_used_in_recipes ? '' : ''; ?>" style="color:#3b2008;" style="color:#3b2008;"></i>
                 </div>
                 <div class="fw-bold fs-5"><?php echo $recipe_check['count']; ?></div>
                 <div class="small text-muted">Menu Items</div>
@@ -293,21 +293,21 @@
       <div class="card mt-3">
         <div class="card-header bg-white py-3">
           <h6 class="mb-0">
-            <i class="fas fa-lightbulb me-2 text-warning"></i>Consider These Alternatives
+            <i class="fas fa-lightbulb me-2 " style="color:#3b2008;"></i>Consider These Alternatives
           </h6>
         </div>
         <div class="card-body">
           <ul class="list-unstyled mb-0">
             <li class="mb-2">
-              <i class="fas fa-arrow-right text-primary me-2"></i>
+              <i class="fas fa-arrow-right  me-2"></i>
               <a href="edit_item.php?id=<?php echo $item_id; ?>">Edit the item</a> if you want to update its information
             </li>
             <li class="mb-2">
-              <i class="fas fa-arrow-right text-success me-2"></i>
+              <i class="fas fa-arrow-right  me-2"></i>
               <a href="stock_out.php?item_id=<?php echo $item_id; ?>">Record a stock-out</a> to reduce quantity to zero
             </li>
             <li class="mb-0">
-              <i class="fas fa-arrow-right text-info me-2"></i>
+              <i class="fas fa-arrow-right  me-2"></i>
               Keep the item with zero stock for historical records
             </li>
           </ul>
@@ -352,6 +352,16 @@ code {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.bg-brown { background-color: #3b2008; color: #fff; }
+.text-brown { color: #3b2008; }
+.btn-outline-brown { color: #3b2008; border-color: #3b2008; background-color: transparent; }
+.btn-outline-brown:hover, .btn-outline-brown:active, .btn-outline-brown:focus {
+  background-color: #3b2008; border-color: #3b2008; color: #fff;
+}
+.btn-primary { background-color: #3b2008; border-color: #3b2008; }
+.btn-primary:hover { background-color: #2a1505; border-color: #2a1505; }
+
 </style>
 
 <script>

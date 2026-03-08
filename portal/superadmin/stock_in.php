@@ -89,7 +89,7 @@
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <h3 class="h3 mb-0 text-success">
+          <h3 class="h3 mb-0" style="color: #4a301f;">
             <i class="fas fa-arrow-up me-2"></i>Stock In - Add Inventory
           </h3>
           <p class="text-muted mb-0">Record new stock received for inventory item</p>
@@ -107,8 +107,8 @@
     <!-- Main Form -->
     <div class="col-lg-8">
       <!-- Item Info Card -->
-      <div class="card mb-4 border-success border-2">
-        <div class="card-header text-white py-3" style="background: linear-gradient(135deg, #198754 0%, #146c43 100%);">
+      <div class="card mb-4" style="border: 2px solid #4a301f !important;">
+        <div class="card-header text-white py-3" style="background: linear-gradient(135deg, #3b2008 0%, #2a1505 100%);">
           <h5 class="mb-0">
             <i class="fas fa-box me-2"></i>Item Information
           </h5>
@@ -123,14 +123,14 @@
               <div class="d-flex gap-3 flex-wrap">
                 <div>
                   <small class="text-muted d-block">Current Stock</small>
-                  <span class="fw-bold fs-5" style="color: #198754;">
+                  <span class="fw-bold fs-5" style="color: #4a301f;">
                     <?php echo number_format($item['quantity'], 2); ?> <?php echo htmlspecialchars($item['unit']); ?>
                   </span>
                 </div>
                 <div class="vr"></div>
                 <div>
                   <small class="text-muted d-block">Unit</small>
-                  <span class="badge bg-info text-white">
+                  <span class="badge bg-brown">
                     <?php echo htmlspecialchars($item['unit']); ?>
                   </span>
                 </div>
@@ -138,11 +138,11 @@
                 <div>
                   <small class="text-muted d-block">Status</small>
                   <?php if ($item['quantity'] < 10): ?>
-                    <span class="badge bg-danger">Low Stock</span>
+                    <span class="badge bg-brown" style="opacity:0.6;">Low Stock</span>
                   <?php elseif ($item['quantity'] < 50): ?>
-                    <span class="badge bg-warning text-dark">Medium Stock</span>
+                    <span class="badge bg-brown" style="opacity:0.75;">Medium Stock</span>
                   <?php else: ?>
-                    <span class="badge bg-success">Good Stock</span>
+                    <span class="badge bg-brown">Good Stock</span>
                   <?php endif; ?>
                 </div>
               </div>
@@ -162,7 +162,7 @@
       <div class="card">
         <div class="card-header bg-white py-3">
           <h5 class="mb-0">
-            <i class="fas fa-clipboard-list me-2 text-success"></i>Record Stock In
+            <i class="fas fa-clipboard-list me-2 icon-brown"></i>Record Stock In
           </h5>
         </div>
         <div class="card-body">
@@ -173,12 +173,12 @@
               <div class="col-md-6">
                 <div class="mb-4">
                   <label for="quantity" class="form-label fw-semibold">
-                    <i class="fas fa-plus-circle text-success me-1"></i>
+                    <i class="fas fa-plus-circle icon-brown me-1"></i>
                     Quantity to Add <span class="text-danger">*</span>
                   </label>
                   <div class="input-group input-group-lg">
                     <input type="number"
-                           class="form-control border-success"
+                           class="form-control border-brown"
                            id="quantity"
                            name="quantity"
                            value="<?php echo htmlspecialchars($form_data['quantity']); ?>"
@@ -186,7 +186,7 @@
                            step="0.01"
                            placeholder="0.00"
                            required>
-                    <span class="input-group-text bg-success text-white">
+                    <span class="input-group-text bg-brown text-white">
                       <?php echo htmlspecialchars($item['unit']); ?>
                     </span>
                   </div>
@@ -206,13 +206,13 @@
                       <span class="fw-bold"><?php echo number_format($item['quantity'], 2); ?> <?php echo htmlspecialchars($item['unit']); ?></span>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mb-2">
-                      <span class="text-success">+ Adding:</span>
-                      <span class="fw-bold text-success" id="adding-display">0.00 <?php echo htmlspecialchars($item['unit']); ?></span>
+                      <span style="color: #4a301f;">+ Adding:</span>
+                      <span class="fw-bold" style="color: #4a301f;" id="adding-display">0.00 <?php echo htmlspecialchars($item['unit']); ?></span>
                     </div>
                     <hr class="my-2">
                     <div class="d-flex justify-content-between align-items-center">
                       <span class="fw-bold">New Total:</span>
-                      <span class="fw-bold fs-5" style="color: #198754;" id="new-total">
+                      <span class="fw-bold fs-5" style="color: #4a301f;" id="new-total">
                         <?php echo number_format($item['quantity'], 2); ?> <?php echo htmlspecialchars($item['unit']); ?>
                       </span>
                     </div>
@@ -223,7 +223,7 @@
 
             <div class="mb-4">
               <label for="remarks" class="form-label fw-semibold">
-                <i class="fas fa-comment-dots text-success me-1"></i>
+                <i class="fas fa-comment-dots icon-brown me-1"></i>
                 Remarks <small class="text-muted fw-normal">(Optional)</small>
               </label>
               <textarea class="form-control"
@@ -240,25 +240,25 @@
                 <i class="fas fa-bolt me-1"></i>Quick Remarks
               </label>
               <div class="d-flex gap-2 flex-wrap">
-                <button type="button" class="btn btn-sm btn-outline-secondary quick-remark" data-remark="Supplier delivery">
+                <button type="button" class="btn btn-sm btn-outline-brown quick-remark" data-remark="Supplier delivery">
                   Supplier delivery
                 </button>
-                <button type="button" class="btn btn-sm btn-outline-secondary quick-remark" data-remark="Weekly restock">
+                <button type="button" class="btn btn-sm btn-outline-brown quick-remark" data-remark="Weekly restock">
                   Weekly restock
                 </button>
-                <button type="button" class="btn btn-sm btn-outline-secondary quick-remark" data-remark="Emergency purchase">
+                <button type="button" class="btn btn-sm btn-outline-brown quick-remark" data-remark="Emergency purchase">
                   Emergency purchase
                 </button>
-                <button type="button" class="btn btn-sm btn-outline-secondary quick-remark" data-remark="Monthly inventory">
+                <button type="button" class="btn btn-sm btn-outline-brown quick-remark" data-remark="Monthly inventory">
                   Monthly inventory
                 </button>
-                <button type="button" class="btn btn-sm btn-outline-secondary quick-remark" data-remark="Bulk order">
+                <button type="button" class="btn btn-sm btn-outline-brown quick-remark" data-remark="Bulk order">
                   Bulk order
                 </button>
               </div>
             </div>
 
-            <div class="alert alert-info">
+            <div class="alert" style="background-color: #fff3e0; border-color: #c87533; color: #3b2008;">
               <i class="fas fa-info-circle me-2"></i>
               <strong>Note:</strong> This transaction will be permanently recorded in the inventory history.
               The current stock will be increased by the amount you enter above.
@@ -268,7 +268,7 @@
 
             <div class="row">
               <div class="col-md-6">
-                <button type="submit" class="btn btn-success btn-lg w-100">
+                <button type="submit" class="btn btn-brown btn-lg w-100">
                   <i class="fas fa-check me-2"></i>Confirm Stock In
                 </button>
               </div>
@@ -289,18 +289,18 @@
       <div class="card mb-3">
         <div class="card-header bg-white py-3">
           <h6 class="mb-0">
-            <i class="fas fa-bolt me-2 text-warning"></i>Quick Actions
+            <i class="fas fa-bolt me-2 icon-brown"></i>Quick Actions
           </h6>
         </div>
         <div class="card-body">
           <div class="d-grid gap-2">
-            <a href="edit_item.php?id=<?php echo $item_id; ?>" class="btn btn-outline-primary btn-sm">
+            <a href="edit_item.php?id=<?php echo $item_id; ?>" class="btn btn-outline-brown btn-sm">
               <i class="fas fa-edit me-2"></i>Edit Item Details
             </a>
-            <a href="stock_out.php?item_id=<?php echo $item_id; ?>" class="btn btn-outline-warning btn-sm">
+            <a href="stock_out.php?item_id=<?php echo $item_id; ?>" class="btn btn-outline-brown btn-sm">
               <i class="fas fa-arrow-down me-2"></i>Switch to Stock Out
             </a>
-            <a href="transactions.php" class="btn btn-outline-info btn-sm">
+            <a href="transactions.php" class="btn btn-outline-brown btn-sm">
               <i class="fas fa-history me-2"></i>View All Transactions
             </a>
           </div>
@@ -312,7 +312,7 @@
       <div class="card">
         <div class="card-header bg-white py-3">
           <h6 class="mb-0">
-            <i class="fas fa-history me-2 text-success"></i>Recent Stock Ins
+            <i class="fas fa-history me-2 icon-brown"></i>Recent Stock Ins
           </h6>
         </div>
         <div class="card-body p-0">
@@ -321,7 +321,7 @@
               <div class="list-group-item">
                 <div class="d-flex justify-content-between align-items-start">
                   <div class="flex-grow-1">
-                    <div class="fw-bold text-success">
+                    <div class="fw-bold" style="color: #4a301f;">
                       +<?php echo number_format($trans['quantity'], 2); ?> <?php echo htmlspecialchars($item['unit']); ?>
                     </div>
                     <div class="small text-muted">
@@ -349,25 +349,25 @@
       <div class="card mt-3">
         <div class="card-header bg-white py-3">
           <h6 class="mb-0">
-            <i class="fas fa-lightbulb me-2 text-warning"></i>Best Practices
+            <i class="fas fa-lightbulb me-2 icon-brown"></i>Best Practices
           </h6>
         </div>
         <div class="card-body">
           <ul class="list-unstyled mb-0 small">
             <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
+              <i class="fas fa-check-circle icon-brown me-2"></i>
               Always count items carefully before recording
             </li>
             <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
+              <i class="fas fa-check-circle icon-brown me-2"></i>
               Include supplier or purchase order in remarks
             </li>
             <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
+              <i class="fas fa-check-circle icon-brown me-2"></i>
               Record stock immediately upon receipt
             </li>
             <li class="mb-0">
-              <i class="fas fa-check-circle text-success me-2"></i>
+              <i class="fas fa-check-circle icon-brown me-2"></i>
               Check expiry dates for perishable items
             </li>
           </ul>
@@ -378,6 +378,58 @@
 </div>
 
 <style>
+
+.icon-brown {
+  color: #4a301f;
+}
+
+.text-brown {
+  color: #4a301f;
+}
+
+.bg-brown {
+  background-color: #4a301f;
+  color: #fff;
+}
+
+.btn-brown {
+  --bs-btn-bg: #4a301f;
+  --bs-btn-border-color: #4a301f;
+  --bs-btn-color: #fff;
+  --bs-btn-hover-bg: #5d3d28;
+  --bs-btn-hover-border-color: #5d3d28;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-bg: #4a301f;
+  --bs-btn-active-border-color: #4a301f;
+  --bs-btn-active-color: #fff;
+  background-color: #4a301f;
+  border-color: #4a301f;
+  color: #fff;
+}
+
+.btn-outline-brown {
+  color: #4a301f;
+  border-color: #4a301f;
+  background-color: transparent;
+}
+
+.btn-outline-brown:hover,
+.btn-outline-brown:active {
+  background-color: #4a301f;
+  border-color: #4a301f;
+  color: white;
+}
+
+.border-brown {
+  border-color: #4a301f !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #4a301f !important;
+  box-shadow: 0 0 0 0.2rem rgba(74, 48, 31, 0.25) !important;
+}
+
 body {
   background: linear-gradient(135deg, #f5f0eb 0%, #e8ddd4 100%);
   min-height: 100vh;
@@ -411,8 +463,8 @@ body {
 }
 
 .quick-remark:hover {
-  background-color: #198754;
-  border-color: #198754;
+  background-color: #4a301f;
+  border-color: #4a301f;
   color: white;
 }
 
@@ -453,9 +505,9 @@ $(document).ready(function() {
 
     // Highlight if significant change
     if (addAmount > currentStock * 0.5) {
-      $('#new-total').addClass('text-warning').removeClass('text-success');
+      $('#new-total').css('color', '#c87533');
     } else {
-      $('#new-total').addClass('text-success').removeClass('text-warning');
+      $('#new-total').css('color', '#4a301f');
     }
   });
 

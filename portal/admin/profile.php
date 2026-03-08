@@ -251,7 +251,7 @@ include BASE_PATH . '/includes/header.php';
             </div>
 
             <div class="d-grid gap-2">
-              <button type="submit" class="btn btn-danger btn-lg">
+              <button type="submit" class="btn btn-brown btn-lg">
                 <i class="fas fa-save me-2"></i>Save Changes
               </button>
             </div>
@@ -294,6 +294,18 @@ include BASE_PATH . '/includes/header.php';
   box-shadow: 0 0 0 0.2rem rgba(59, 32, 8, 0.25);
 }
 
+.btn-brown {
+  background-color: #3b2008;
+  border-color: #3b2008;
+  color: #fff;
+}
+.btn-brown:hover, .btn-brown:active, .btn-brown:focus, .btn-brown:focus-visible {
+  background-color: #3b2008 !important;
+  border-color: #3b2008 !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
 .btn-danger {
   background-color: #3b2008;
   border-color: #3b2008;
@@ -322,9 +334,9 @@ include BASE_PATH . '/includes/header.php';
 }
 
 .alert-info {
-  background-color: #e7f3ff;
-  border-color: #b3d9ff;
-  color: #004085;
+  background-color: #fff3e0;
+  border-color: #ffcc80;
+  color: #3b2008;
 }
 
 @media (max-width: 768px) {

@@ -313,7 +313,7 @@
                     </td>
                     <td class="align-middle text-center">
                       <?php if ($is_recent): ?>
-                        <span class="badge bg-success">
+                        <span class="badge" style="background-color:#382417; color:#fff;">
                           <i class="fas fa-clock me-1"></i>Recent
                         </span>
                       <?php else: ?>
@@ -615,6 +615,18 @@ body {
     gap: 0.5rem;
   }
 }
+.form-control:focus,
+.form-select:focus {
+  border-color: #4a301f !important;
+  box-shadow: 0 0 0 0.2rem rgba(74, 48, 31, 0.25) !important;
+  outline: none !important;
+}
+
+.form-select option:checked {
+  background-color: #3b2008 !important;
+  color: #fff !important;
+}
+
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -372,32 +372,62 @@
                     </td>
                     <td>
                       <?php
-                        // Determine badge color based on action type
+                        // Determine badge color based on action type — all brown shades
                         $action = $log['action'];
-                        $badge_class = 'bg-secondary';
+                        $badge_color = '#a0714f'; // default mid-brown
                         $icon = 'fa-info-circle';
 
                         if (stripos($action, 'login') !== false) {
-                          $badge_class = 'bg-brown';
+                          $badge_color = '#2a1505'; // darkest brown
                           $icon = 'fa-sign-in-alt';
                         } elseif (stripos($action, 'logout') !== false) {
-                          $badge_class = 'bg-warning text-dark';
+                          $badge_color = '#3b2008'; // very dark brown
                           $icon = 'fa-sign-out-alt';
+                        } elseif (stripos($action, 'stock in') !== false || stripos($action, 'stock_in') !== false) {
+                          $badge_color = '#4a301f'; // dark brown
+                          $icon = 'fa-arrow-down';
+                        } elseif (stripos($action, 'stock out') !== false || stripos($action, 'stock_out') !== false) {
+                          $badge_color = '#5c3a24'; // dark-medium brown
+                          $icon = 'fa-arrow-up';
                         } elseif (stripos($action, 'add') !== false || stripos($action, 'create') !== false) {
-                          $badge_class = 'bg-brown';
+                          $badge_color = '#6b4226'; // medium-dark brown
                           $icon = 'fa-plus-circle';
                         } elseif (stripos($action, 'edit') !== false || stripos($action, 'update') !== false) {
-                          $badge_class = 'bg-info';
+                          $badge_color = '#7a4a2f'; // medium brown
                           $icon = 'fa-edit';
                         } elseif (stripos($action, 'delete') !== false || stripos($action, 'remove') !== false) {
-                          $badge_class = 'bg-danger';
+                          $badge_color = '#8a5535'; // medium-light brown
                           $icon = 'fa-trash';
                         } elseif (stripos($action, 'reset') !== false) {
-                          $badge_class = 'bg-warning text-dark';
+                          $badge_color = '#9c6040'; // warm brown
                           $icon = 'fa-redo';
+                        } elseif (stripos($action, 'toggle') !== false || stripos($action, 'status') !== false) {
+                          $badge_color = '#a0714f'; // mid brown
+                          $icon = 'fa-toggle-on';
+                        } elseif (stripos($action, 'sale') !== false || stripos($action, 'pos') !== false) {
+                          $badge_color = '#b07a55'; // light-medium brown
+                          $icon = 'fa-cash-register';
+                        } elseif (stripos($action, 'recipe') !== false || stripos($action, 'ingredient') !== false) {
+                          $badge_color = '#be8860'; // light brown
+                          $icon = 'fa-book';
+                        } elseif (stripos($action, 'menu') !== false) {
+                          $badge_color = '#c99470'; // lighter brown
+                          $icon = 'fa-utensils';
+                        } elseif (stripos($action, 'image') !== false || stripos($action, 'upload') !== false) {
+                          $badge_color = '#d4a07e'; // very light brown
+                          $icon = 'fa-image';
+                        } elseif (stripos($action, 'password') !== false) {
+                          $badge_color = '#5c3a24'; // dark-medium brown (reused)
+                          $icon = 'fa-key';
+                        } elseif (stripos($action, 'report') !== false || stripos($action, 'export') !== false) {
+                          $badge_color = '#7a4a2f'; // medium brown (reused)
+                          $icon = 'fa-chart-bar';
+                        } elseif (stripos($action, 'permission') !== false || stripos($action, 'role') !== false) {
+                          $badge_color = '#9c6040'; // warm brown (reused)
+                          $icon = 'fa-user-shield';
                         }
                       ?>
-                      <span class="badge <?php echo $badge_class; ?>">
+                      <span class="badge" style="background-color: <?php echo $badge_color; ?>; color: #fff;">
                         <i class="fas <?php echo $icon; ?> me-1"></i>
                         <?php echo htmlspecialchars($action); ?>
                       </span>
@@ -665,6 +695,19 @@ body {
     width: 100%;
   }
 }
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #4a301f !important;
+  box-shadow: 0 0 0 0.2rem rgba(74, 48, 31, 0.25) !important;
+  outline: none !important;
+}
+
+.form-select option:checked {
+  background-color: #3b2008 !important;
+  color: #fff !important;
+}
+
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

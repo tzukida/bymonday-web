@@ -196,7 +196,7 @@
               Contact SuperAdmin if password change is needed.
             </div>
 
-            <div class="alert alert-info border-0">
+            <div class="alert alert-warning border-0">
               <i class="fas fa-info-circle me-2"></i>
               <strong>Note:</strong> Changing the role will affect the user's access permissions immediately.
             </div>
@@ -226,7 +226,7 @@
       <div class="card mb-3">
         <div class="card-header bg-white py-3">
           <h6 class="mb-0">
-            <i class="fas fa-info-circle me-2 text-info"></i>Current Details
+            <i class="fas fa-info-circle me-2 " style="color:#3b2008;"></i>Current Details
           </h6>
         </div>
         <div class="card-body">
@@ -238,7 +238,7 @@
             <?php
             $role_badges = [
               'staff' => '<span class="badge bg-secondary">Staff</span>',
-              'admin' => '<span class="badge bg-primary">Admin</span>'
+              'admin' => '<span class="badge bg-brown">Admin</span>'
             ];
             echo $role_badges[$staff['role']] ?? '';
             ?>
@@ -250,7 +250,7 @@
             <div class="d-flex justify-content-between align-items-center mb-2">
               <span class="text-muted small">Status:</span>
               <?php if ($staff['status'] === 'active'): ?>
-                <span class="badge bg-success">Active</span>
+                <span class="badge bg-brown">Active</span>
               <?php else: ?>
                 <span class="badge bg-secondary">Inactive</span>
               <?php endif; ?>
@@ -268,7 +268,7 @@
 
             <div class="d-flex justify-content-between align-items-center mb-2">
               <span class="text-muted small">Total Sales:</span>
-              <strong class="text-success"><?php echo number_format($sales_count); ?></strong>
+              <strong class="text-brown"><?php echo number_format($sales_count); ?></strong>
             </div>
 
             <?php if (!empty($staff['last_password_reset'])): ?>
@@ -296,7 +296,7 @@
                 <div class="d-flex justify-content-between align-items-start">
                   <div class="flex-grow-1">
                     <?php if ($trans['type'] === 'stock-in'): ?>
-                      <span class="badge bg-success mb-1">Stock In</span>
+                      <span class="badge bg-brown mb-1">Stock In</span>
                     <?php else: ?>
                       <span class="badge bg-warning text-dark mb-1">Stock Out</span>
                     <?php endif; ?>
@@ -320,21 +320,21 @@
       <div class="card mt-3">
         <div class="card-header bg-white py-3">
           <h6 class="mb-0">
-            <i class="fas fa-lightbulb me-2 text-warning"></i>Tips
+            <i class="fas fa-lightbulb me-2 " style="color:#3b2008;"></i>Tips
           </h6>
         </div>
         <div class="card-body">
           <ul class="list-unstyled mb-0 small">
             <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
+              <i class="fas fa-check-circle  me-2"></i>
               Contact SuperAdmin for password resets
             </li>
             <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
+              <i class="fas fa-check-circle  me-2"></i>
               Admin role has full system access
             </li>
             <li class="mb-0">
-              <i class="fas fa-check-circle text-success me-2"></i>
+              <i class="fas fa-check-circle  me-2"></i>
               Changes take effect immediately
             </li>
           </ul>
@@ -391,6 +391,27 @@
 .list-group-item:last-child {
   border-bottom: none;
 }
+
+.bg-brown { background-color: #3b2008; color: #fff; }
+.text-brown { color: #3b2008; }
+.btn-outline-brown { color: #3b2008; border-color: #3b2008; background-color: transparent; }
+.btn-outline-brown:hover, .btn-outline-brown:active, .btn-outline-brown:focus {
+  background-color: #3b2008; border-color: #3b2008; color: #fff;
+}
+.btn-primary { background-color: #3b2008; border-color: #3b2008; }
+.btn-primary:hover { background-color: #2a1505; border-color: #2a1505; }
+
+
+.form-select:focus,
+.form-control:focus,
+.form-check-input:focus {
+  border-color: #3b2008 !important;
+  box-shadow: 0 0 0 0.2rem rgba(59, 32, 8, 0.25) !important;
+  outline: none !important;
+}
+.form-select { accent-color: #3b2008; }
+option:checked, option:hover { background-color: #3b2008 !important; color: #fff !important; }
+
 </style>
 
 <script>

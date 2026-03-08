@@ -293,9 +293,9 @@
             <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
               <span class="text-muted small">Status:</span>
               <?php if ($user['status'] === 'active'): ?>
-                <span class="badge bg-success"><i class="fas fa-check-circle me-1"></i>Active</span>
+                <span class="badge" style="background-color:#382417; color:#fff;"><i class="fas fa-check-circle me-1"></i>Active</span>
               <?php else: ?>
-                <span class="badge bg-danger"><i class="fas fa-times-circle me-1"></i>Inactive</span>
+                <span class="badge" style="background-color:#6b3a1f; color:#fff;"><i class="fas fa-times-circle me-1"></i>Inactive</span>
               <?php endif; ?>
             </div>
 
@@ -311,7 +311,7 @@
 
             <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
               <span class="text-muted small">Total Sales:</span>
-              <strong class="text-success"><?php echo number_format($sales_count); ?></strong>
+              <strong class="text-brown"><?php echo number_format($sales_count); ?></strong>
             </div>
 
             <?php if (!empty($user['last_password_reset'])): ?>
@@ -340,9 +340,9 @@
                 <div class="d-flex justify-content-between align-items-start">
                   <div class="flex-grow-1">
                     <?php if ($trans['type'] === 'stock-in'): ?>
-                      <span class="badge bg-success mb-1"><i class="fas fa-arrow-down me-1"></i>Stock In</span>
+                      <span class="badge mb-1" style="background-color:#382417; color:#fff;"><i class="fas fa-arrow-down me-1"></i>Stock In</span>
                     <?php else: ?>
-                      <span class="badge bg-warning text-dark mb-1"><i class="fas fa-arrow-up me-1"></i>Stock Out</span>
+                      <span class="badge mb-1" style="background-color:#6b3a1f; color:#fff;"><i class="fas fa-arrow-up me-1"></i>Stock Out</span>
                     <?php endif; ?>
                     <div class="small fw-semibold text-brown"><?php echo htmlspecialchars($trans['item_name']); ?></div>
                     <div class="small text-muted">
@@ -364,7 +364,7 @@
       <div class="card mb-3">
         <div class="card-header bg-white py-3">
           <h6 class="mb-0">
-            <i class="fas fa-bolt me-2 text-warning"></i>Quick Actions
+            <i class="fas fa-bolt me-2 icon-brown"></i>Quick Actions
           </h6>
         </div>
         <div class="card-body">
@@ -383,7 +383,7 @@
       <div class="card">
         <div class="card-header bg-white py-3">
           <h6 class="mb-0">
-            <i class="fas fa-lightbulb me-2 text-warning"></i>SuperAdmin Tips
+            <i class="fas fa-lightbulb me-2 icon-brown"></i>SuperAdmin Tips
           </h6>
         </div>
         <div class="card-body">

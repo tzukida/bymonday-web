@@ -309,28 +309,28 @@
                           if (!$is_available) {
                             echo '<span class="badge bg-secondary"><i class="fas fa-ban me-1"></i>Unavailable</span>';
                           } elseif (!$has_recipe) {
-                            echo '<span class="badge bg-warning text-dark"><i class="fas fa-exclamation-triangle me-1"></i>No Recipe</span>';
+                            echo '<span class="badge bg-brown" style="opacity:0.7;"><i class="fas fa-exclamation-triangle me-1"></i>No Recipe</span>';
                           } elseif (!$has_stock) {
-                            echo '<span class="badge bg-danger"><i class="fas fa-times-circle me-1"></i>Unavailable</span>';
+                            echo '<span class="badge bg-brown" style="opacity:0.6;"><i class="fas fa-times-circle me-1"></i>Unavailable</span>';
                           } else {
-                            echo '<span class="badge bg-success"><i class="fas fa-check-circle me-1"></i>Available</span>';
+                            echo '<span class="badge bg-brown"><i class="fas fa-check-circle me-1"></i>Available</span>';
                           }
                         ?>
                       </td>
                       <td class="text-center align-middle">
                         <div class="btn-group btn-group-sm" role="group">
                           <a href="edit_menu_item.php?id=<?php echo $item['id']; ?>"
-                             class="btn btn-outline-primary"
+                             class="btn btn-outline-brown"
                              title="Edit Item">
                             <i class="fas fa-edit"></i>
                           </a>
                           <a href="manage_recipe.php?menu_id=<?php echo $item['id']; ?>"
-                             class="btn btn-outline-warning"
+                             class="btn btn-outline-brown"
                              title="Manage Recipe">
                             <i class="fas fa-book"></i>
                           </a>
                           <?php if ($ingredient_count > 0): ?>
-                          <button class="btn btn-outline-info"
+                          <button class="btn btn-outline-brown"
                                   data-bs-toggle="modal"
                                   data-bs-target="#ingredientsModal<?php echo $item['id']; ?>"
                                   title="View Recipe">
@@ -461,32 +461,32 @@
                     $can_make = floor($ing['available_quantity'] / $ing['quantity_needed']);
                     $is_sufficient = $ing['available_quantity'] >= $ing['quantity_needed'];
                   ?>
-                  <tr class="<?php echo !$is_sufficient ? 'table-danger' : ''; ?>">
+                  <tr class="<?php echo !$is_sufficient ? 'table-warning-brown' : ''; ?>">
                     <td class="align-middle">
                       <strong><?php echo htmlspecialchars($ing['item_name']); ?></strong>
                     </td>
                     <td class="text-center align-middle">
-                      <span class="badge bg-primary">
+                      <span class="badge bg-brown">
                         <?php echo $ing['quantity_needed'] . ' ' . $ing['unit']; ?>
                       </span>
                     </td>
                     <td class="text-center align-middle">
-                      <span class="badge bg-<?php echo $is_sufficient ? 'success' : 'danger'; ?>">
+                      <span class="badge <?php echo $is_sufficient ? 'bg-brown' : 'bg-brown" style="background-color:#7a4a2f !important;'; ?>">
                         <?php echo $ing['available_quantity'] . ' ' . $ing['inventory_unit']; ?>
                       </span>
                     </td>
                     <td class="text-center align-middle">
-                      <strong class="text-<?php echo $can_make > 0 ? 'success' : 'danger'; ?>">
+                      <strong style="color: <?php echo $can_make > 0 ? '#3b2008' : '#7a4a2f'; ?>;">
                         <?php echo $can_make; ?> servings
                       </strong>
                     </td>
                     <td class="text-center align-middle">
                       <?php if ($is_sufficient): ?>
-                        <span class="badge bg-success">
+                        <span class="badge bg-brown">
                           <i class="fas fa-check me-1"></i>OK
                         </span>
                       <?php else: ?>
-                        <span class="badge bg-danger">
+                        <span class="badge bg-brown" style="opacity:0.6;">
                           <i class="fas fa-exclamation-triangle me-1"></i>Low
                         </span>
                       <?php endif; ?>
@@ -659,6 +659,20 @@ body {
   .table {
     font-size: 0.875rem;
   }
+}
+.form-select:focus,
+.form-control:focus {
+  border-color: #3b2008 !important;
+  box-shadow: 0 0 0 0.2rem rgba(59, 32, 8, 0.25) !important;
+  outline: none !important;
+}
+
+.form-select option:checked {
+  background-color: #3b2008 !important;
+  color: #fff !important;
+}
+.table-warning-brown > * {
+  background-color: #fff3e0 !important;
 }
 </style>
 
