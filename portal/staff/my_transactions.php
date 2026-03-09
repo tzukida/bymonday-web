@@ -184,8 +184,8 @@
                 </thead>
                 <tbody>
                   <?php while ($sale = $recent_sales->fetch_assoc()):
-                    $payment_icons = ['cash'=>'fa-money-bill-wave','gcash'=>'fa-mobile-alt','card'=>'fa-credit-card'];
-                    $payment_colors = ['cash'=>'success','gcash'=>'primary','card'=>'warning'];
+                    $payment_icons = ['cash'=>'fa-money-bill-wave','gcash'=>'fa-mobile-alt','maya'=>'fa-wallet'];
+                    $payment_colors = ['cash'=>'success','gcash'=>'primary','maya'=>'warning'];
                     $method = strtolower($sale['payment_method']);
                     $icon = $payment_icons[$method] ?? 'fa-money-bill-wave';
                     $color = $payment_colors[$method] ?? 'secondary';

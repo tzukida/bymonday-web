@@ -171,7 +171,7 @@
             <select class="form-select form-select-lg" id="paymentMethod">
               <option value="cash">Cash</option>
               <option value="gcash">GCash</option>
-              <option value="card">Card</option>
+              <option value="maya">Maya</option>
             </select>
           </div>
 

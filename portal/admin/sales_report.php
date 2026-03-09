@@ -268,7 +268,7 @@
                 <option value="all">All Methods</option>
                 <option value="cash" <?php echo $payment_filter == 'cash' ? 'selected' : ''; ?>>Cash</option>
                 <option value="gcash" <?php echo $payment_filter == 'gcash' ? 'selected' : ''; ?>>GCash</option>
-                <option value="card" <?php echo $payment_filter == 'card' ? 'selected' : ''; ?>>Card</option>
+                <option value="maya" <?php echo $payment_filter == 'maya' ? 'selected' : ''; ?>>Maya</option>
               </select>
             </div>
 
@@ -375,12 +375,12 @@
                           $payment_icons = [
                             'cash' => 'fa-money-bill-wave',
                             'gcash' => 'fa-mobile-alt',
-                            'card' => 'fa-credit-card'
+                            'maya' => 'fa-wallet'
                           ];
                           $payment_colors = [
                             'cash' => 'success',
                             'gcash' => 'primary',
-                            'card' => 'warning'
+                            'maya' => 'warning'
                           ];
                           $method = strtolower($sale['payment_method']);
                           $icon = $payment_icons[$method] ?? 'fa-money-bill-wave';
@@ -569,7 +569,7 @@
               $method_colors = [
                 'cash'  => '#382417',
                 'gcash' => '#4d3420',
-                'card'  => '#654529'
+                'maya'  => '#654529'
               ];
               $color = $method_colors[strtolower($payment['payment_method'])] ?? '#7d5633';
             ?>
