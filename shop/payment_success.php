@@ -612,7 +612,8 @@ document.addEventListener('DOMContentLoaded', () => {
     spawnParticles();
 
     // Clear cart from localStorage on success
-    localStorage.removeItem('cart');
+    localStorage.removeItem('mmCart');
+    localStorage.removeItem('pending_cart');
 });
 </script>
 
