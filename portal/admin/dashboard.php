@@ -226,12 +226,12 @@
                   $payment_icons = [
                     'cash' => 'fa-money-bill-wave',
                     'gcash' => 'fa-mobile-alt',
-                    'card' => 'fa-credit-card'
+                    'maya' => 'fa-wallet'
                   ];
                   $payment_colors = [
                     'cash' => 'success',
                     'gcash' => 'primary',
-                    'card' => 'warning'
+                    'maya' => 'warning'
                   ];
                   $method = strtolower($sale['payment_method']);
                   $icon = $payment_icons[$method] ?? 'fa-money-bill-wave';
