@@ -266,7 +266,7 @@
                           </div>
                         </div>
                       </div>
-                      <button class="btn btn-brown w-100"
+                      <button class="btn btn-brown w-100 mt-auto"
                               data-bs-toggle="modal"
                               data-bs-target="#ingredientsModal<?php echo $item['id']; ?>">
                         <i class="fas fa-book me-2"></i>View Recipe

@@ -107,11 +107,14 @@
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <h3 class="h3 mb-0" style="color: #3b2008;">Inventory Management</h3>
+          <h3 class="h3 mb-0" style="color: #4a301f;">Inventory Management</h3>
           <p class="text-muted mb-0">Manage your inventory items and stock levels</p>
         </div>
-        <div>
-          <a href="add_item.php" class="btn btn-danger">
+        <div class="d-flex gap-2">
+          <button type="button" class="btn btn-email-supplier" onclick="openEmailModal()">
+            <i class="fas fa-envelope me-2"></i>Email Supplier
+          </button>
+          <a href="add_item.php" class="btn btn-brown">
             <i class="fas fa-plus me-2"></i>Add New Item
           </a>
         </div>
@@ -142,7 +145,7 @@
             </div>
             <div class="col-md-3">
               <div class="btn-group w-100">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-brown">
                   <i class="fas fa-filter me-1"></i>Apply Filter
                 </button>
                 <a href="inventory.php" class="btn btn-outline-secondary">
@@ -152,7 +155,7 @@
             </div>
             <div class="col-md-2">
               <div class="dropdown w-100">
-                <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" style="color: #6b3a1f; border-color: #6b3a1f;">
+                <button class="btn btn-outline-brown dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
                   <i class="fas fa-download me-1"></i>Export
                 </button>
                 <ul class="dropdown-menu">
@@ -200,7 +203,7 @@
                 <?php endif; ?>
               </p>
               <?php if (empty($search) && empty($filter)): ?>
-                <a href="add_item.php" class="btn btn-danger">
+                <a href="add_item.php" class="btn btn-brown">
                   <i class="fas fa-plus me-2"></i>Add First Item
                 </a>
               <?php endif; ?>
@@ -247,7 +250,7 @@
                         <a href="edit_item.php?id=<?php echo $item['id']; ?>" class="btn btn-outline-brown" title="Edit">
                           <i class="fas fa-edit"></i>
                         </a>
-                        <a href="stock_in.php?item_id=<?php echo $item['id']; ?>" class="btn btn-outline-brown" title="Stock In">
+                        <a href="stock_in.php?item_id=<?php echo $item['id']; ?>" class="btn btn-outline-brown btn-sm" title="Stock In">
                           <i class="fas fa-plus"></i>
                         </a>
                         <a href="stock_out.php?item_id=<?php echo $item['id']; ?>" class="btn btn-outline-brown" title="Stock Out">
@@ -355,13 +358,47 @@
 </div>
 
 <style>
+
+body {
+  background: linear-gradient(135deg, #f5f0eb 0%, #e8ddd4 100%);
+  min-height: 100vh;
+}
+
 .icon-brown {
-  color: #3b2008;
+  color: #4a301f;
 }
 
 .bg-brown {
-  background-color: #3b2008;
+  background-color: #4a301f;
   color: #fff;
+}
+
+.btn-brown {
+  background-color: #4a301f;
+  border-color: #4a301f;
+  color: white;
+}
+
+.btn-brown:hover {
+  background-color: #5d3d28;
+  border-color: #5d3d28;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(74, 48, 31, 0.3);
+}
+
+.btn-outline-brown {
+  color: #4a301f;
+  border-color: #4a301f;
+  background-color: transparent;
+}
+
+.btn-outline-brown:hover,
+.btn-outline-brown:active,
+.btn-outline-brown:focus {
+  background-color: #4a301f;
+  border-color: #4a301f;
+  color: white;
 }
 
 .card {
@@ -371,7 +408,7 @@
 }
 
 .card:hover {
-  box-shadow: 0 0.5rem 1rem rgba(59, 32, 8, 0.15);
+  box-shadow: 0 0.5rem 1rem rgba(74, 48, 31, 0.15);
 }
 
 .table thead th {
@@ -396,9 +433,9 @@
 }
 
 .pagination {
-  --bs-pagination-active-bg: #3b2008;
-  --bs-pagination-active-border-color: #3b2008;
-  --bs-pagination-hover-color: #3b2008;
+  --bs-pagination-active-bg: #4a301f;
+  --bs-pagination-active-border-color: #4a301f;
+  --bs-pagination-hover-color: #4a301f;
 }
 
 .pagination .page-link {
@@ -411,12 +448,12 @@
 .pagination .page-link:hover {
   background-color: #f8f9fa;
   border-color: #dee2e6;
-  color: #3b2008;
+  color: #4a301f;
 }
 
 .pagination .page-item.active .page-link {
-  background-color: #3b2008;
-  border-color: #3b2008;
+  background-color: #4a301f;
+  border-color: #4a301f;
   color: white;
   font-weight: 600;
 }
@@ -435,79 +472,6 @@
 .form-label {
   font-weight: 500;
   color: #495057;
-}
-
-.btn-danger {
-  background-color: #3b2008 !important;
-  border-color: #3b2008;
-}
-
-.btn-danger:hover {
-  background-color: #2a1505;
-  border-color: #2a1505;
-}
-
-.btn-danger:active, .btn-danger:focus, .btn-danger:focus-visible {
-  background-color: #2a1505 !important;
-  border-color: #2a1505 !important;
-  box-shadow: 0 0 0 0.25rem rgba(59, 32, 8, 0.4) !important;
-}
-
-.btn-primary {
-  background-color: #3b2008 !important;
-  border-color: #3b2008;
-}
-
-.btn-primary:hover {
-  background-color: #2a1505;
-  border-color: #2a1505;
-}
-
-.btn-primary:active, .btn-primary:focus, .btn-primary:focus-visible {
-  background-color: #2a1505 !important;
-  border-color: #2a1505 !important;
-  box-shadow: 0 0 0 0.25rem rgba(59, 32, 8, 0.4) !important;
-}
-
-.btn-outline-primary:hover {
-  background-color: #6b3a1f;
-  border-color: #6b3a1f;
-  color: #fff;
-}
-
-.btn-outline-brown {
-  color: #6b3a1f;
-  border-color: #6b3a1f;
-}
-
-.btn-outline-brown:hover,
-.btn-outline-brown:active,
-.btn-outline-brown:focus {
-  background-color: #6b3a1f;
-  border-color: #6b3a1f;
-  color: #fff;
-}
-
-.btn-outline-success {
-  color: #6b3a1f;
-  border-color: #6b3a1f;
-}
-
-.btn-outline-success:hover {
-  background-color: #6b3a1f;
-  border-color: #6b3a1f;
-  color: #fff;
-}
-
-.btn-outline-warning {
-  color: #c87533;
-  border-color: #c87533;
-}
-
-.btn-outline-warning:hover {
-  background-color: #c87533;
-  border-color: #c87533;
-  color: #fff;
 }
 
 @media (max-width: 768px) {
@@ -529,24 +493,37 @@
     font-size: 0.875rem;
   }
 }
+
 .form-select:focus,
-.form-control:focus,
-.form-check-input:focus {
-  border-color: #3b2008 !important;
-  box-shadow: 0 0 0 0.2rem rgba(59, 32, 8, 0.25) !important;
+.form-control:focus {
+  border-color: #4a301f !important;
+  box-shadow: 0 0 0 0.2rem rgba(74, 48, 31, 0.25) !important;
   outline: none !important;
 }
 
-.form-select {
-  accent-color: #3b2008;
-}
-
-option:checked,
-option:hover {
-  background-color: #3b2008 !important;
+.form-select option:checked {
+  background-color: #4a301f !important;
   color: #fff !important;
 }
 
+/* Email Supplier button — warm glowing gradient */
+.btn-email-supplier {
+  background: linear-gradient(135deg, #c87533 0%, #a05a20 100%);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  box-shadow: 0 4px 15px rgba(200, 117, 51, 0.4);
+  transition: all 0.3s ease;
+}
+.btn-email-supplier:hover,
+.btn-email-supplier:focus,
+.btn-email-supplier:active {
+  background: linear-gradient(135deg, #d98844 0%, #b56a2e 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 6px 20px rgba(200, 117, 51, 0.6) !important;
+  transform: translateY(-1px);
+}
 </style>
 
 <script>
@@ -573,4 +550,202 @@ $(document).ready(function() {
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+<!-- Email Supplier Modal -->
+<div class="modal fade" id="emailSupplierModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width:460px;">
+    <div class="modal-content" style="border-radius:14px; border:none; overflow:hidden; background:linear-gradient(160deg, #c8722a 0%, #7a3a12 25%, #3b1f0e 55%, #1e1208 100%);">
+      <div class="modal-header border-0 pb-2" style="background:transparent; padding:20px 24px 12px;">
+        <div class="d-flex align-items-center gap-2">
+          <i class="fas fa-envelope" style="color:#c8956a; font-size:1rem;"></i>
+          <h5 class="modal-title fw-bold mb-0" style="color:#fff; font-size:1.05rem;">Email Supplier</h5>
+        </div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div style="background:transparent; padding:0 24px 16px;">
+        <p class="mb-0" style="color:#a07860; font-size:0.83rem;">Review low-stock items and send a single restock request email.</p>
+      </div>
+      <div class="modal-body p-0" style="background:transparent;">
+        <div id="emailRestockList">
+          <div class="d-flex align-items-center gap-2 px-4 py-3" style="border-bottom:1px solid rgba(200,140,80,0.15);">
+            <i class="fas fa-exclamation-triangle" style="color:#e8a830; font-size:0.85rem;"></i>
+            <span class="fw-bold" style="color:#d4b896; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.8px;">Restock List</span>
+            <span id="lowStockBadge" class="badge rounded-pill ms-1" style="background:#c0622a; font-size:0.72rem; padding:3px 10px; font-weight:600;">0</span>
+          </div>
+          <div id="lowStockItems" style="max-height:240px; overflow-y:auto;"></div>
+        </div>
+        <div id="noLowStockMsg" class="d-none text-center py-4 px-4">
+          <i class="fas fa-check-circle fa-2x mb-2" style="color:#5a9a5a;"></i>
+          <p class="small mb-0" style="color:#8a7060;">All items are sufficiently stocked.</p>
+        </div>
+        <div class="px-4 py-3" style="border-top:1px solid rgba(200,140,80,0.15);">
+          <label class="d-block mb-2" style="color:#a07860; font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.8px;">
+            Supplier Email
+          </label>
+          <input type="email" id="supplierEmailInput" class="form-control"
+                 value="angelaccortes01@gmail.com" placeholder="supplier@example.com"
+                 style="background:rgba(0,0,0,0.35); border:1px solid rgba(200,140,80,0.25); color:#e8ddd4; border-radius:8px; font-size:0.9rem; padding:10px 14px;">
+        </div>
+      </div>
+      <div class="modal-footer border-0 gap-2 px-4 py-3" style="background:transparent; border-top:1px solid rgba(200,140,80,0.15);">
+        <button type="button" class="btn flex-fill fw-semibold" data-bs-dismiss="modal"
+                style="background:rgba(0,0,0,0.3); border:1px solid rgba(200,140,80,0.2); color:#c8a882; border-radius:8px; padding:10px; font-size:0.9rem;">
+          Cancel
+        </button>
+        <button type="button" class="btn flex-fill fw-semibold" id="sendEmailBtn"
+                style="background:linear-gradient(135deg,#c87533 0%,#a05a20 100%); border:none; color:#fff;
+                       border-radius:8px; padding:10px; font-size:0.9rem;
+                       box-shadow:0 4px 15px rgba(200,117,51,0.45);
+                       transition:all 0.3s ease;">
+          <i class="fas fa-paper-plane me-2"></i>Send Email
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+#lowStockItems::-webkit-scrollbar { width: 5px; }
+#lowStockItems::-webkit-scrollbar-track { background: transparent; }
+#lowStockItems::-webkit-scrollbar-thumb { background: #4a3528; border-radius: 4px; }
+#supplierEmailInput:focus {
+  background: #1e1610 !important; border-color: #8a5a30 !important;
+  color: #e8ddd4 !important; box-shadow: 0 0 0 0.2rem rgba(138,90,48,0.25) !important;
+}
+</style>
+
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index:9999;">
+  <div id="emailToast" class="toast align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body fw-semibold" id="emailToastMsg"></div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+
+<script>
+var lowStockData = <?php
+  $conn_ls = getDBConnection();
+  $ls_stmt = $conn_ls->prepare("SELECT item_name, quantity, unit FROM inventory WHERE quantity <= 10 ORDER BY quantity ASC");
+  $ls_stmt->execute();
+  echo json_encode($ls_stmt->get_result()->fetch_all(MYSQLI_ASSOC));
+  $ls_stmt->close();
+?>;
+var qtyOverrides = {};
+
+function openEmailModal() {
+  qtyOverrides = {};
+  var list = document.getElementById('lowStockItems');
+  var noStock = document.getElementById('noLowStockMsg');
+  var restockSec = document.getElementById('emailRestockList');
+  var sendBtn = document.getElementById('sendEmailBtn');
+  list.innerHTML = '';
+  if (lowStockData.length === 0) {
+    noStock.classList.remove('d-none');
+    restockSec.classList.add('d-none');
+    sendBtn.disabled = true;
+  } else {
+    noStock.classList.add('d-none');
+    restockSec.classList.remove('d-none');
+    sendBtn.disabled = false;
+    document.getElementById('lowStockBadge').textContent = lowStockData.length;
+    lowStockData.forEach(function(item, idx) {
+      qtyOverrides[idx] = 1;
+      var row = document.createElement('div');
+      row.id = 'restock_row_' + idx;
+      row.style.cssText = 'display:flex;align-items:center;padding:10px 24px;border-bottom:1px solid rgba(200,140,80,0.12);gap:10px;background:rgba(0,0,0,0.15);';
+      row.innerHTML =
+        '<span style="color:#c0622a;font-size:9px;flex-shrink:0;">&#9679;</span>' +
+        '<span class="fw-semibold" style="color:#e8ddd4;font-size:0.88rem;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + escHtml(item.item_name) + '</span>' +
+        '<button onclick="changeQty(' + idx + ',-1)" style="width:28px;height:28px;border-radius:6px;border:none;background:#4a301f;color:#e8a830;font-weight:700;font-size:1.1rem;cursor:pointer;flex-shrink:0;">&#8722;</button>' +
+        '<span id="qty_' + idx + '" style="min-width:24px;text-align:center;color:#e8ddd4;font-size:0.88rem;font-weight:600;">1</span>' +
+        '<button onclick="changeQty(' + idx + ',1)" style="width:28px;height:28px;border-radius:6px;border:none;background:#4a301f;color:#e8a830;font-weight:700;font-size:1.1rem;cursor:pointer;flex-shrink:0;">+</button>' +
+        '<span style="color:#8a7060;font-size:0.8rem;min-width:30px;">' + escHtml(item.unit) + '</span>' +
+        '<button onclick="removeRestockItem(' + idx + ')" style="width:26px;height:26px;border-radius:50%;border:none;background:#5a1f1f;color:#e07878;font-size:0.8rem;cursor:pointer;flex-shrink:0;" title="Remove">&#10005;</button>';
+      list.appendChild(row);
+    });
+  }
+  new bootstrap.Modal(document.getElementById('emailSupplierModal')).show();
+}
+
+function escHtml(str) {
+  var d = document.createElement('div');
+  d.appendChild(document.createTextNode(str));
+  return d.innerHTML;
+}
+function changeQty(idx, delta) {
+  qtyOverrides[idx] = Math.max(1, (qtyOverrides[idx] || 1) + delta);
+  var el = document.getElementById('qty_' + idx);
+  if (el) el.textContent = qtyOverrides[idx];
+}
+function removeRestockItem(idx) {
+  var row = document.getElementById('restock_row_' + idx);
+  if (row) row.remove();
+  delete qtyOverrides[idx];
+  var remaining = document.querySelectorAll('[id^="restock_row_"]').length;
+  document.getElementById('lowStockBadge').textContent = remaining;
+  if (remaining === 0) {
+    document.getElementById('noLowStockMsg').classList.remove('d-none');
+    document.getElementById('sendEmailBtn').disabled = true;
+  }
+}
+
+document.getElementById('sendEmailBtn').addEventListener('click', function() {
+  var supplierEmail = document.getElementById('supplierEmailInput').value.trim();
+  var emailInput = document.getElementById('supplierEmailInput');
+  if (!supplierEmail) {
+    emailInput.focus(); emailInput.style.borderColor = '#c0622a';
+    showToast('Please enter a supplier email address.', false); return;
+  }
+  emailInput.style.borderColor = '';
+  var items = [];
+  lowStockData.forEach(function(item, idx) {
+    if (document.getElementById('restock_row_' + idx)) {
+      items.push({ name: item.item_name, qty: qtyOverrides[idx] || 1, unit: item.unit });
+    }
+  });
+  if (items.length === 0) { showToast('No items to send.', false); return; }
+  var btn = document.getElementById('sendEmailBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Sending...';
+  fetch('../includes/email_supplier.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ supplier_email: supplierEmail, items: items })
+  })
+  .then(function(r) {
+    var ct = r.headers.get('content-type') || '';
+    if (!ct.includes('application/json')) {
+      return r.text().then(function(t) { throw new Error('Server error: ' + t.substring(0,150)); });
+    }
+    return r.json();
+  })
+  .then(function(data) {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Send Email';
+    if (data.success) {
+      bootstrap.Modal.getInstance(document.getElementById('emailSupplierModal')).hide();
+      showToast(data.message || 'Email sent!', true);
+    } else {
+      showToast(data.message || 'Failed to send email.', false);
+    }
+  })
+  .catch(function(err) {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Send Email';
+    showToast(err.message || 'Request failed.', false);
+  });
+});
+
+function showToast(msg, success) {
+  var toast = document.getElementById('emailToast');
+  document.getElementById('emailToastMsg').textContent = msg;
+  toast.className = 'toast align-items-center border-0 text-white ' + (success ? 'bg-success' : 'bg-danger');
+  new bootstrap.Toast(toast, { delay: 5000 }).show();
+}
+</script>
+
 <?php require_once BASE_PATH . '/includes/footer.php'; ?>
