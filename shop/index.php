@@ -301,7 +301,7 @@ $customerLoggedIn = (
         <div class="footer-column">
           <h4>Contact</h4>
           <ul class="footer-contact">
-            <li><i class="fas fa-map-marker-alt"></i> Manila, Philippines</li>
+            <li><i class="fas fa-map-marker-alt"></i> <a href="https://www.bing.com/maps/search?v=2&pc=FACEBK&mid=8100&mkt=en-US&fbclid=IwY2xjawQcqitleHRuA2FlbQIxMABicmlkETFVMUI3N2dMRjBDV0lwZjBTc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHrFJAEkiPrScn3ITudOMHxp-C1jTujiDqhpqw6FUFv14ZoRnYaFgm8JwZTJY_aem_dhM3Vl_zcRuct6qmQhJs2w&FORM=FBKPL1&q=Unit+E+853+M.+Naval+Street%2C+Sipac-Almacen+%28Beside+LBC+M.+Naval%29%2C+Navotas%2C+Philippines&cp=14.657288%7E120.947695&lvl=16&style=r" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">Philippines, Metro Manila · Navotas</a></li>
             <li><i class="fas fa-envelope"></i> hello@mondaymornings.ph</li>
             <li><i class="fas fa-phone"></i> +63 912 345 6789</li>
           </ul>
