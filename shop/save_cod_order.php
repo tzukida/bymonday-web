@@ -26,7 +26,7 @@ $stmt = $conn->prepare("
     (user_id, order_number, customer_name, customer_email, customer_phone,
      customer_address, subtotal, total, payment_method,
      payment_status, order_status, notes)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'cash', 'pending', 'pending', ?)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'cash', 'pending', 'placed', ?)
 ");
 
 $stmt->bind_param(

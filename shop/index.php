@@ -50,8 +50,11 @@ $customerLoggedIn = (
         </div>
 
         <div class="user-menu">
-            <a href="checkout.php" class="dropdown-link">
-                <i class="fas fa-receipt"></i> Orders
+            <a href="orders.php" class="dropdown-link">
+                <i class="fas fa-receipt"></i> My Orders
+            </a>
+            <a href="#" class="dropdown-link">
+                <i class="fas fa-user"></i> Profile
             </a>
             <a href="logout.php" class="dropdown-link logout">
                 <i class="fas fa-sign-out-alt"></i> Logout
@@ -446,6 +449,23 @@ $customerLoggedIn = (
       });
 
     });
+    
+    // User dropdown — toggle on click
+    const userChip = document.querySelector('.user-chip');
+    const userDropdown = document.querySelector('.user-dropdown');
+
+    if (userChip && userDropdown) {
+        userChip.addEventListener('click', function(e) {
+            e.stopPropagation();
+            userDropdown.classList.toggle('open');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!userDropdown.contains(e.target)) {
+                userDropdown.classList.remove('open');
+            }
+        });
+    }
   </script>
 </body>
 </html>

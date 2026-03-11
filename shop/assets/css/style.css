@@ -229,14 +229,14 @@ body{
     color:#ff6b6b;
 }
 
-/* Desktop hover */
-.user-dropdown:hover .user-menu{
+/* Desktop click */
+.user-dropdown.open .user-menu{
     opacity:1;
     transform:translateY(0);
     pointer-events:auto;
 }
 
-.user-dropdown:hover .drop-icon{
+.user-dropdown.open .drop-icon{
     transform:rotate(180deg);
 }
 
