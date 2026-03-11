@@ -2,18 +2,32 @@
 define('BASE_PATH', __DIR__);
 require_once BASE_PATH . '/config/config.php';
 
-$products_query = "SELECT p.*, c.name as category_name FROM products p
-                   LEFT JOIN categories c ON p.category_id = c.id
-                   WHERE p.status = 'active'
-                   ORDER BY c.name, p.name";
-$products_result = $conn->query($products_query);
+$portal_api_url = 'http://localhost/bymonday/portal/api/menu_items.php';
 
+$response = @file_get_contents($portal_api_url);
 $menu_data = [];
-while ($product = $products_result->fetch_assoc()) {
-    $category = $product['category_name'];
-    if (!isset($menu_data[$category])) $menu_data[$category] = [];
-    $menu_data[$category][] = $product;
+
+if ($response !== false) {
+    $data = json_decode($response, true);
+    if (!empty($data['success']) && !empty($data['items'])) {
+        foreach ($data['items'] as $product) {
+            $product['category_name'] = $product['category'];
+            $product['has_sizes']     = '0';
+            $product['image']         = null;
+
+            if (!empty($product['image_url'])) {
+                $product['image_full_url'] = 'http://localhost/bymonday/portal' . $product['image_url'];
+            } else {
+                $product['image_full_url'] = null;
+            }
+
+            $category = $product['category'] ?? 'Other';
+            if (!isset($menu_data[$category])) $menu_data[$category] = [];
+            $menu_data[$category][] = $product;
+        }
+    }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -116,13 +130,14 @@ while ($product = $products_result->fetch_assoc()) {
             <?php foreach ($menu_data as $category => $products): ?>
                 <?php foreach ($products as $product): ?>
                     <article class="product-card"
+                             data-id="<?= $product['id'] ?>"
                              data-cat="<?= htmlspecialchars($category) ?>"
                              data-search="<?= strtolower(htmlspecialchars($product['name'].' '.$product['description'])) ?>"
                              onclick='openProduct(<?= json_encode($product) ?>)'>
                         <div class="card-stripe"></div>
                         <div class="card-img-wrap">
                             <img class="card-img"
-                                 src="<?= BASE_URL ?>/assets/images/<?= htmlspecialchars($product['image']) ?>"
+                                 src="<?= !empty($product['image_full_url']) ? htmlspecialchars($product['image_full_url']) : BASE_URL . '/assets/images/placeholder.jpg' ?>"
                                  alt="<?= htmlspecialchars($product['name']) ?>" loading="lazy">
                             <span class="card-category"><?= htmlspecialchars($category) ?></span>
                         </div>
@@ -134,11 +149,17 @@ while ($product = $products_result->fetch_assoc()) {
                                     ₱<?= number_format($product['price'],2) ?>
                                     <?php if($product['has_sizes']=='1'): ?><small>from</small><?php endif; ?>
                                 </div>
-                                <button class="card-add"
-                                        onclick="event.stopPropagation();openProduct(<?= htmlspecialchars(json_encode($product)) ?>)"
-                                        aria-label="Add to cart">
-                                    <i class="fas fa-plus"></i> Add
-                                </button>
+                                <?php if ($product['actually_available']): ?>
+                                    <button class="card-add"
+                                            onclick="event.stopPropagation();openProduct(<?= htmlspecialchars(json_encode($product)) ?>)"
+                                            aria-label="Add to cart">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                <?php else: ?>
+                                    <button class="card-add card-unavailable" disabled aria-label="Out of stock">
+                                        <i class="fas fa-times"></i> Out of Stock
+                                    </button>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </article>
@@ -444,6 +465,40 @@ document.querySelectorAll('.user-chip').forEach(chip=>{
     });
 });
 
+</script>
+
+<script>
+setInterval(function () {
+    fetch('http://localhost/bymonday/portal/api/menu_items.php')
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+            if (!data.success) return;
+
+            data.items.forEach(function (item) {
+                var card = document.querySelector('.product-card[data-id="' + item.id + '"]');
+                if (!card) return;
+
+                var btn = card.querySelector('.card-add');
+                if (!btn) return;
+
+                if (item.actually_available) {
+                    btn.disabled = false;
+                    btn.classList.remove('card-unavailable');
+                    btn.innerHTML = '<i class="fas fa-plus"></i> Add';
+                    btn.onclick = function (e) {
+                        e.stopPropagation();
+                        openProduct(item);
+                    };
+                } else {
+                    btn.disabled = true;
+                    btn.classList.add('card-unavailable');
+                    btn.innerHTML = '<i class="fas fa-times"></i> Out of Stock';
+                    btn.onclick = null;
+                }
+            });
+        })
+        .catch(function () {});
+}, 30000);
 </script>
 </body>
 </html>
