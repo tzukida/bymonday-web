@@ -666,3 +666,8 @@ body{
     .cart-foot{padding-bottom:max(18px,env(safe-area-inset-bottom));}
 }
 
+.card-unavailable {
+    background: #8B6355 !important;
+    cursor: not-allowed !important;
+    opacity: 0.85;
+}

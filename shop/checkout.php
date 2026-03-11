@@ -306,6 +306,50 @@ function validate() {
 function placeOrder() {
     if (!validate()) return;
 
+    setLoading(true);
+
+    fetch('http://localhost/bymonday/portal/api/menu_items.php')
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (!data.success) {
+                setLoading(false);
+                showToast('Could not verify item availability. Please try again.', 'error');
+                return;
+            }
+
+            var unavailableItems = [];
+
+            cart = cart.filter(function(cartItem) {
+                var found = data.items.find(function(apiItem) {
+                    return apiItem.id == cartItem.product_id;
+                });
+                if (found && !found.actually_available) {
+                    unavailableItems.push(cartItem.name);
+                    return false;
+                }
+                return true;
+            });
+
+            if (unavailableItems.length > 0) {
+                localStorage.setItem('mmCart', JSON.stringify(cart));
+                renderOrderSummary();
+                setLoading(false);
+                showToast(unavailableItems.join(', ') + ' is no longer available and was removed from your order.', 'error');
+                if (cart.length === 0) {
+                    setTimeout(function() { window.location.href = 'menu.php'; }, 2500);
+                }
+                return;
+            }
+
+            proceedWithOrder();
+        })
+        .catch(function() {
+            setLoading(false);
+            showToast('Could not verify item availability. Please try again.', 'error');
+        });
+}
+
+function proceedWithOrder() {
     const subtotal = cart.reduce((s, i) => s + parseFloat(i.price) * parseInt(i.quantity), 0);
 
     const orderData = {
