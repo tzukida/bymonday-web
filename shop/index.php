@@ -53,8 +53,8 @@ $customerLoggedIn = (
             <a href="orders.php" class="dropdown-link">
                 <i class="fas fa-receipt"></i> My Orders
             </a>
-            <a href="#" class="dropdown-link">
-                <i class="fas fa-user"></i> Profile
+            <a href="profile.php" class="dropdown-link">
+                <i class="fas fa-user"></i> My Profile
             </a>
             <a href="logout.php" class="dropdown-link logout">
                 <i class="fas fa-sign-out-alt"></i> Logout
