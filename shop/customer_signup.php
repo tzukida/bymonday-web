@@ -186,6 +186,11 @@ require_once BASE_PATH . '/config/config.php';
       font-size: 13px;
     }
 
+    input.input-error {
+      border-color: #fca5a5;
+      background: #fff5f5;
+    }
+
     .signup-btn {
       width: 100%;
       padding: 13px;
@@ -274,6 +279,7 @@ require_once BASE_PATH . '/config/config.php';
 
     .error i {
       font-size: 16px;
+      flex-shrink: 0;
     }
 
     .success {
@@ -311,6 +317,17 @@ require_once BASE_PATH . '/config/config.php';
       gap: 12px;
     }
 
+    .field-hint {
+      font-size: 11px;
+      color: #e53e3e;
+      margin-top: 4px;
+      display: none;
+    }
+
+    .field-hint.visible {
+      display: block;
+    }
+
     @media (max-width: 580px) {
       .signup-container {
         padding: 30px 25px;
@@ -345,22 +362,44 @@ require_once BASE_PATH . '/config/config.php';
     </div>
     <h2>Create Account</h2>
     <p class="subtitle">Join us for the perfect coffee experience</p>
+
     <?php
+    // Retrieve any server-side errors/success
+    $error_msg = '';
+    $success_msg = '';
     if (isset($_SESSION['error'])) {
-      echo '<div class="error"><i class="fas fa-exclamation-circle"></i><span>' . htmlspecialchars($_SESSION['error']) . '</span></div>';
+      $error_msg = $_SESSION['error'];
       unset($_SESSION['error']);
     }
     if (isset($_SESSION['success'])) {
-      echo '<div class="success"><i class="fas fa-check-circle"></i><span>' . htmlspecialchars($_SESSION['success']) . '</span></div>';
+      $success_msg = $_SESSION['success'];
       unset($_SESSION['success']);
     }
+
+    // Retrieve saved form values so fields don't reset
+    $old = $_SESSION['old_input'] ?? [];
+    unset($_SESSION['old_input']);
+
+    $old_full_name = htmlspecialchars($old['full_name'] ?? '');
+    $old_email     = htmlspecialchars($old['email']     ?? '');
+    $old_phone     = htmlspecialchars($old['phone']     ?? '');
+    $old_address   = htmlspecialchars($old['address']   ?? '');
+    $old_username  = htmlspecialchars($old['username']  ?? '');
+
+    if ($error_msg) {
+      echo '<div class="error"><i class="fas fa-exclamation-circle"></i><span>' . htmlspecialchars($error_msg) . '</span></div>';
+    }
+    if ($success_msg) {
+      echo '<div class="success"><i class="fas fa-check-circle"></i><span>' . htmlspecialchars($success_msg) . '</span></div>';
+    }
     ?>
-    <form action="customer_signup_process.php" method="POST">
+
+    <form id="signupForm" action="customer_signup_process.php" method="POST" novalidate>
       <div class="form-group">
         <label>Full Name</label>
         <div class="input-wrapper">
           <i class="fas fa-user input-icon"></i>
-          <input type="text" name="full_name" required placeholder="Enter your full name">
+          <input type="text" name="full_name" id="full_name" required placeholder="Enter your full name" value="<?= $old_full_name ?>">
         </div>
       </div>
 
@@ -369,7 +408,7 @@ require_once BASE_PATH . '/config/config.php';
           <label>Email Address</label>
           <div class="input-wrapper">
             <i class="fas fa-envelope input-icon"></i>
-            <input type="email" name="email" required placeholder="your@email.com">
+            <input type="email" name="email" id="email" required placeholder="your@email.com" value="<?= $old_email ?>">
           </div>
         </div>
 
@@ -377,7 +416,7 @@ require_once BASE_PATH . '/config/config.php';
           <label>Phone Number</label>
           <div class="input-wrapper">
             <i class="fas fa-phone input-icon"></i>
-            <input type="tel" name="phone" required placeholder="09XX XXX XXXX">
+            <input type="tel" name="phone" id="phone" required placeholder="09XX XXX XXXX" value="<?= $old_phone ?>">
           </div>
         </div>
       </div>
@@ -386,7 +425,7 @@ require_once BASE_PATH . '/config/config.php';
         <label>Delivery Address</label>
         <div class="input-wrapper">
           <i class="fas fa-map-marker-alt input-icon"></i>
-          <input type="text" name="address" required placeholder="Enter your delivery address">
+          <input type="text" name="address" id="address" required placeholder="Enter your delivery address" value="<?= $old_address ?>">
         </div>
       </div>
 
@@ -394,7 +433,7 @@ require_once BASE_PATH . '/config/config.php';
         <label>Username</label>
         <div class="input-wrapper">
           <i class="fas fa-user-circle input-icon"></i>
-          <input type="text" name="username" required placeholder="Choose a username">
+          <input type="text" name="username" id="username" required placeholder="Choose a username" value="<?= $old_username ?>">
         </div>
       </div>
 
@@ -403,16 +442,18 @@ require_once BASE_PATH . '/config/config.php';
           <label>Password</label>
           <div class="input-wrapper">
             <i class="fas fa-lock input-icon"></i>
-            <input type="password" name="password" required placeholder="Create password">
+            <input type="password" name="password" id="password" required placeholder="Create password">
           </div>
+          <div class="field-hint" id="password-hint">At least 6 characters</div>
         </div>
 
         <div class="form-group">
           <label>Confirm Password</label>
           <div class="input-wrapper">
             <i class="fas fa-lock input-icon"></i>
-            <input type="password" name="confirm_password" required placeholder="Confirm password">
+            <input type="password" name="confirm_password" id="confirm_password" required placeholder="Confirm password">
           </div>
+          <div class="field-hint" id="confirm-hint">Passwords do not match</div>
         </div>
       </div>
 
@@ -425,5 +466,62 @@ require_once BASE_PATH . '/config/config.php';
       </div>
     </form>
   </div>
+
+  <script>
+    const form            = document.getElementById('signupForm');
+    const passwordInput   = document.getElementById('password');
+    const confirmInput    = document.getElementById('confirm_password');
+    const passwordHint    = document.getElementById('password-hint');
+    const confirmHint     = document.getElementById('confirm-hint');
+
+    // Live check: password length
+    passwordInput.addEventListener('input', function () {
+      if (this.value.length > 0 && this.value.length < 6) {
+        this.classList.add('input-error');
+        passwordHint.classList.add('visible');
+      } else {
+        this.classList.remove('input-error');
+        passwordHint.classList.remove('visible');
+      }
+      // Re-check confirm match if already typed
+      if (confirmInput.value.length > 0) checkMatch();
+    });
+
+    // Live check: passwords match
+    confirmInput.addEventListener('input', checkMatch);
+
+    function checkMatch() {
+      if (confirmInput.value.length > 0 && confirmInput.value !== passwordInput.value) {
+        confirmInput.classList.add('input-error');
+        confirmHint.classList.add('visible');
+      } else {
+        confirmInput.classList.remove('input-error');
+        confirmHint.classList.remove('visible');
+      }
+    }
+
+    // Block submit if client-side checks fail (avoids a round trip)
+    form.addEventListener('submit', function (e) {
+      let valid = true;
+
+      if (passwordInput.value.length < 6) {
+        passwordInput.classList.add('input-error');
+        passwordHint.classList.add('visible');
+        valid = false;
+      }
+
+      if (confirmInput.value !== passwordInput.value) {
+        confirmInput.classList.add('input-error');
+        confirmHint.classList.add('visible');
+        valid = false;
+      }
+
+      if (!valid) {
+        e.preventDefault();
+        // Scroll to the first error field
+        document.querySelector('.input-error')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+  </script>
 </body>
 </html>
