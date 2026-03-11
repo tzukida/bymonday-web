@@ -28,6 +28,19 @@ if ($response !== false) {
     }
 }
 
+// Load favorites for logged-in customer
+$favorite_ids = [];
+if (isLoggedIn() && $_SESSION['role'] == 'customer') {
+    $fav_stmt = $conn->prepare("SELECT menu_item_id FROM favorites WHERE user_id = ?");
+    $fav_stmt->bind_param("i", $_SESSION['user_id']);
+    $fav_stmt->execute();
+    $fav_result = $fav_stmt->get_result();
+    while ($row = $fav_result->fetch_assoc()) {
+        $favorite_ids[] = $row['menu_item_id'];
+    }
+    $fav_stmt->close();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -87,6 +100,13 @@ if ($response !== false) {
         </div>
 
         <!-- Cart always in top bar -->
+        <?php if (isLoggedIn() && $_SESSION['role'] == 'customer'): ?>
+        <a href="favorites.php" class="fav-btn" aria-label="My Favorites">
+            <i class="fas fa-heart"></i>
+            <span class="fav-badge" id="favCount"><?= count($favorite_ids) ?></span>
+        </a>
+        <?php endif; ?>
+
         <button class="cart-btn" onclick="openCart()" aria-label="View cart">
             <i class="fas fa-shopping-bag"></i>
             <span class="cart-badge" id="cartCount">0</span>
@@ -140,9 +160,16 @@ if ($response !== false) {
                         <div class="card-stripe"></div>
                         <div class="card-img-wrap">
                             <img class="card-img"
-                                 src="<?= !empty($product['image_full_url']) ? htmlspecialchars($product['image_full_url']) : BASE_URL . '/assets/images/placeholder.jpg' ?>"
-                                 alt="<?= htmlspecialchars($product['name']) ?>" loading="lazy">
+                                src="<?= !empty($product['image_full_url']) ? htmlspecialchars($product['image_full_url']) : BASE_URL . '/assets/images/placeholder.jpg' ?>"
+                                alt="<?= htmlspecialchars($product['name']) ?>" loading="lazy">
                             <span class="card-category"><?= htmlspecialchars($category) ?></span>
+                            <?php if (isLoggedIn() && $_SESSION['role'] == 'customer'): ?>
+                                <button class="card-fav <?= in_array($product['id'], $favorite_ids) ? 'active' : '' ?>"
+                                        onclick="event.stopPropagation();toggleFavorite(this, <?= $product['id'] ?>)"
+                                        aria-label="Favorite">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            <?php endif; ?>
                         </div>
                         <div class="card-body">
                             <h3 class="card-name"><?= htmlspecialchars($product['name']) ?></h3>
@@ -518,6 +545,36 @@ if (userChip && userDropdown) {
             userDropdown.classList.remove('open');
         }
     });
+}
+
+// Favorites
+function toggleFavorite(btn, itemId) {
+    <?php if (!isLoggedIn()): ?>
+        if (confirm('Please login to save favorites. Go to login?')) {
+            window.location.href = 'customer_login.php';
+        }
+        return;
+    <?php endif; ?>
+
+    fetch('api/toggle_favorite.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ menu_item_id: itemId })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (!data.success) return;
+        const badge = document.getElementById('favCount');
+        let count = parseInt(badge.textContent) || 0;
+        if (data.action === 'added') {
+            btn.classList.add('active');
+            badge.textContent = count + 1;
+        } else {
+            btn.classList.remove('active');
+            badge.textContent = Math.max(0, count - 1);
+        }
+    })
+    .catch(() => {});
 }
 </script>
 </body>
