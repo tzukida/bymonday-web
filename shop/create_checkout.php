@@ -99,7 +99,7 @@ if (empty($line_items)) {
 // SUCCESS & CANCEL URL
 // (Make sure BASE_URL is defined in config.php)
 // ─────────────────────────────────────────
-$success_url = BASE_URL . '/payment_return.php?session_id={CHECKOUT_SESSION_ID}';
+$success_url = 'http://localhost/bymonday/shop/payment_return.php';
 $cancel_url  = BASE_URL . '/checkout.php';
 
 // ─────────────────────────────────────────

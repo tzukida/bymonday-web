@@ -4,7 +4,13 @@ require_once BASE_PATH . '/config/paymongo_config.php';
 require_once BASE_PATH . '/config/config.php';
 
 // Grab query params passed from payment_return.php
-$order_id = htmlspecialchars($_GET['order_id'] ?? '');
+$order_id = intval($_GET['order_id'] ?? 0);
+
+if ($order_id) {
+    header('Location: track-order.php?id=' . $order_id);
+    exit;
+}
+
 $name     = htmlspecialchars($_GET['name']     ?? 'Customer');
 $total    = floatval($_GET['total']            ?? 0);
 $method   = htmlspecialchars($_GET['method']   ?? 'online');
