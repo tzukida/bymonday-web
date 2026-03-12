@@ -53,65 +53,76 @@ if ($session_id) {
 $order_id = null;
 
 if ($payment_verified) {
-    // ── Save order to database ──
     $user_id = $_SESSION['user_id'];
+    $order_number = 'ORD-' . date('Ymd') . '-' . strtoupper(bin2hex(random_bytes(3)));
 
     $stmt = $conn->prepare("
         INSERT INTO orders
-            (user_id, customer_name, customer_email, customer_phone,
-             customer_address, notes, subtotal, total,
-             payment_method, payment_ref, status, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'paid', NOW())
+            (user_id, order_number, customer_name, customer_email, customer_phone,
+             customer_address, subtotal, total, payment_method,
+             payment_status, order_status, notes)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'paid', 'placed', ?)
     ");
 
     $stmt->bind_param(
         "isssssddss",
         $user_id,
+        $order_number,
         $order_data['customer_name'],
         $order_data['customer_email'],
         $order_data['customer_phone'],
         $order_data['customer_address'],
-        $order_data['notes'],
         $order_data['subtotal'],
         $order_data['total'],
         $order_data['payment_method'],
-        $paymongo_ref
+        $order_data['notes']
     );
 
     if ($stmt->execute()) {
         $order_id = $conn->insert_id;
 
-        // Save order items
         $item_stmt = $conn->prepare("
-            INSERT INTO order_items (order_id, product_name, size, quantity, price)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO order_items
+                (order_id, product_id, product_name, size, quantity, price, subtotal)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
         ");
 
         foreach ($order_data['items'] as $item) {
+            $item_subtotal = $item['price'] * $item['quantity'];
+            $product_id = $item['product_id'] ?? null;
             $item_stmt->bind_param(
-                "issid",
+                "iissidd",
                 $order_id,
+                $product_id,
                 $item['name'],
                 $item['size'],
                 $item['quantity'],
-                $item['price']
+                $item['price'],
+                $item_subtotal
             );
             $item_stmt->execute();
         }
+
+        // Insert payment details
+        $pay_stmt = $conn->prepare("INSERT INTO payment_details (order_id, payment_method) VALUES (?, ?)");
+        $pay_stmt->bind_param("is", $order_id, $order_data['payment_method']);
+        $pay_stmt->execute();
+        $pay_stmt->close();
     }
 
-    // Clear the pending order from session
     unset($_SESSION['pending_order']);
 }
 
-// ── Redirect to the success page ──
-$params = http_build_query([
-    'order_id' => $order_id,
-    'name'     => $order_data['customer_name'],
-    'total'    => $order_data['total'],
-    'method'   => $order_data['payment_method'],
-    'items'    => count($order_data['items']),
-]);
+// Debug - remove after fixing
+if (!$order_id) {
+    echo "<pre>";
+    echo "payment_verified: " . ($payment_verified ? 'true' : 'false') . "\n";
+    echo "order_data: " . print_r($order_data, true) . "\n";
+    echo "Last DB error: " . $conn->error . "\n";
+    echo "session_id: " . $session_id . "\n";
+    echo "</pre>";
+    exit;
+}
 
-header("Location: payment_success.php?" . $params);
+header("Location: track-order.php?id=" . $order_id);
 exit;

@@ -43,12 +43,13 @@ $current_step = array_search($order['order_status'], $steps);
 if ($current_step === false) $current_step = 0;
 
 $status_hero = [
-    'placed'    => ['label' => 'Order Placed!',       'sub' => 'Your order has been received. We\'ll start brewing soon!', 'icon' => 'fa-receipt',    'color' => '#C97B2B'],
-    'brewing'   => ['label' => 'Brewing Your Order!', 'sub' => 'Our baristas are crafting your drinks right now.',          'icon' => 'fa-mug-hot',    'color' => '#F5C842'],
-    'delivery'  => ['label' => 'On the Way!',         'sub' => 'Your order is out for delivery. Hang tight!',               'icon' => 'fa-motorcycle', 'color' => '#60a5fa'],
-    'done'      => ['label' => 'Delivered!',          'sub' => 'Your order has been delivered. Enjoy your coffee!',         'icon' => 'fa-check',      'color' => '#4ade80'],
-    'cancelled' => ['label' => 'Cancelled',           'sub' => 'This order has been cancelled.',                            'icon' => 'fa-times',      'color' => '#f87171'],
+    'placed'    => ['label' => 'Order Placed',        'sub' => 'Your order has been received. We\'ll start preparing it soon!', 'icon' => 'fa-hourglass-half', 'color' => '#C97B2B'],
+    'brewing'   => ['label' => 'Preparing',           'sub' => 'Our team is crafting your order with care. Won\'t be long!',    'icon' => 'fa-mug-hot',        'color' => '#818cf8'],
+    'delivery'  => ['label' => 'Out for Delivery',    'sub' => 'Your order is on its way! Expect it to arrive shortly.',        'icon' => 'fa-person-biking',  'color' => '#60a5fa'],
+    'done'      => ['label' => 'Delivered!',          'sub' => 'Your order has been delivered. Enjoy your coffee!',             'icon' => 'fa-check',          'color' => '#4ade80'],
+    'cancelled' => ['label' => 'Cancelled',           'sub' => 'This order has been cancelled.',                                'icon' => 'fa-times',          'color' => '#f87171'],
 ];
+
 $hero = $status_hero[$order['order_status']] ?? $status_hero['placed'];
 $delivery_fee = $order['delivery_fee'] ?? 50.00;
 ?>
@@ -427,6 +428,105 @@ $delivery_fee = $order['delivery_fee'] ?? 50.00;
             padding: 8px 24px 0;
             letter-spacing: 0.5px;
         }
+
+        .driver-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(201,123,43,0.12);
+            border: 1px solid rgba(201,123,43,0.3);
+            color: #C97B2B;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 50px;
+            margin-top: 8px;
+        }
+
+        .driver-status-badge i {
+            font-size: 8px;
+            color: #C97B2B;
+            width: auto;
+            margin-top: 0;
+        }
+
+        .btn-cancel-order {
+            width: 100%;
+            background: transparent;
+            border: 1.5px solid rgba(248,113,113,0.4);
+            color: #f87171;
+            border-radius: 12px;
+            padding: 13px 24px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all .2s ease;
+            margin-top: 8px;
+        }
+        .btn-cancel-order:hover {
+            background: rgba(248,113,113,0.08);
+            border-color: #f87171;
+        }
+
+        /* Confirm modal */
+        .confirm-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(15,8,4,0.80);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            align-items: center; justify-content: center;
+            padding: 24px;
+        }
+        .confirm-overlay.open { display: flex; }
+        .confirm-box {
+            background: #fff; border-radius: 24px;
+            width: 100%; max-width: 380px;
+            padding: 32px 28px;
+            text-align: center;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.3);
+        }
+        .confirm-icon {
+            width: 60px; height: 60px; border-radius: 50%;
+            background: rgba(248,113,113,0.1);
+            border: 2px solid rgba(248,113,113,0.3);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 22px; color: #f87171;
+        }
+        .confirm-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px; font-weight: 900;
+            color: #1a0f08; margin-bottom: 8px;
+        }
+        .confirm-sub {
+            font-size: 13px; color: #7a5c3a;
+            margin-bottom: 24px; line-height: 1.5;
+        }
+        .confirm-actions {
+            display: flex; gap: 10px;
+        }
+        .confirm-btn-cancel {
+            flex: 1; background: #F7F2EC;
+            border: 1.5px solid rgba(201,123,43,0.2);
+            color: #7a5c3a; border-radius: 12px;
+            padding: 12px; font-family: 'DM Sans', sans-serif;
+            font-size: 14px; font-weight: 600; cursor: pointer;
+            transition: all .2s;
+        }
+        .confirm-btn-cancel:hover { border-color: #C97B2B; color: #C97B2B; }
+        .confirm-btn-confirm {
+            flex: 1; background: #f87171;
+            border: none; color: #fff; border-radius: 12px;
+            padding: 12px; font-family: 'DM Sans', sans-serif;
+            font-size: 14px; font-weight: 700; cursor: pointer;
+            transition: all .2s;
+        }
+        .confirm-btn-confirm:hover { background: #ef4444; }
     </style>
 </head>
 <body>
@@ -469,6 +569,35 @@ $delivery_fee = $order['delivery_fee'] ?? 50.00;
 
 <!-- Content -->
 <div class="content">
+
+    <!-- Driver Info (delivery status only) -->
+    <?php if ($order['order_status'] === 'delivery'): ?>
+    <div class="info-card">
+        <div class="info-card-header">
+            <div class="info-card-header-icon"><i class="fas fa-person-biking"></i></div>
+            <span>Your Driver</span>
+        </div>
+        <div class="info-card-body">
+            <div class="contact-row">
+                <i class="fas fa-user"></i>
+                <div>
+                    <div class="contact-label">Name</div>
+                    <div class="contact-value">To be assigned</div>
+                </div>
+            </div>
+            <div class="contact-row">
+                <i class="fas fa-phone"></i>
+                <div>
+                    <div class="contact-label">Phone</div>
+                    <div class="contact-value">—</div>
+                </div>
+            </div>
+            <div class="driver-status-badge">
+                <i class="fas fa-circle"></i> On the way to you
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
 
     <!-- Contact Details -->
     <div class="info-card">
@@ -544,11 +673,61 @@ $delivery_fee = $order['delivery_fee'] ?? 50.00;
         </div>
     </div>
 
+    <?php if ($order['order_status'] === 'placed'): ?>
+    <button class="btn-cancel-order" onclick="openCancelConfirm()">
+        <i class="fas fa-times-circle"></i> Cancel Order
+    </button>
+    <?php endif; ?>
+
     <div class="order-footer">
         Order #<?= htmlspecialchars(strtoupper($order['order_number'])) ?>
     </div>
 
+    <!-- Cancel Confirmation Modal -->
+    <div class="confirm-overlay" id="confirmModal">
+        <div class="confirm-box">
+            <div class="confirm-icon"><i class="fas fa-times-circle"></i></div>
+            <div class="confirm-title">Cancel Order?</div>
+            <div class="confirm-sub">Are you sure you want to cancel this order? This action cannot be undone.</div>
+            <div class="confirm-actions">
+                <button class="confirm-btn-cancel" onclick="closeCancelConfirm()">Keep Order</button>
+                <button class="confirm-btn-confirm" onclick="confirmCancel()">Yes, Cancel</button>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+<script>
+function openCancelConfirm() {
+    document.getElementById('confirmModal').classList.add('open');
+}
+
+function closeCancelConfirm() {
+    document.getElementById('confirmModal').classList.remove('open');
+}
+
+function confirmCancel() {
+    fetch('cancel_order.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ order_id: <?= $order_id ?> })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            window.location.reload();
+        } else {
+            alert(data.message || 'Could not cancel order.');
+            closeCancelConfirm();
+        }
+    })
+    .catch(() => {
+        alert('Something went wrong. Please try again.');
+        closeCancelConfirm();
+    });
+}
+</script>
 
 </body>
 </html>

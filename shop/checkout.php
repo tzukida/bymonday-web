@@ -79,15 +79,44 @@ $customer = $stmt->get_result()->fetch_assoc();
                        value="<?= htmlspecialchars($customer['email']) ?>" required>
             </div>
 
+            <?php if (empty($customer['address'])): ?>
+            <div class="no-address-banner">
+                <i class="fas fa-triangle-exclamation"></i>
+                <span>No saved address found.</span>
+                <a href="profile.php">Profile Settings →</a>
+            </div>
+            <?php endif; ?>
+
             <div class="form-group">
                 <label for="address">Delivery Address *</label>
                 <textarea id="address" rows="3" autocomplete="street-address"
-                          placeholder="Street, Barangay, City, Province…" required><?= htmlspecialchars($customer['address']) ?></textarea>
+                        placeholder="Street, Barangay, City, Province…" required><?= htmlspecialchars($customer['address']) ?></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="landmark">Landmark <span style="font-weight:400;text-transform:none;opacity:.6">(optional)</span></label>
+                <input type="text" id="landmark" placeholder="e.g. Near 7-Eleven, beside the blue gate…">
             </div>
 
             <div class="form-group">
                 <label for="notes">Order Notes <span style="font-weight:400;text-transform:none;opacity:.6">(optional)</span></label>
                 <textarea id="notes" rows="2" placeholder="E.g. less ice, extra sugar, leave at door…"></textarea>
+            </div>
+        </div>
+
+        <!-- STEP 1B: PIN YOUR LOCATION -->
+        <div class="card fade-up">
+            <div class="card-title">
+                <span class="step-pill"><i class="fas fa-location-dot"></i></span>
+                Pin Your Location
+            </div>
+            <p class="section-sublabel">Tap the map to drop your delivery pin, or type your address above.</p>
+            <div class="map-placeholder">
+                <!-- Map will be implemented here -->
+            </div>
+            <div class="no-pin-note">
+                <i class="fas fa-circle-info"></i>
+                No delivery pin yet — tap the map or type your address above.
             </div>
         </div>
 
@@ -193,6 +222,18 @@ $customer = $stmt->get_result()->fetch_assoc();
             <span id="totalAmount">₱0.00</span>
         </div>
 
+        <!-- Checklist -->
+        <div class="order-checklist">
+            <div class="checklist-item" id="checkAddress">
+                <span class="check-circle"><i class="fas fa-check"></i></span>
+                <span>Delivery address entered</span>
+            </div>
+            <div class="checklist-item" id="checkPin">
+                <span class="check-circle"><i class="fas fa-check"></i></span>
+                <span>Delivery pin placed on map</span>
+            </div>
+        </div>
+
         <button class="place-order-btn" onclick="placeOrder()" id="placeOrderBtn" disabled>
             <span id="btnLabel">Place Order</span>
             <svg id="btnArrow" width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -213,20 +254,6 @@ $customer = $stmt->get_result()->fetch_assoc();
 
 </div>
 
-<!-- SUCCESS MODAL (COD only) -->
-<div class="modal-overlay" id="successModal">
-    <div class="modal">
-        <div class="modal-icon">✅</div>
-        <h2>Order Placed!</h2>
-        <p id="orderMsgLine"></p>
-        <p>Thank you! We'll have your coffee ready shortly.</p>
-        <div class="modal-actions">
-            <button class="modal-btn secondary" onclick="window.location.href='index.php'">Go Home</button>
-            <button class="modal-btn primary" onclick="window.location.href='menu.php'">Keep Shopping</button>
-        </div>
-    </div>
-</div>
-
 <!-- TOAST NOTIFICATION -->
 <div class="toast" id="toast"></div>
 
@@ -243,6 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
     renderOrderSummary();
+    updateChecklist();
 });
 
 // ── Render order items ────────────────────────────────────
@@ -283,8 +311,32 @@ function onPaymentChange(method) {
     document.getElementById('placeOrderBtn').disabled = false;
 }
 
+// ── Checklist ─────────────────────────────────────────────
+function updateChecklist() {
+    const address = document.getElementById('address').value.trim();
+
+    const checkAddr = document.getElementById('checkAddress');
+    const checkPin  = document.getElementById('checkPin');
+
+    if (address) {
+        checkAddr.classList.add('done');
+    } else {
+        checkAddr.classList.remove('done');
+    }
+
+    // Pin auto-checked for now (map not built yet)
+    checkPin.classList.add('done');
+}
+
+document.getElementById('address').addEventListener('input', updateChecklist);
+
+document.addEventListener('DOMContentLoaded', () => {
+    updateChecklist();
+});
+
 // ── Validation ────────────────────────────────────────────
 function validate() {
+    updateChecklist();
     const name    = document.getElementById('fullName').value.trim();
     const email   = document.getElementById('email').value.trim();
     const phone   = document.getElementById('phone').value.trim();
@@ -381,9 +433,7 @@ function proceedWithOrder() {
         .then(data => {
             if (data.success) {
                 localStorage.removeItem('mmCart');
-                document.getElementById('orderMsgLine').textContent =
-                    data.order_id ? 'Order #' + data.order_id + ' confirmed.' : '';
-                document.getElementById('successModal').classList.add('open');
+                window.location.href = 'track-order.php?id=' + data.order_id;
             } else {
                 showToast(data.message || 'Order failed. Please try again.', 'error');
                 setLoading(false);
