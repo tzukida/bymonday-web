@@ -510,6 +510,8 @@ function escHtml(str) {
         .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 </script>
+
+<?php require_once BASE_PATH . '/includes/order_notif.php'; ?>
 </body>
 </html>
 <script src="https://kit.fontawesome.com/6b1714638c.js" crossorigin="anonymous"></script>

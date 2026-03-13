@@ -25,7 +25,7 @@ if ($conn->connect_error) {
     echo json_encode(['success' => false, 'message' => 'DB connection failed.']);
     exit;
 }
-$conn->set_charset("utf8mb4");
+$conn->set_charset("utf8mb4");    
 
 $stmt = $conn->prepare("UPDATE orders SET order_status = ? WHERE id = ?");
 $stmt->bind_param("si", $status, $order_id);

@@ -613,5 +613,6 @@ function showToast(msg) {
 }
 </script>
 
+<?php require_once BASE_PATH . '/includes/order_notif.php'; ?>
 </body>
 </html>

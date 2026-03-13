@@ -3,593 +3,173 @@ define('BASE_PATH', dirname(__DIR__));
 require_once BASE_PATH . '/config/config.php';
 require_once BASE_PATH . '/includes/auth.php';
 require_once BASE_PATH . '/includes/functions.php';
+
 requireStaff();
 
-$conn = new mysqli('localhost', 'root', '', 'coffee_shop');
-if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
-$conn->set_charset("utf8mb4");
+$page_title = 'Online Orders';
+require_once BASE_PATH . '/includes/header.php';
 
-// Get counts per status
+// Connect to coffee_shop DB
+$cs = new mysqli('localhost', 'root', '', 'coffee_shop');
+if ($cs->connect_error) die("Connection failed: " . $cs->connect_error);
+$cs->set_charset("utf8mb4");
+
+$active_tab = $_GET['tab'] ?? 'placed';
+$allowed_tabs = ['placed', 'brewing', 'delivery', 'done'];
+if (!in_array($active_tab, $allowed_tabs)) $active_tab = 'placed';
+
+// Get counts for each tab
 $counts = [];
-$statuses = ['placed', 'brewing', 'delivery', 'done'];
-foreach ($statuses as $s) {
-    $r = $conn->prepare("SELECT COUNT(*) FROM orders WHERE order_status = ?");
-    $r->bind_param("s", $s);
-    $r->execute();
-    $r->bind_result($counts[$s]);
-    $r->fetch();
-    $r->close();
+foreach ($allowed_tabs as $tab) {
+    $r = $cs->query("SELECT COUNT(*) as c FROM orders WHERE order_status = '$tab'");
+    $counts[$tab] = $r->fetch_assoc()['c'];
 }
 
-// Get active tab
-$active = $_GET['status'] ?? 'placed';
-if (!in_array($active, $statuses)) $active = 'placed';
-
 // Get orders for active tab
-$stmt = $conn->prepare("
-    SELECT o.*, 
-           GROUP_CONCAT(oi.product_name, '|', oi.quantity, '|', oi.price, '|', oi.subtotal ORDER BY oi.id SEPARATOR ';;') as items_raw
+$orders = [];
+$stmt = $cs->prepare("
+    SELECT o.*, GROUP_CONCAT(oi.product_name, ' x', oi.quantity ORDER BY oi.id SEPARATOR ', ') as items_summary
     FROM orders o
     LEFT JOIN order_items oi ON o.id = oi.order_id
     WHERE o.order_status = ?
     GROUP BY o.id
     ORDER BY o.created_at DESC
 ");
-$stmt->bind_param("s", $active);
+$stmt->bind_param("s", $active_tab);
 $stmt->execute();
 $orders = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
+$cs->close();
 
-$page_title = 'Online Orders';
-require_once BASE_PATH . '/includes/header.php';
+$tab_labels = [
+    'placed'   => ['label' => 'Pending',          'icon' => 'fa-hourglass-half', 'color' => '#f59e0b'],
+    'brewing'  => ['label' => 'Preparing',         'icon' => 'fa-mug-hot',        'color' => '#818cf8'],
+    'delivery' => ['label' => 'Out for Delivery',  'icon' => 'fa-person-biking',  'color' => '#60a5fa'],
+    'done'     => ['label' => 'Delivered',         'icon' => 'fa-check-circle',   'color' => '#4ade80'],
+];
 ?>
 
-<style>
-    .orders-layout {
-        display: flex;
-        gap: 24px;
-        align-items: flex-start;
-    }
+<div class="container-fluid py-4 px-4">
 
-    /* ── Status Filter Panel ── */
-    .status-panel {
-        width: 220px;
-        flex-shrink: 0;
-        background: #fff;
-        border-radius: 16px;
-        border: 1px solid #e8ddd5;
-        overflow: hidden;
-        position: sticky;
-        top: 24px;
-    }
+    <!-- Page Header -->
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h4 class="mb-0 fw-bold" style="color:#2d1a0e;">Online Orders</h4>
+            <p class="text-muted mb-0 small">Manage and update customer delivery orders</p>
+        </div>
+        <button class="btn btn-sm" onclick="location.reload()"
+            style="background:#f3ece4; border:1px solid #e0d0c0; color:#6b4c2a; border-radius:8px;">
+            <i class="fas fa-rotate-right me-1"></i> Refresh
+        </button>
+    </div>
 
-    .status-panel-title {
-        padding: 16px 20px;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: #9a7c65;
-        border-bottom: 1px solid #f0e8e0;
-    }
-
-    .status-filter-btn {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 14px 20px;
-        background: none;
-        border: none;
-        border-left: 3px solid transparent;
-        cursor: pointer;
-        text-align: left;
-        transition: all .2s ease;
-        text-decoration: none;
-        color: #5a3e2b;
-        font-size: 14px;
-        font-weight: 500;
-    }
-
-    .status-filter-btn:hover {
-        background: #fdf6ef;
-        color: #C97B2B;
-    }
-
-    .status-filter-btn.active {
-        background: #fdf6ef;
-        border-left-color: #C97B2B;
-        color: #C97B2B;
-        font-weight: 700;
-    }
-
-    .status-filter-btn .status-icon {
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 13px;
-        flex-shrink: 0;
-    }
-
-    .status-filter-btn .status-label { flex: 1; }
-
-    .status-badge {
-        background: #C97B2B;
-        color: #fff;
-        font-size: 11px;
-        font-weight: 700;
-        padding: 2px 8px;
-        border-radius: 20px;
-        min-width: 22px;
-        text-align: center;
-    }
-
-    .status-badge.zero {
-        background: #e8ddd5;
-        color: #9a7c65;
-    }
-
-    /* Status icon colors */
-    .icon-placed    { background: rgba(201,123,43,0.12); color: #C97B2B; }
-    .icon-brewing   { background: rgba(129,140,248,0.12); color: #818cf8; }
-    .icon-delivery  { background: rgba(96,165,250,0.12); color: #60a5fa; }
-    .icon-done      { background: rgba(74,222,128,0.12); color: #4ade80; }
-
-    /* ── Orders Panel ── */
-    .orders-panel { flex: 1; min-width: 0; }
-
-    .orders-panel-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 20px;
-    }
-
-    .orders-panel-title {
-        font-size: 18px;
-        font-weight: 700;
-        color: #2d1a0e;
-    }
-
-    .orders-panel-count {
-        font-size: 13px;
-        color: #9a7c65;
-    }
-
-    /* ── Order Cards ── */
-    .orders-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: 16px;
-    }
-
-    .order-card {
-        background: #fff;
-        border-radius: 16px;
-        border: 1px solid #e8ddd5;
-        overflow: hidden;
-        transition: box-shadow .2s ease;
-    }
-
-    .order-card:hover {
-        box-shadow: 0 4px 20px rgba(201,123,43,0.12);
-    }
-
-    .order-card-header {
-        padding: 14px 16px;
-        background: #fdf6ef;
-        border-bottom: 1px solid #f0e8e0;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .order-icon-wrap {
-        width: 38px;
-        height: 38px;
-        background: rgba(201,123,43,0.15);
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #C97B2B;
-        font-size: 15px;
-        flex-shrink: 0;
-    }
-
-    .order-number {
-        font-size: 14px;
-        font-weight: 700;
-        color: #2d1a0e;
-    }
-
-    .order-meta {
-        font-size: 12px;
-        color: #9a7c65;
-        margin-top: 2px;
-    }
-
-    .order-total {
-        margin-left: auto;
-        font-size: 16px;
-        font-weight: 800;
-        color: #C97B2B;
-    }
-
-    .order-card-body { padding: 14px 16px; }
-
-    .order-info-row {
-        display: flex;
-        align-items: flex-start;
-        gap: 8px;
-        font-size: 13px;
-        color: #5a3e2b;
-        margin-bottom: 8px;
-    }
-
-    .order-info-row i {
-        color: #C97B2B;
-        margin-top: 2px;
-        width: 14px;
-        flex-shrink: 0;
-    }
-
-    .order-divider {
-        border: none;
-        border-top: 1px dashed #e8ddd5;
-        margin: 12px 0;
-    }
-
-    .order-item-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 13px;
-        color: #5a3e2b;
-        padding: 3px 0;
-    }
-
-    .order-item-name { font-weight: 500; }
-    .order-item-price { color: #9a7c65; }
-
-    .order-totals {
-        margin-top: 10px;
-        padding-top: 10px;
-        border-top: 1px solid #f0e8e0;
-    }
-
-    .order-totals-row {
-        display: flex;
-        justify-content: space-between;
-        font-size: 12px;
-        color: #9a7c65;
-        margin-bottom: 4px;
-    }
-
-    .order-totals-row.total {
-        font-size: 14px;
-        font-weight: 700;
-        color: #2d1a0e;
-        margin-top: 6px;
-    }
-
-    /* ── Action Buttons ── */
-    .order-card-actions {
-        padding: 12px 16px;
-        border-top: 1px solid #f0e8e0;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .btn-accept {
-        width: 100%;
-        background: #C97B2B;
-        color: #fff;
-        border: none;
-        border-radius: 10px;
-        padding: 11px;
-        font-size: 13px;
-        font-weight: 700;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 7px;
-        transition: all .2s;
-    }
-
-    .btn-accept:hover { background: #a8611e; }
-
-    .btn-cancel-order {
-        width: 100%;
-        background: transparent;
-        color: #f87171;
-        border: 1.5px solid rgba(248,113,113,0.35);
-        border-radius: 10px;
-        padding: 10px;
-        font-size: 13px;
-        font-weight: 600;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 7px;
-        transition: all .2s;
-    }
-
-    .btn-cancel-order:hover {
-        background: rgba(248,113,113,0.06);
-        border-color: #f87171;
-    }
-
-    /* ── Empty State ── */
-    .empty-state {
-        text-align: center;
-        padding: 80px 20px;
-        color: #9a7c65;
-    }
-
-    .empty-state i {
-        font-size: 48px;
-        margin-bottom: 16px;
-        opacity: 0.4;
-        display: block;
-    }
-
-    .empty-state p { font-size: 15px; }
-
-    /* ── Toast ── */
-    .toast-wrap {
-        position: fixed;
-        bottom: 28px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 9999;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        align-items: center;
-    }
-
-    .toast-msg {
-        background: #2d1a0e;
-        color: #fff;
-        padding: 12px 22px;
-        border-radius: 50px;
-        font-size: 13px;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-        animation: toastIn .3s ease;
-    }
-
-    .toast-msg.success i { color: #4ade80; }
-    .toast-msg.error i { color: #f87171; }
-
-    @keyframes toastIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── Confirm Modal ── */
-    .confirm-overlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(15,8,4,0.75);
-        backdrop-filter: blur(8px);
-        z-index: 2000;
-        align-items: center;
-        justify-content: center;
-        padding: 24px;
-    }
-
-    .confirm-overlay.open { display: flex; }
-
-    .confirm-box {
-        background: #fff;
-        border-radius: 20px;
-        width: 100%;
-        max-width: 360px;
-        padding: 28px 24px;
-        text-align: center;
-    }
-
-    .confirm-icon {
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-        background: rgba(248,113,113,0.1);
-        border: 2px solid rgba(248,113,113,0.25);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 14px;
-        font-size: 20px;
-        color: #f87171;
-    }
-
-    .confirm-title {
-        font-size: 18px;
-        font-weight: 800;
-        color: #2d1a0e;
-        margin-bottom: 6px;
-    }
-
-    .confirm-sub {
-        font-size: 13px;
-        color: #7a5c3a;
-        margin-bottom: 22px;
-        line-height: 1.5;
-    }
-
-    .confirm-actions { display: flex; gap: 10px; }
-
-    .confirm-keep {
-        flex: 1;
-        background: #f5ede4;
-        border: 1.5px solid rgba(201,123,43,0.2);
-        color: #7a5c3a;
-        border-radius: 10px;
-        padding: 11px;
-        font-size: 13px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all .2s;
-    }
-
-    .confirm-keep:hover { border-color: #C97B2B; color: #C97B2B; }
-
-    .confirm-yes {
-        flex: 1;
-        background: #f87171;
-        border: none;
-        color: #fff;
-        border-radius: 10px;
-        padding: 11px;
-        font-size: 13px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all .2s;
-    }
-
-    .confirm-yes:hover { background: #ef4444; }
-</style>
-
-<div class="page-header">
-    <h1 class="page-title">Online Orders</h1>
-    <p class="page-subtitle">Manage and process customer online orders</p>
-</div>
-
-<div class="orders-layout">
-
-    <!-- ── Status Filter Panel ── -->
-    <div class="status-panel">
-        <div class="status-panel-title">Order Status</div>
-
-        <?php
-        $tabs = [
-            'placed'   => ['label' => 'Pending',         'icon' => 'fa-hourglass-half',  'cls' => 'icon-placed'],
-            'brewing'  => ['label' => 'Preparing',        'icon' => 'fa-mug-hot',         'cls' => 'icon-brewing'],
-            'delivery' => ['label' => 'Out for Delivery', 'icon' => 'fa-person-biking',   'cls' => 'icon-delivery'],
-            'done'     => ['label' => 'Delivered',        'icon' => 'fa-check-circle',    'cls' => 'icon-done'],
-        ];
-        foreach ($tabs as $key => $tab):
-            $isActive = $active === $key;
-            $count    = $counts[$key] ?? 0;
-        ?>
-        <a href="?status=<?= $key ?>"
-           class="status-filter-btn <?= $isActive ? 'active' : '' ?>">
-            <span class="status-icon <?= $tab['cls'] ?>">
-                <i class="fas <?= $tab['icon'] ?>"></i>
-            </span>
-            <span class="status-label"><?= $tab['label'] ?></span>
-            <span class="status-badge <?= $count === 0 ? 'zero' : '' ?>"><?= $count ?></span>
-        </a>
+    <!-- Status Tab Cards -->
+    <div class="row g-3 mb-4">
+        <?php foreach ($tab_labels as $key => $tab): ?>
+        <div class="col-6 col-md-3">
+            <a href="?tab=<?= $key ?>" class="text-decoration-none">
+                <div class="stat-card <?= $active_tab === $key ? 'stat-card-active' : '' ?>"
+                     style="<?= $active_tab === $key ? "border-color: {$tab['color']}55; box-shadow: 0 4px 20px {$tab['color']}22;" : '' ?>">
+                    <div class="stat-icon" style="<?= $active_tab === $key ? "background: {$tab['color']}18; color: {$tab['color']};" : '' ?>">
+                        <i class="fas <?= $tab['icon'] ?>"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-count" style="<?= $active_tab === $key ? "color: {$tab['color']};" : '' ?>">
+                            <?= $counts[$key] ?>
+                        </div>
+                        <div class="stat-label"><?= $tab['label'] ?></div>
+                    </div>
+                </div>
+            </a>
+        </div>
         <?php endforeach; ?>
     </div>
 
-    <!-- ── Orders Panel ── -->
-    <div class="orders-panel">
-        <div class="orders-panel-header">
-            <div class="orders-panel-title"><?= $tabs[$active]['label'] ?></div>
-            <div class="orders-panel-count"><?= count($orders) ?> order<?= count($orders) !== 1 ? 's' : '' ?></div>
-        </div>
-
+    <!-- Orders List -->
+    <div id="ordersContainer">
         <?php if (empty($orders)): ?>
         <div class="empty-state">
-            <i class="fas fa-inbox"></i>
-            <p>No <?= strtolower($tabs[$active]['label']) ?> orders right now</p>
+            <i class="fas <?= $tab_labels[$active_tab]['icon'] ?>"></i>
+            <p>No <?= strtolower($tab_labels[$active_tab]['label']) ?> orders</p>
         </div>
-
         <?php else: ?>
-        <div class="orders-grid">
-            <?php foreach ($orders as $order):
-                // Parse items
-                $items = [];
-                if (!empty($order['items_raw'])) {
-                    foreach (explode(';;', $order['items_raw']) as $raw) {
-                        $parts = explode('|', $raw);
-                        if (count($parts) === 4) {
-                            $items[] = [
-                                'name'     => $parts[0],
-                                'qty'      => $parts[1],
-                                'price'    => $parts[2],
-                                'subtotal' => $parts[3],
-                            ];
-                        }
-                    }
-                }
-                $item_count    = count($items);
-                $payment_label = ['cash' => 'Cash', 'gcash' => 'GCash', 'paymaya' => 'Maya', 'card' => 'Card'][$order['payment_method']] ?? ucfirst($order['payment_method']);
-            ?>
-            <div class="order-card" id="card-<?= $order['id'] ?>">
-                <div class="order-card-header">
-                    <div class="order-icon-wrap">
-                        <i class="fas fa-bag-shopping"></i>
-                    </div>
-                    <div>
-                        <div class="order-number">Order #<?= strtoupper(substr($order['order_number'], -6)) ?></div>
-                        <div class="order-meta"><?= $item_count ?> item<?= $item_count !== 1 ? 's' : '' ?> &bull; <?= $payment_label ?></div>
-                    </div>
-                    <div class="order-total">₱<?= number_format($order['total'], 2) ?></div>
-                </div>
+        <div class="orders-list">
+            <?php foreach ($orders as $order): ?>
+            <div class="order-row" id="order-<?= $order['id'] ?>">
 
-                <div class="order-card-body">
-                    <div class="order-info-row">
-                        <i class="fas fa-user"></i>
-                        <span>Customer: <strong><?= htmlspecialchars($order['customer_name']) ?></strong></span>
-                    </div>
-                    <div class="order-info-row">
-                        <i class="fas fa-location-dot"></i>
-                        <span><?= htmlspecialchars($order['customer_address']) ?></span>
-                    </div>
-
-                    <hr class="order-divider">
-
-                    <?php foreach ($items as $item): ?>
-                    <div class="order-item-row">
-                        <span class="order-item-name">
-                            &bull; <?= htmlspecialchars($item['name']) ?> &times;<?= $item['qty'] ?>
+                <!-- Left: Order Info -->
+                <div class="order-main">
+                    <div class="order-header">
+                        <div class="order-num">
+                            <i class="fas fa-receipt me-2" style="color:#C97B2B;"></i>
+                            #<?= strtoupper(substr($order['order_number'], -8)) ?>
+                        </div>
+                        <span class="order-time">
+                            <i class="fas fa-clock me-1"></i>
+                            <?= date('M j, g:i A', strtotime($order['created_at'])) ?>
                         </span>
-                        <span class="order-item-price">₱<?= number_format($item['price'], 2) ?></span>
+                        <span class="pay-badge pay-<?= $order['payment_method'] ?>">
+                            <?= $order['payment_method'] === 'cash' ? '<i class="fas fa-money-bill-wave me-1"></i>COD' : '<i class="fas fa-mobile-screen-button me-1"></i>' . ucfirst($order['payment_method']) ?>
+                        </span>
                     </div>
-                    <?php endforeach; ?>
 
-                    <div class="order-totals">
-                        <div class="order-totals-row">
-                            <span>Subtotal</span>
-                            <span>₱<?= number_format($order['subtotal'], 2) ?></span>
+                    <div class="order-body">
+                        <div class="customer-info">
+                            <div class="customer-name">
+                                <i class="fas fa-user me-2" style="color:#9b7e60;font-size:12px;"></i>
+                                <?= htmlspecialchars($order['customer_name']) ?>
+                            </div>
+                            <div class="customer-detail">
+                                <i class="fas fa-phone me-2" style="color:#9b7e60;font-size:11px;"></i>
+                                <?= htmlspecialchars($order['customer_phone']) ?>
+                            </div>
+                            <div class="customer-detail">
+                                <i class="fas fa-location-dot me-2" style="color:#9b7e60;font-size:11px;"></i>
+                                <?= htmlspecialchars($order['customer_address']) ?>
+                            </div>
                         </div>
-                        <div class="order-totals-row">
-                            <span>Delivery Fee</span>
-                            <span>₱<?= number_format($order['delivery_fee'] ?? 50, 2) ?></span>
-                        </div>
-                        <div class="order-totals-row total">
-                            <span>Total</span>
-                            <span>₱<?= number_format($order['total'], 2) ?></span>
+
+                        <div class="order-items-text">
+                            <i class="fas fa-bag-shopping me-2" style="color:#9b7e60;font-size:11px;"></i>
+                            <?= htmlspecialchars($order['items_summary'] ?? '—') ?>
                         </div>
                     </div>
                 </div>
 
-                <?php if (in_array($active, ['placed', 'brewing'])): ?>
-                <div class="order-card-actions">
-                    <?php if ($active === 'placed'): ?>
-                    <button class="btn-accept" onclick="acceptOrder(<?= $order['id'] ?>, this)">
-                        <i class="fas fa-check"></i> Accept Order
-                    </button>
+                <!-- Right: Total + Actions -->
+                <div class="order-right">
+                    <div class="order-total-wrap">
+                        <div class="order-total-label">Total</div>
+                        <div class="order-total-amount">₱<?= number_format($order['total'] + ($order['delivery_fee'] ?? 50), 2) ?></div>
+                    </div>
+
+                    <?php if ($active_tab === 'placed'): ?>
+                    <div class="order-actions">
+                        <button class="btn-accept" onclick="updateStatus(<?= $order['id'] ?>, 'brewing')">
+                            <i class="fas fa-check me-1"></i> Accept
+                        </button>
+                        <button class="btn-cancel-order" onclick="confirmCancel(<?= $order['id'] ?>)">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <?php elseif ($active_tab === 'brewing'): ?>
+                    <div class="order-actions">
+                        <button class="btn-deliver" onclick="updateStatus(<?= $order['id'] ?>, 'delivery')">
+                            <i class="fas fa-person-biking me-1"></i> Out for Delivery
+                        </button>
+                        <button class="btn-cancel-order" onclick="confirmCancel(<?= $order['id'] ?>)">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <?php elseif ($active_tab === 'delivery'): ?>
+                    <div class="order-actions">
+                        <button class="btn-done" onclick="updateStatus(<?= $order['id'] ?>, 'done')">
+                            <i class="fas fa-check-double me-1"></i> Mark Delivered
+                        </button>
+                    </div>
                     <?php endif; ?>
-                    <button class="btn-cancel-order" onclick="openCancel(<?= $order['id'] ?>)">
-                        <i class="fas fa-times-circle"></i> Cancel Order
-                    </button>
                 </div>
-                <?php endif; ?>
+
             </div>
             <?php endforeach; ?>
         </div>
@@ -597,97 +177,260 @@ require_once BASE_PATH . '/includes/header.php';
     </div>
 </div>
 
-<!-- Cancel Confirm Modal -->
-<div class="confirm-overlay" id="confirmModal">
-    <div class="confirm-box">
-        <div class="confirm-icon"><i class="fas fa-times-circle"></i></div>
-        <div class="confirm-title">Cancel Order?</div>
-        <div class="confirm-sub">This will cancel the order and notify the customer. This cannot be undone.</div>
-        <div class="confirm-actions">
-            <button class="confirm-keep" onclick="closeCancel()">Keep It</button>
-            <button class="confirm-yes" onclick="confirmCancel()">Yes, Cancel</button>
+<!-- Cancel Confirmation Modal -->
+<div class="modal fade" id="cancelModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content" style="border-radius:16px; border:none;">
+            <div class="modal-body text-center p-4">
+                <div style="width:52px;height:52px;background:#fef2f2;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+                    <i class="fas fa-times-circle" style="color:#ef4444;font-size:22px;"></i>
+                </div>
+                <h6 class="fw-bold mb-1">Cancel this order?</h6>
+                <p class="text-muted small mb-4">This action cannot be undone.</p>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-light flex-fill" data-bs-dismiss="modal" style="border-radius:10px;">Never mind</button>
+                    <button class="btn flex-fill" id="confirmCancelBtn" style="background:#ef4444;color:#fff;border-radius:10px;">Cancel Order</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <!-- Toast -->
-<div class="toast-wrap" id="toastWrap"></div>
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index:9999;">
+    <div id="pageToast" class="toast align-items-center border-0 text-white" role="alert">
+        <div class="d-flex">
+            <div class="toast-body fw-semibold" id="pageToastMsg"></div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+</div>
+
+<style>
+/* ── Stat Cards ── */
+.stat-card {
+    background: #fff;
+    border: 1.5px solid #f0e8df;
+    border-radius: 16px;
+    padding: 18px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: all .25s ease;
+    cursor: pointer;
+}
+.stat-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+.stat-card-active { background: #fdf9f5; }
+
+.stat-icon {
+    width: 46px; height: 46px;
+    border-radius: 12px;
+    background: #f5ede3;
+    color: #9b7e60;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    transition: all .25s ease;
+}
+.stat-count {
+    font-size: 26px;
+    font-weight: 800;
+    color: #2d1a0e;
+    line-height: 1;
+    margin-bottom: 2px;
+}
+.stat-label {
+    font-size: 12px;
+    color: #9b7e60;
+    font-weight: 500;
+}
+
+/* ── Orders List ── */
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.order-row {
+    background: #fff;
+    border: 1.5px solid #f0e8df;
+    border-radius: 16px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    transition: all .2s ease;
+}
+.order-row:hover { border-color: #d4b896; box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+
+.order-main { flex: 1; min-width: 0; }
+
+.order-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+.order-num {
+    font-weight: 700;
+    font-size: 14px;
+    color: #2d1a0e;
+}
+.order-time {
+    font-size: 12px;
+    color: #9b7e60;
+    margin-left: auto;
+}
+.pay-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 50px;
+}
+.pay-cash    { background: #f0fdf4; color: #16a34a; }
+.pay-online  { background: #eff6ff; color: #2563eb; }
+.pay-card    { background: #faf5ff; color: #7c3aed; }
+
+.order-body {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+.customer-info { min-width: 200px; }
+.customer-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #2d1a0e;
+    margin-bottom: 4px;
+}
+.customer-detail {
+    font-size: 12px;
+    color: #7a5c3a;
+    margin-bottom: 3px;
+    line-height: 1.4;
+}
+.order-items-text {
+    font-size: 12px;
+    color: #7a5c3a;
+    flex: 1;
+    line-height: 1.6;
+    align-self: center;
+}
+
+/* ── Right Side ── */
+.order-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+    flex-shrink: 0;
+}
+.order-total-wrap { text-align: right; }
+.order-total-label { font-size: 11px; color: #9b7e60; font-weight: 500; }
+.order-total-amount { font-size: 20px; font-weight: 800; color: #C97B2B; }
+
+.order-actions { display: flex; gap: 8px; align-items: center; }
+
+.btn-accept {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: #fff; border: none;
+    padding: 8px 16px; border-radius: 10px;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all .2s;
+    white-space: nowrap;
+}
+.btn-accept:hover { opacity: .88; transform: translateY(-1px); }
+
+.btn-deliver {
+    background: linear-gradient(135deg, #60a5fa, #2563eb);
+    color: #fff; border: none;
+    padding: 8px 16px; border-radius: 10px;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all .2s;
+    white-space: nowrap;
+}
+.btn-deliver:hover { opacity: .88; transform: translateY(-1px); }
+
+.btn-done {
+    background: linear-gradient(135deg, #a78bfa, #7c3aed);
+    color: #fff; border: none;
+    padding: 8px 16px; border-radius: 10px;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all .2s;
+    white-space: nowrap;
+}
+.btn-done:hover { opacity: .88; transform: translateY(-1px); }
+
+.btn-cancel-order {
+    width: 34px; height: 34px;
+    background: #fef2f2;
+    border: 1.5px solid #fecaca;
+    color: #ef4444;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 13px;
+    transition: all .2s; flex-shrink: 0;
+}
+.btn-cancel-order:hover { background: #ef4444; color: #fff; border-color: #ef4444; }
+
+/* ── Empty State ── */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #9b7e60;
+}
+.empty-state i { font-size: 40px; opacity: .3; display: block; margin-bottom: 12px; }
+.empty-state p { font-size: 14px; font-weight: 500; }
+</style>
 
 <script>
 let cancelOrderId = null;
 
-function acceptOrder(orderId, btn) {
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-
-    fetch('<?= getBaseURL() ?>/api/update_order_status.php', {
+function updateStatus(orderId, newStatus) {
+    fetch('api/update_order_status.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ order_id: orderId, status: 'brewing' })
+        body: JSON.stringify({ order_id: orderId, status: newStatus })
     })
     .then(r => r.json())
     .then(data => {
         if (data.success) {
-            showToast('success', 'Order accepted — now preparing!');
-            setTimeout(() => {
-                document.getElementById('card-' + orderId).remove();
-                checkEmpty();
-            }, 800);
+            const row = document.getElementById('order-' + orderId);
+            if (row) {
+                row.style.transition = 'all .3s ease';
+                row.style.opacity = '0';
+                row.style.transform = 'translateX(20px)';
+                setTimeout(() => row.remove(), 300);
+            }
+            setTimeout(() => location.reload(), 600);
         } else {
-            showToast('error', data.message || 'Something went wrong.');
-            btn.disabled = false;
-            btn.innerHTML = '<i class="fas fa-check"></i> Accept Order';
+            showToast(data.message || 'Failed to update order.', false);
         }
-    });
+    })
+    .catch(() => showToast('Network error. Try again.', false));
 }
 
-function openCancel(orderId) {
+function confirmCancel(orderId) {
     cancelOrderId = orderId;
-    document.getElementById('confirmModal').classList.add('open');
+    new bootstrap.Modal(document.getElementById('cancelModal')).show();
 }
 
-function closeCancel() {
-    cancelOrderId = null;
-    document.getElementById('confirmModal').classList.remove('open');
-}
-
-function confirmCancel() {
+document.getElementById('confirmCancelBtn').addEventListener('click', function () {
     if (!cancelOrderId) return;
-    closeCancel();
+    bootstrap.Modal.getInstance(document.getElementById('cancelModal')).hide();
+    updateStatus(cancelOrderId, 'cancelled');
+    cancelOrderId = null;
+});
 
-    fetch('<?= getBaseURL() ?>/api/update_order_status.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ order_id: cancelOrderId, status: 'cancelled' })
-    })
-    .then(r => r.json())
-    .then(data => {
-        if (data.success) {
-            showToast('success', 'Order has been cancelled.');
-            setTimeout(() => {
-                document.getElementById('card-' + cancelOrderId).remove();
-                checkEmpty();
-            }, 800);
-        } else {
-            showToast('error', data.message || 'Something went wrong.');
-        }
-    });
-}
-
-function checkEmpty() {
-    const grid = document.querySelector('.orders-grid');
-    if (grid && grid.children.length === 0) {
-        grid.outerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><p>No orders right now</p></div>`;
-    }
-}
-
-function showToast(type, msg) {
-    const wrap = document.getElementById('toastWrap');
-    const el = document.createElement('div');
-    el.className = 'toast-msg ' + type;
-    el.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${msg}`;
-    wrap.appendChild(el);
-    setTimeout(() => el.remove(), 3500);
+function showToast(msg, success) {
+    const toast = document.getElementById('pageToast');
+    document.getElementById('pageToastMsg').textContent = msg;
+    toast.className = 'toast align-items-center border-0 text-white ' + (success ? 'bg-success' : 'bg-danger');
+    new bootstrap.Toast(toast, { delay: 4000 }).show();
 }
 </script>
 
