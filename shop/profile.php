@@ -409,9 +409,11 @@ unset($_SESSION['profile_success'], $_SESSION['profile_error']);
     </form>
 
     <!-- Reset Password -->
-    <button class="btn-reset" onclick="alert('Reset password feature coming soon!')">
-        <i class="fas fa-lock"></i> Reset Password
-    </button>
+    <form action="send_reset_link.php" method="POST" style="margin-top:12px;">
+        <button type="submit" class="btn-reset">
+            <i class="fas fa-lock"></i> Reset Password
+        </button>
+    </form>
 
 </div>
 
