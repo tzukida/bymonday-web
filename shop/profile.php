@@ -414,5 +414,7 @@ unset($_SESSION['profile_success'], $_SESSION['profile_error']);
     </button>
 
 </div>
+
+<?php require_once BASE_PATH . '/includes/order_notif.php'; ?>
 </body>
 </html>

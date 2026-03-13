@@ -729,5 +729,6 @@ function confirmCancel() {
 }
 </script>
 
+<?php require_once BASE_PATH . '/includes/order_notif.php'; ?>
 </body>
 </html>

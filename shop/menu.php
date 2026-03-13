@@ -577,5 +577,7 @@ function toggleFavorite(btn, itemId) {
     .catch(() => {});
 }
 </script>
+
+<?php require_once BASE_PATH . '/includes/order_notif.php'; ?>
 </body>
 </html>
