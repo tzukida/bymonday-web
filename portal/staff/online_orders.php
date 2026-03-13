@@ -154,13 +154,24 @@ $tab_labels = [
                     </div>
                     <?php elseif ($active_tab === 'brewing'): ?>
                     <div class="order-actions">
-                        <button class="btn-deliver" onclick="updateStatus(<?= $order['id'] ?>, 'delivery')">
+                        <button class="btn-assign <?= $order['rider_id'] ? 'btn-assign-done' : '' ?>"
+                                onclick="openAssignModal(<?= $order['id'] ?>)">
+                            <i class="fas fa-user-plus me-1"></i>
+                            <?= $order['rider_id'] ? htmlspecialchars($order['rider_name']) : 'Assign Rider' ?>
+                        </button>
+                        <button class="btn-deliver <?= !$order['rider_id'] ? 'btn-disabled' : '' ?>"
+                                onclick="<?= $order['rider_id'] ? "updateStatus({$order['id']}, 'delivery')" : "showToast('Assign a rider first.', false)" ?>">
                             <i class="fas fa-person-biking me-1"></i> Out for Delivery
                         </button>
                         <button class="btn-cancel-order" onclick="confirmCancel(<?= $order['id'] ?>)">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
+                    <?php if (!$order['rider_id']): ?>
+                    <div class="assign-hint">
+                        <i class="fas fa-circle-info me-1"></i> Assign a rider before dispatching.
+                    </div>
+                    <?php endif; ?>
                     <?php elseif ($active_tab === 'delivery'): ?>
                     <div class="order-actions">
                         <button class="btn-done" onclick="updateStatus(<?= $order['id'] ?>, 'done')">
@@ -174,6 +185,36 @@ $tab_labels = [
             <?php endforeach; ?>
         </div>
         <?php endif; ?>
+    </div>
+</div>
+
+<!-- Assign Rider Modal -->
+<div class="modal fade" id="assignModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius:16px; border:none;">
+            <div class="modal-body p-0">
+                <div style="background:#3b1f0a; padding:20px 24px; border-radius:16px 16px 0 0;">
+                    <div class="d-flex align-items-center gap-3">
+                        <div style="width:40px;height:40px;background:rgba(201,123,43,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+                            <i class="fas fa-person-biking" style="color:#e8a04a;font-size:16px;"></i>
+                        </div>
+                        <div>
+                            <div style="color:#f5e6d0;font-weight:700;font-size:15px;">Assign Driver</div>
+                            <div style="color:rgba(201,181,148,0.6);font-size:12px;">Select a staff member to deliver this order</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding:16px 24px;" id="riderList">
+                    <div class="text-center text-muted py-3">Loading staff...</div>
+                </div>
+                <div style="padding:0 24px 20px;">
+                    <button class="btn w-100 fw-bold" id="confirmAssignBtn" disabled
+                        style="background:#C97B2B;color:#fff;border-radius:10px;padding:12px;opacity:0.5;">
+                        <i class="fas fa-check me-2"></i>Confirm Assignment
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -385,6 +426,64 @@ $tab_labels = [
 }
 .empty-state i { font-size: 40px; opacity: .3; display: block; margin-bottom: 12px; }
 .empty-state p { font-size: 14px; font-weight: 500; }
+
+.btn-assign {
+    background: #f5ede3;
+    border: 1.5px solid #d4b896;
+    color: #6b4c2a;
+    padding: 8px 14px; border-radius: 10px;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all .2s;
+    white-space: nowrap;
+}
+.btn-assign:hover { background: #ecdbc8; }
+.btn-assign-done {
+    background: rgba(201,123,43,0.12);
+    border-color: rgba(201,123,43,0.4);
+    color: #C97B2B;
+}
+.btn-disabled {
+    opacity: 0.4;
+    cursor: not-allowed !important;
+}
+.assign-hint {
+    font-size: 11px;
+    color: #9b7e60;
+    margin-top: 6px;
+    text-align: right;
+}
+.rider-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1.5px solid #f0e8df;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all .2s;
+}
+.rider-item:hover { border-color: #C97B2B; background: #fdf9f5; }
+.rider-item.selected { border-color: #C97B2B; background: rgba(201,123,43,0.06); }
+.rider-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: #f5ede3;
+    color: #C97B2B;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 15px; flex-shrink: 0;
+}
+.rider-name { font-size: 13px; font-weight: 600; color: #2d1a0e; }
+.rider-email { font-size: 11px; color: #9b7e60; }
+.rider-check {
+    margin-left: auto;
+    color: #C97B2B;
+    font-size: 16px;
+    display: none;
+}
+.rider-item.selected .rider-check { display: block; }
+
+.bg-brown-toast { background: #6b3a1f !important; }
 </style>
 
 <script>
@@ -426,11 +525,84 @@ document.getElementById('confirmCancelBtn').addEventListener('click', function (
     cancelOrderId = null;
 });
 
-function showToast(msg, success) {
+function showToast(msg, success, brown = false) {
     const toast = document.getElementById('pageToast');
     document.getElementById('pageToastMsg').textContent = msg;
-    toast.className = 'toast align-items-center border-0 text-white ' + (success ? 'bg-success' : 'bg-danger');
-    new bootstrap.Toast(toast, { delay: 4000 }).show();
+    let cls = 'bg-danger';
+    if (brown) cls = 'bg-brown-toast';
+    else if (success) cls = 'bg-success';
+    toast.className = 'toast align-items-center border-0 text-white ' + cls;
+    new bootstrap.Toast(toast, { delay: 10000 }).show();
+}
+
+let assignOrderId  = null;
+let selectedRider  = null;
+
+function openAssignModal(orderId) {
+    assignOrderId = orderId;
+    selectedRider = null;
+    document.getElementById('confirmAssignBtn').disabled = true;
+    document.getElementById('confirmAssignBtn').style.opacity = '0.5';
+
+    // Fetch staff from bymonday DB via portal
+    fetch('<?= BASE_URL ?>/api/get_staff_list.php')
+        .then(r => r.json())
+        .then(data => {
+            const list = document.getElementById('riderList');
+            if (!data.success || !data.staff.length) {
+                list.innerHTML = '<div class="text-center text-muted py-3">No staff available.</div>';
+                return;
+            }
+            list.innerHTML = data.staff.map(s => `
+                <div class="rider-item" onclick="selectRider(this, ${s.id}, '${escJs(s.full_name)}')">
+                    <div class="rider-avatar">${s.full_name.charAt(0).toUpperCase()}</div>
+                    <div>
+                        <div class="rider-name">${escJs(s.full_name)}</div>
+                        <div class="rider-email">${escJs(s.email)}</div>
+                    </div>
+                    <i class="fas fa-check-circle rider-check"></i>
+                </div>
+            `).join('');
+        })
+        .catch(() => {
+            document.getElementById('riderList').innerHTML = '<div class="text-center text-muted py-3">Failed to load staff.</div>';
+        });
+
+    new bootstrap.Modal(document.getElementById('assignModal')).show();
+}
+
+function selectRider(el, id, name) {
+    document.querySelectorAll('.rider-item').forEach(r => r.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedRider = { id, name };
+    const btn = document.getElementById('confirmAssignBtn');
+    btn.disabled = false;
+    btn.style.opacity = '1';
+}
+
+document.getElementById('confirmAssignBtn').addEventListener('click', function () {
+    if (!selectedRider || !assignOrderId) return;
+    bootstrap.Modal.getInstance(document.getElementById('assignModal')).hide();
+
+    fetch('api/assign_rider.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ order_id: assignOrderId, rider_id: selectedRider.id, rider_name: selectedRider.name })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            showToast(selectedRider.name + ' assigned you to deliver Order #' + assignOrderId + '.', true, true);
+            setTimeout(() => location.reload(), 10000);
+        } else {
+            showToast('Failed to assign rider.', false);
+        }
+    })
+    .catch(() => showToast('Network error.', false));
+});
+
+function escJs(str) {
+    return str.replace(/'/g, "\\'").replace(/"/g, '&quot;');
 }
 </script>
 
