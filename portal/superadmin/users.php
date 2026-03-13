@@ -7,6 +7,11 @@
   requireSuperAdmin();
   $conn = getDBConnection();
 
+  // Secondary connection to shop DB for customers
+  $shop_conn = new mysqli('localhost', 'root', '', 'coffee_shop');
+  if (!$shop_conn->connect_error) {
+      $shop_conn->set_charset("utf8mb4");
+  }
   // Handle AJAX requests
   if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax'])) {
       header('Content-Type: application/json');
@@ -44,77 +49,57 @@
   }
 
   // Get filter and search parameters
-  $search = sanitizeInput($_GET['search'] ?? '');
-  $role_filter = sanitizeInput($_GET['role'] ?? '');
+  $search        = sanitizeInput($_GET['search'] ?? '');
+  $role_filter   = sanitizeInput($_GET['role'] ?? '');
   $status_filter = sanitizeInput($_GET['status'] ?? '');
 
   // Pagination
-  $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+  $page     = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
   $per_page = 15;
-  $offset = ($page - 1) * $per_page;
 
-  // Build query conditions
-  $where_conditions = [];
-  $params = [];
-  $types = '';
-
-  if (!empty($search)) {
-    $where_conditions[] = "(username LIKE ?)";
-    $search_param = "%$search%";
-    $params[] = $search_param;
-    $types .= 's';
+  // 1. Portal users (superadmin/admin/staff) from bymonday DB
+  $portal_users_raw = [];
+  $pu_result = $conn->query("SELECT id, username, '' as full_name, '' as email, role, status, created_at FROM users");
+  while ($row = $pu_result->fetch_assoc()) {
+      $row['source'] = 'portal';
+      $portal_users_raw[] = $row;
   }
 
-  if (!empty($role_filter)) {
-    $where_conditions[] = "role = ?";
-    $params[] = $role_filter;
-    $types .= 's';
+  // 2. Customers from coffee_shop DB
+  $customer_users_raw = [];
+  if (!$shop_conn->connect_error) {
+      $cu_result = $shop_conn->query("SELECT u.id, u.username, u.full_name, u.email, u.role, 'active' as status, u.created_at, c.phone, c.address FROM users u LEFT JOIN customers c ON u.id = c.user_id WHERE u.role = 'customer'");
+      while ($row = $cu_result->fetch_assoc()) {
+          $row['source'] = 'shop';
+          $customer_users_raw[] = $row;
+      }
   }
 
-  if (!empty($status_filter)) {
-    $where_conditions[] = "status = ?";
-    $params[] = $status_filter;
-    $types .= 's';
-  }
+  // 3. Merge
+  $all_merged = array_merge($portal_users_raw, $customer_users_raw);
 
-  $where_sql = '';
-  if (!empty($where_conditions)) {
-    $where_sql = 'WHERE ' . implode(' AND ', $where_conditions);
-  }
+  // 4. Apply filters
+  $filtered = array_values(array_filter($all_merged, function($u) use ($search, $role_filter, $status_filter) {
+      if (!empty($search)) {
+          $haystack = strtolower($u['username'] . ' ' . ($u['full_name'] ?? '') . ' ' . ($u['email'] ?? ''));
+          if (strpos($haystack, strtolower($search)) === false) return false;
+      }
+      if (!empty($role_filter) && $u['role'] !== $role_filter) return false;
+      if (!empty($status_filter) && $u['status'] !== $status_filter) return false;
+      return true;
+  }));
 
-  // Count total users with filters
-  $count_sql = "SELECT COUNT(*) as total FROM users $where_sql";
-  $count_stmt = $conn->prepare($count_sql);
-  if (!empty($params)) {
-    $count_stmt->bind_param($types, ...$params);
-  }
-  $count_stmt->execute();
-  $total_users = $count_stmt->get_result()->fetch_assoc()['total'];
-  $total_pages = max(1, ceil($total_users / $per_page));
+  // 5. Stats
+  $total_users    = count($filtered);
+  $total_pages    = max(1, ceil($total_users / $per_page));
+  $offset         = ($page - 1) * $per_page;
+  $active_count   = count(array_filter($filtered, fn($u) => $u['status'] === 'active'));
+  $inactive_count = count(array_filter($filtered, fn($u) => $u['status'] === 'inactive'));
+  $admin_count    = count(array_filter($filtered, fn($u) => in_array($u['role'], ['superadmin', 'admin'])));
+  $customer_count = count(array_filter($filtered, fn($u) => $u['role'] === 'customer'));
 
-  // Get users with pagination
-  $sql = "SELECT * FROM users $where_sql ORDER BY id ASC LIMIT ? OFFSET ?";
-  $stmt = $conn->prepare($sql);
-
-  if (!empty($params)) {
-    $params[] = $per_page;
-    $params[] = $offset;
-    $types .= 'ii';
-    $stmt->bind_param($types, ...$params);
-  } else {
-    $stmt->bind_param('ii', $per_page, $offset);
-  }
-
-  $stmt->execute();
-  $users = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-
-  // Get all users for stats (without pagination)
-  $all_users = getAllUsers();
-
-  // Calculate stats
-  $active_count = count(array_filter($all_users, fn($u) => $u['status'] === 'active'));
-  $inactive_count = count(array_filter($all_users, fn($u) => $u['status'] === 'inactive'));
-  $admin_count = count(array_filter($all_users, fn($u) => in_array($u['role'], ['superadmin', 'admin'])));
+  // 6. Paginate
+  $users = array_slice($filtered, $offset, $per_page);
 
   $page_title = 'Account Management';
   require_once BASE_PATH . '/includes/header.php';
@@ -139,14 +124,14 @@
 
   <!-- Stats Cards Row -->
   <div class="row g-3 mb-4">
-    <div class="col-xl-3 col-md-6">
+  <div class="col-xl-3 col-md-6">
       <div class="card text-white h-100" style="background: linear-gradient(135deg, #382417 0%, #2a1b11 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
-            <i class="fas fa-users fa-2x opacity-75"></i>
+            <i class="fas fa-user fa-2x opacity-75"></i>
           </div>
-          <h3 class="mb-1"><?php echo number_format(count($users)); ?></h3>
-          <p class="mb-0 opacity-75">Total Accounts</p>
+          <h3 class="mb-1"><?php echo number_format(count(array_filter($filtered, fn($u) => $u['role'] === 'staff'))); ?></h3>
+          <p class="mb-0 opacity-75">Staff Accounts</p>
         </div>
       </div>
     </div>
@@ -179,10 +164,10 @@
       <div class="card text-white h-100" style="background: linear-gradient(135deg, #7d5633 0%, #654529 100%);">
         <div class="card-body text-center p-4">
           <div class="mb-3">
-            <i class="fas fa-user-shield fa-2x opacity-75"></i>
+            <i class="fas fa-mug-hot fa-2x opacity-75"></i>
           </div>
-          <h3 class="mb-1"><?php echo number_format($admin_count); ?></h3>
-          <p class="mb-0 opacity-75">Admin Accounts</p>
+          <h3 class="mb-1"><?php echo number_format($customer_count); ?></h3>
+          <p class="mb-0 opacity-75">Customer Accounts</p>
         </div>
       </div>
     </div>
@@ -213,6 +198,7 @@
                 <option value="superadmin" <?php echo $role_filter === 'superadmin' ? 'selected' : ''; ?>>Super Admin</option>
                 <option value="admin" <?php echo $role_filter === 'admin' ? 'selected' : ''; ?>>Admin</option>
                 <option value="staff" <?php echo $role_filter === 'staff' ? 'selected' : ''; ?>>Staff</option>
+                <option value="customer" <?php echo $role_filter === 'customer' ? 'selected' : ''; ?>>Customer</option>
               </select>
             </div>
             <div class="col-md-2">
@@ -291,12 +277,18 @@
                     <td class="align-middle">
                       <div class="d-flex align-items-center">
                         <div class="avatar-circle me-2">
-                          <i class="fas fa-user"></i>
+                          <i class="fas fa-<?php echo $user['role'] === 'customer' ? 'mug-hot' : 'user'; ?>"></i>
                         </div>
                         <div>
                           <strong><?php echo htmlspecialchars($user['username']); ?></strong>
-                          <?php if ($user['id'] == $_SESSION['user_id']): ?>
+                          <?php if ($user['source'] === 'portal' && $user['id'] == $_SESSION['user_id']): ?>
                             <span class="badge bg-secondary ms-1">You</span>
+                          <?php endif; ?>
+                          <?php if ($user['role'] === 'customer' && !empty($user['full_name'])): ?>
+                            <div class="small text-muted"><?php echo htmlspecialchars($user['full_name']); ?></div>
+                          <?php endif; ?>
+                          <?php if ($user['role'] === 'customer' && !empty($user['email'])): ?>
+                            <div class="small text-muted"><?php echo htmlspecialchars($user['email']); ?></div>
                           <?php endif; ?>
                         </div>
                       </div>
@@ -306,7 +298,8 @@
                       $role_badges = [
                         'superadmin' => '<span class="badge bg-brown"><i class="fas fa-crown me-1"></i>Super Admin</span>',
                         'admin' => '<span class="badge" style="background: linear-gradient(135deg, #4d3420 0%, #382417 100%);"><i class="fas fa-user-shield me-1"></i>Admin</span>',
-                        'staff' => '<span class="badge bg-secondary"><i class="fas fa-user me-1"></i>Staff</span>'
+                        'staff' => '<span class="badge bg-secondary"><i class="fas fa-user me-1"></i>Staff</span>',
+                        'customer' => '<span class="badge" style="background: linear-gradient(135deg, #96713f 0%, #7d5633 100%);"><i class="fas fa-mug-hot me-1"></i>Customer</span>'
                       ];
                       echo $role_badges[$user['role']] ?? '';
                       ?>
@@ -317,8 +310,8 @@
                                type="checkbox"
                                data-user-id="<?php echo $user['id']; ?>"
                                <?php echo $user['status'] === 'active' ? 'checked' : ''; ?>
-                               <?php echo $user['id'] == $_SESSION['user_id'] ? 'disabled' : ''; ?>
-                               style="cursor: pointer;">
+                               <?php echo ($user['id'] == $_SESSION['user_id'] || $user['role'] === 'customer') ? 'disabled' : ''; ?>
+                               style="cursor: <?php echo $user['role'] === 'customer' ? 'not-allowed' : 'pointer'; ?>;">
                       </div>
                       <small class="d-block mt-1 status-text <?php echo $user['status'] === 'active' ? 'text-brown' : 'text-muted'; ?>">
                         <?php echo ucfirst($user['status']); ?>
@@ -339,7 +332,9 @@
                     </td>
                     <td class="text-center align-middle">
                       <div class="btn-group btn-group-sm" role="group">
-                        <?php if ($user['id'] != $_SESSION['user_id']): ?>
+                        <?php if ($user['role'] === 'customer'): ?>
+                          <span class="text-muted small">Shop account</span>
+                        <?php elseif ($user['role'] !== 'superadmin'): ?>
                         <a href="edit_staff.php?id=<?php echo $user['id']; ?>"
                            class="btn btn-outline-brown"
                            title="Edit User">
