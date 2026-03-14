@@ -5,31 +5,34 @@ require_once BASE_PATH . '/includes/auth.php';
 
 header('Content-Type: application/json');
 
-if (!isLoggedIn()) {
-    echo json_encode(['success' => false, 'message' => 'Unauthorized.']);
-    exit;
-}
-
-$data     = json_decode(file_get_contents('php://input'), true);
-$order_id = intval($data['order_id'] ?? 0);
-$status   = $data['status'] ?? '';
+$data = json_decode(file_get_contents('php://input'), true);
+$order_id  = intval($data['order_id'] ?? 0);
+$status    = trim($data['status'] ?? '');
+$reason    = trim($data['reason'] ?? '');
 
 $allowed = ['brewing', 'delivery', 'done', 'cancelled'];
 if (!$order_id || !in_array($status, $allowed)) {
-    echo json_encode(['success' => false, 'message' => 'Invalid request.']);
+    echo json_encode(['success' => false, 'message' => 'Invalid data.']);
     exit;
 }
 
-$conn = new mysqli('localhost', 'root', '', 'coffee_shop');
-if ($conn->connect_error) {
-    echo json_encode(['success' => false, 'message' => 'DB connection failed.']);
+$cs = new mysqli('localhost', 'root', '', 'coffee_shop');
+if ($cs->connect_error) {
+    echo json_encode(['success' => false, 'message' => 'DB error.']);
     exit;
 }
-$conn->set_charset("utf8mb4");    
+$cs->set_charset("utf8mb4");
 
-$stmt = $conn->prepare("UPDATE orders SET order_status = ? WHERE id = ?");
-$stmt->bind_param("si", $status, $order_id);
+if ($status === 'cancelled' && $reason) {
+    $stmt = $cs->prepare("UPDATE orders SET order_status = ?, cancel_reason = ? WHERE id = ?");
+    $stmt->bind_param("ssi", $status, $reason, $order_id);
+} else {
+    $stmt = $cs->prepare("UPDATE orders SET order_status = ? WHERE id = ?");
+    $stmt->bind_param("si", $status, $order_id);
+}
+
 $stmt->execute();
 $stmt->close();
+$cs->close();
 
 echo json_encode(['success' => true]);

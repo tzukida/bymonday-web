@@ -15,7 +15,7 @@ if ($cs->connect_error) die("Connection failed: " . $cs->connect_error);
 $cs->set_charset("utf8mb4");
 
 $active_tab = $_GET['tab'] ?? 'placed';
-$allowed_tabs = ['placed', 'brewing', 'delivery', 'done'];
+$allowed_tabs = ['placed', 'brewing', 'delivery', 'done', 'cancelled'];
 if (!in_array($active_tab, $allowed_tabs)) $active_tab = 'placed';
 
 // Get counts for each tab
@@ -46,6 +46,7 @@ $tab_labels = [
     'brewing'  => ['label' => 'Preparing',         'icon' => 'fa-mug-hot',        'color' => '#818cf8'],
     'delivery' => ['label' => 'Out for Delivery',  'icon' => 'fa-person-biking',  'color' => '#60a5fa'],
     'done'     => ['label' => 'Delivered',         'icon' => 'fa-check-circle',   'color' => '#4ade80'],
+    'cancelled' => ['label' => 'Cancelled',         'icon' => 'fa-times-circle',   'color' => '#f87171'],
 ];
 ?>
 
@@ -64,9 +65,9 @@ $tab_labels = [
     </div>
 
     <!-- Status Tab Cards -->
-    <div class="row g-3 mb-4">
+    <div class="row g-3 mb-4 row-cols-2 row-cols-md-5">
         <?php foreach ($tab_labels as $key => $tab): ?>
-        <div class="col-6 col-md-3">
+        <div class="col">
             <a href="?tab=<?= $key ?>" class="text-decoration-none">
                 <div class="stat-card <?= $active_tab === $key ? 'stat-card-active' : '' ?>"
                      style="<?= $active_tab === $key ? "border-color: {$tab['color']}55; box-shadow: 0 4px 20px {$tab['color']}22;" : '' ?>">
@@ -127,12 +128,24 @@ $tab_labels = [
                                 <i class="fas fa-location-dot me-2" style="color:#9b7e60;font-size:11px;"></i>
                                 <?= htmlspecialchars($order['customer_address']) ?>
                             </div>
+                            <?php if (in_array($active_tab, ['delivery', 'done']) && !empty($order['rider_name'])): ?>
+                            <div class="customer-detail" style="margin-top:4px;">
+                                <i class="fas fa-person-biking me-2" style="color:#C97B2B;font-size:11px;"></i>
+                                <span style="color:#C97B2B;font-weight:600;">Driver: <?= htmlspecialchars($order['rider_name']) ?></span>
+                            </div>
+                            <?php endif; ?>
                         </div>
 
                         <div class="order-items-text">
                             <i class="fas fa-bag-shopping me-2" style="color:#9b7e60;font-size:11px;"></i>
                             <?= htmlspecialchars($order['items_summary'] ?? '—') ?>
                         </div>
+                        <?php if ($active_tab === 'cancelled' && !empty($order['cancel_reason'])): ?>
+                        <div class="cancel-reason-badge">
+                            <i class="fas fa-circle-exclamation"></i>
+                            Reason: <?= htmlspecialchars($order['cancel_reason']) ?>
+                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -161,7 +174,7 @@ $tab_labels = [
                         </button>
                         <button class="btn-deliver <?= !$order['rider_id'] ? 'btn-disabled' : '' ?>"
                                 onclick="<?= $order['rider_id'] ? "updateStatus({$order['id']}, 'delivery')" : "showToast('Assign a rider first.', false)" ?>">
-                            <i class="fas fa-person-biking me-1"></i> Out for Delivery
+                            <i class="fas fa-person-biking me-1"></i> Mark Ready
                         </button>
                         <button class="btn-cancel-order" onclick="confirmCancel(<?= $order['id'] ?>)">
                             <i class="fas fa-times"></i>
@@ -175,7 +188,7 @@ $tab_labels = [
                     <?php elseif ($active_tab === 'delivery'): ?>
                     <div class="order-actions">
                         <button class="btn-done" onclick="updateStatus(<?= $order['id'] ?>, 'done')">
-                            <i class="fas fa-check-double me-1"></i> Mark Delivered
+                            <i class="fas fa-check-double me-1"></i> Mark as Delivered
                         </button>
                     </div>
                     <?php endif; ?>
@@ -220,17 +233,36 @@ $tab_labels = [
 
 <!-- Cancel Confirmation Modal -->
 <div class="modal fade" id="cancelModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-radius:16px; border:none;">
-            <div class="modal-body text-center p-4">
-                <div style="width:52px;height:52px;background:#fef2f2;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
-                    <i class="fas fa-times-circle" style="color:#ef4444;font-size:22px;"></i>
+            <div class="modal-body p-0">
+                <div style="background:#3b1f0a; padding:20px 24px; border-radius:16px 16px 0 0;">
+                    <div class="d-flex align-items-center gap-3">
+                        <div style="width:40px;height:40px;background:rgba(239,68,68,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+                            <i class="fas fa-times-circle" style="color:#f87171;font-size:16px;"></i>
+                        </div>
+                        <div>
+                            <div style="color:#f5e6d0;font-weight:700;font-size:15px;">Cancel Order</div>
+                            <div style="color:rgba(201,181,148,0.6);font-size:12px;">Select a reason for cancellation</div>
+                        </div>
+                    </div>
                 </div>
-                <h6 class="fw-bold mb-1">Cancel this order?</h6>
-                <p class="text-muted small mb-4">This action cannot be undone.</p>
-                <div class="d-flex gap-2">
-                    <button class="btn btn-light flex-fill" data-bs-dismiss="modal" style="border-radius:10px;">Never mind</button>
-                    <button class="btn flex-fill" id="confirmCancelBtn" style="background:#ef4444;color:#fff;border-radius:10px;">Cancel Order</button>
+                <div style="padding:16px 24px;">
+                    <div class="d-flex flex-wrap gap-2 mb-3" id="reasonBtns">
+                        <button class="reason-btn" onclick="selectReason(this, 'Out of stock')">Out of stock</button>
+                        <button class="reason-btn" onclick="selectReason(this, 'Customer requested')">Customer requested</button>
+                        <button class="reason-btn" onclick="selectReason(this, 'Payment issue')">Payment issue</button>
+                        <button class="reason-btn" onclick="selectReason(this, 'System error')">System error</button>
+                    </div>
+                    <input type="text" id="customReason" placeholder="Or type custom reason..."
+                        style="width:100%;padding:10px 14px;border:1.5px solid #f0e8df;border-radius:10px;font-size:13px;color:#2d1a0e;outline:none;"
+                        oninput="onCustomReason(this)">
+                </div>
+                <div style="padding:0 24px 20px;">
+                    <button class="btn w-100 fw-bold" id="confirmCancelBtn"
+                        style="background:#ef4444;color:#fff;border-radius:10px;padding:12px;opacity:0.5;" disabled>
+                        <i class="fas fa-times-circle me-2"></i>Confirm Cancellation
+                    </button>
                 </div>
             </div>
         </div>
@@ -484,6 +516,34 @@ $tab_labels = [
 .rider-item.selected .rider-check { display: block; }
 
 .bg-brown-toast { background: #6b3a1f !important; }
+
+.reason-btn {
+    padding: 8px 14px;
+    border-radius: 20px;
+    border: 1.5px solid #f0e8df;
+    background: #fdf9f5;
+    color: #6b4c2a;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+}
+.reason-btn:hover { border-color: #C97B2B; color: #C97B2B; }
+.reason-btn.selected { background: rgba(239,68,68,0.08); border-color: #f87171; color: #ef4444; }
+
+.cancel-reason-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(239,68,68,0.08);
+    border: 1px solid rgba(239,68,68,0.2);
+    color: #ef4444;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-top: 6px;
+}
 </style>
 
 <script>
@@ -513,16 +573,68 @@ function updateStatus(orderId, newStatus) {
     .catch(() => showToast('Network error. Try again.', false));
 }
 
+function updateStatusWithReason(orderId, newStatus, reason) {
+    fetch('api/update_order_status.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ order_id: orderId, status: newStatus, reason: reason })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            const row = document.getElementById('order-' + orderId);
+            if (row) {
+                row.style.transition = 'all .3s ease';
+                row.style.opacity = '0';
+                row.style.transform = 'translateX(20px)';
+                setTimeout(() => row.remove(), 300);
+            }
+            setTimeout(() => location.reload(), 600);
+        } else {
+            showToast(data.message || 'Failed to cancel order.', false);
+        }
+    })
+    .catch(() => showToast('Network error. Try again.', false));
+}
+
 function confirmCancel(orderId) {
     cancelOrderId = orderId;
+    // Reset modal state
+    document.querySelectorAll('.reason-btn').forEach(b => b.classList.remove('selected'));
+    document.getElementById('customReason').value = '';
+    selectedCancelReason = null;
+    const btn = document.getElementById('confirmCancelBtn');
+    btn.disabled = true;
+    btn.style.opacity = '0.5';
     new bootstrap.Modal(document.getElementById('cancelModal')).show();
 }
 
+let selectedCancelReason = null;
+
+function selectReason(el, reason) {
+    document.querySelectorAll('.reason-btn').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedCancelReason = reason;
+    document.getElementById('customReason').value = '';
+    const btn = document.getElementById('confirmCancelBtn');
+    btn.disabled = false;
+    btn.style.opacity = '1';
+}
+
+function onCustomReason(el) {
+    document.querySelectorAll('.reason-btn').forEach(b => b.classList.remove('selected'));
+    selectedCancelReason = el.value.trim() || null;
+    const btn = document.getElementById('confirmCancelBtn');
+    btn.disabled = !selectedCancelReason;
+    btn.style.opacity = selectedCancelReason ? '1' : '0.5';
+}
+
 document.getElementById('confirmCancelBtn').addEventListener('click', function () {
-    if (!cancelOrderId) return;
+    if (!cancelOrderId || !selectedCancelReason) return;
     bootstrap.Modal.getInstance(document.getElementById('cancelModal')).hide();
-    updateStatus(cancelOrderId, 'cancelled');
+    updateStatusWithReason(cancelOrderId, 'cancelled', selectedCancelReason);
     cancelOrderId = null;
+    selectedCancelReason = null;
 });
 
 function showToast(msg, success, brown = false) {
