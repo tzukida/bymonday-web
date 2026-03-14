@@ -4,7 +4,11 @@
   require_once BASE_PATH . '/includes/auth.php';
   require_once BASE_PATH . '/includes/functions.php';
 
-  requireAuth();
+ requireAuth();
+
+  if (isSuperAdmin()) {
+      redirect('superadmin/dashboard.php');
+  }
 
   $page_title = 'Point of Sale';
   require_once BASE_PATH . '/includes/header.php';

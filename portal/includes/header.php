@@ -156,13 +156,6 @@
     </div>
 
     <div class="nav-item">
-      <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'pos.php') ? 'active' : ''; ?>" href="<?php echo getBaseURL(); ?>/pos.php">
-        <i class="fas fa-cash-register"></i>
-        <span class="nav-text">Point of Sale</span>
-      </a>
-    </div>
-
-    <div class="nav-item">
       <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'inventory.php') ? 'active' : ''; ?>" href="<?php echo getBaseURL(); ?>/inventory.php">
         <i class="fas fa-boxes"></i>
         <span class="nav-text">Inventory</span>
