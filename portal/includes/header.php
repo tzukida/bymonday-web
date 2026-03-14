@@ -263,20 +263,6 @@
           <span class="nav-text">Inventory</span>
         </a>
       </div>
-
-      <div class="nav-item">
-        <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'staff_menu_view.php') ? 'active' : ''; ?>" href="<?php echo getBaseURL(); ?>/staff_menu_view.php">
-          <i class="fas fa-utensils"></i>
-          <span class="nav-text">Menu Items</span>
-        </a>
-      </div>
-
-      <div class="nav-item">
-        <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'my_transactions.php') ? 'active' : ''; ?>" href="<?php echo getBaseURL(); ?>/my_transactions.php">
-          <i class="fas fa-history"></i>
-          <span class="nav-text">My Activities</span>
-        </a>
-      </div>
       <?php endif; ?>
     </div>
 
