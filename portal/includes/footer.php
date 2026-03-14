@@ -131,5 +131,38 @@
 </style>
 
 <?php require_once BASE_PATH . '/includes/order_notif.php'; ?>
+
+<!-- Internet Connection Toast -->
+<div class="connection-toast" id="connectionToast">
+  <i class="fas fa-wifi" id="connectionIcon"></i>
+  <span id="connectionMsg"></span>
+</div>
+
+<script>
+(function () {
+  const toast   = document.getElementById('connectionToast');
+  const icon    = document.getElementById('connectionIcon');
+  const msg     = document.getElementById('connectionMsg');
+  let hideTimer = null;
+
+  function showConnectionToast(isOnline) {
+    clearTimeout(hideTimer);
+    if (isOnline) {
+      toast.className = 'connection-toast online';
+      icon.className  = 'fas fa-wifi';
+      msg.textContent = 'Connection restored.';
+      hideTimer = setTimeout(() => toast.classList.remove('show'), 3500);
+    } else {
+      toast.className = 'connection-toast offline';
+      icon.className  = 'fas fa-wifi-slash';
+      msg.textContent = 'No internet connection.';
+    }
+    toast.classList.add('show');
+  }
+
+  window.addEventListener('online',  () => showConnectionToast(true));
+  window.addEventListener('offline', () => showConnectionToast(false));
+})();
+</script>
 </body>
 </html>

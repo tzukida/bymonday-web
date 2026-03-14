@@ -169,3 +169,68 @@
 })();
 </script>
 <?php endif; ?>
+
+<!-- Internet Connection Toast -->
+<div class="connection-toast" id="connectionToast">
+  <i class="fas fa-wifi" id="connectionIcon"></i>
+  <span id="connectionMsg"></span>
+</div>
+
+<style>
+/* ── Internet Connection Toast ── */
+.connection-toast {
+  position: fixed;
+  bottom: 28px;
+  right: 24px;                /* ← bottom right */
+  transform: translateY(20px);
+  background: #1a0f08;
+  color: #fff;
+  padding: 13px 22px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  z-index: 99999;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease, transform .3s ease;
+}
+.connection-toast.show {
+  opacity: 1;
+  transform: translateY(0);   /* ← no more translateX needed */
+}
+.connection-toast.online  { background: #1e6b3a; }
+.connection-toast.offline { background: #7a1a1a; }
+</style>
+
+<script>
+(function () {
+  const toast   = document.getElementById('connectionToast');
+  const icon    = document.getElementById('connectionIcon');
+  const msg     = document.getElementById('connectionMsg');
+  let hideTimer = null;
+
+  function showConnectionToast(isOnline) {
+    clearTimeout(hideTimer);
+    if (isOnline) {
+      toast.className = 'connection-toast online';
+      icon.className  = 'fas fa-wifi';
+      msg.textContent = 'Connection restored.';
+      hideTimer = setTimeout(() => toast.classList.remove('show'), 3500); // ← change duration here
+    } else {
+      toast.className = 'connection-toast offline';
+      icon.className  = 'fas fa-wifi-slash';
+      msg.textContent = 'No internet connection.';
+      // hideTimer = setTimeout(() => toast.classList.remove('show'), 5000); // ← uncomment to auto-hide offline too
+    }
+    toast.classList.add('show');
+  }
+
+  window.addEventListener('online',  () => showConnectionToast(true));
+  window.addEventListener('offline', () => showConnectionToast(false));
+})();
+</script>
