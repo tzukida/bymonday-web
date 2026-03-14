@@ -543,3 +543,32 @@ html {
 .bg-gradient-primary {
   background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
 }
+
+/* ── Internet Connection Toast ── */
+.connection-toast {
+  position: fixed;
+  bottom: 28px;
+  right: 24px;                /* ← bottom right */
+  transform: translateY(20px);
+  background: #1a0f08;
+  color: #fff;
+  padding: 13px 22px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  z-index: 99999;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease, transform .3s ease;
+}
+.connection-toast.show {
+  opacity: 1;
+  transform: translateY(0);   /* ← no more translateX needed */
+}
+.connection-toast.online  { background: #1e6b3a; }
+.connection-toast.offline { background: #7a1a1a; }
