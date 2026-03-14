@@ -9,8 +9,9 @@ if (!isLoggedIn() || $_SESSION['role'] != 'customer') {
     exit;
 }
 
-$data = json_decode(file_get_contents('php://input'), true);
+$data     = json_decode(file_get_contents('php://input'), true);
 $order_id = intval($data['order_id'] ?? 0);
+$reason   = trim($data['reason'] ?? 'Customer requested');
 $user_id  = $_SESSION['user_id'];
 
 if (!$order_id) {
@@ -18,7 +19,6 @@ if (!$order_id) {
     exit;
 }
 
-// Make sure order belongs to this customer and is still 'placed'
 $check = $conn->prepare("SELECT id FROM orders WHERE id = ? AND user_id = ? AND order_status = 'placed'");
 $check->bind_param("ii", $order_id, $user_id);
 $check->execute();
@@ -30,8 +30,8 @@ if (!$exists) {
     exit;
 }
 
-$stmt = $conn->prepare("UPDATE orders SET order_status = 'cancelled' WHERE id = ? AND user_id = ?");
-$stmt->bind_param("ii", $order_id, $user_id);
+$stmt = $conn->prepare("UPDATE orders SET order_status = 'cancelled', cancel_reason = ?, cancelled_by = 'customer' WHERE id = ? AND user_id = ?");
+$stmt->bind_param("sii", $reason, $order_id, $user_id);
 $stmt->execute();
 $stmt->close();
 

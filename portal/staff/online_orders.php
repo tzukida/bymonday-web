@@ -250,7 +250,6 @@ $tab_labels = [
                 <div style="padding:16px 24px;">
                     <div class="d-flex flex-wrap gap-2 mb-3" id="reasonBtns">
                         <button class="reason-btn" onclick="selectReason(this, 'Out of stock')">Out of stock</button>
-                        <button class="reason-btn" onclick="selectReason(this, 'Customer requested')">Customer requested</button>
                         <button class="reason-btn" onclick="selectReason(this, 'Payment issue')">Payment issue</button>
                         <button class="reason-btn" onclick="selectReason(this, 'System error')">System error</button>
                     </div>

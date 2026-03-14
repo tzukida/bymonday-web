@@ -24,7 +24,7 @@ if ($cs->connect_error) {
 $cs->set_charset("utf8mb4");
 
 if ($status === 'cancelled' && $reason) {
-    $stmt = $cs->prepare("UPDATE orders SET order_status = ?, cancel_reason = ? WHERE id = ?");
+    $stmt = $cs->prepare("UPDATE orders SET order_status = ?, cancel_reason = ?, cancelled_by = 'staff' WHERE id = ?");
     $stmt->bind_param("ssi", $status, $reason, $order_id);
 } else {
     $stmt = $cs->prepare("UPDATE orders SET order_status = ? WHERE id = ?");
