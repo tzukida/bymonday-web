@@ -53,11 +53,10 @@
 
   function requireStaff() {
     requireAuth();
-    if (!(isStaff())) {
-      redirect('/index.php');
+    if (!(isStaff() || isAdmin() || isSuperAdmin())) {
+        redirect('/index.php');
     }
-  }
-
+}
 
   function loginUser($user_id, $username, $role) {
     $_SESSION['user_id'] = $user_id;
