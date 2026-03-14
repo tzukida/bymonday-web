@@ -244,20 +244,6 @@
       </div>
 
       <div class="nav-item">
-        <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'staff_inventory.php') ? 'active' : ''; ?>" href="<?php echo getBaseURL(); ?>/staff_inventory.php">
-          <i class="fas fa-boxes"></i>
-          <span class="nav-text">Inventory</span>
-        </a>
-      </div>
-
-      <div class="nav-item">
-        <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'staff_menu_view.php') ? 'active' : ''; ?>" href="<?php echo getBaseURL(); ?>/staff_menu_view.php">
-          <i class="fas fa-utensils"></i>
-          <span class="nav-text">Menu Items</span>
-        </a>
-      </div>
-
-      <div class="nav-item">
         <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'online_orders.php') ? 'active' : ''; ?>" href="<?php echo getBaseURL(); ?>/online_orders.php">
           <i class="fas fa-bag-shopping"></i>
           <span class="nav-text">Online Orders</span>
@@ -268,6 +254,20 @@
         <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'my_deliveries.php') ? 'active' : ''; ?>" href="<?php echo getBaseURL(); ?>/my_deliveries.php">
           <i class="fas fa-person-biking"></i>
           <span class="nav-text">My Deliveries</span>
+        </a>
+      </div>
+
+      <div class="nav-item">
+        <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'staff_inventory.php') ? 'active' : ''; ?>" href="<?php echo getBaseURL(); ?>/staff_inventory.php">
+          <i class="fas fa-boxes"></i>
+          <span class="nav-text">Inventory</span>
+        </a>
+      </div>
+
+      <div class="nav-item">
+        <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'staff_menu_view.php') ? 'active' : ''; ?>" href="<?php echo getBaseURL(); ?>/staff_menu_view.php">
+          <i class="fas fa-utensils"></i>
+          <span class="nav-text">Menu Items</span>
         </a>
       </div>
 

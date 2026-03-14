@@ -527,6 +527,50 @@ $delivery_fee = $order['delivery_fee'] ?? 50.00;
             transition: all .2s;
         }
         .confirm-btn-confirm:hover { background: #ef4444; }
+
+        .confirm-header { margin-bottom: 20px; }
+
+        .confirm-reasons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+            justify-content: center;
+        }
+
+        .cust-reason-btn {
+            padding: 8px 14px;
+            border-radius: 20px;
+            border: 1.5px solid rgba(201,123,43,0.25);
+            background: #F7F2EC;
+            color: #7a5c3a;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: all .2s;
+        }
+        .cust-reason-btn:hover { border-color: #C97B2B; color: #C97B2B; }
+        .cust-reason-btn.selected { background: rgba(248,113,113,0.08); border-color: #f87171; color: #ef4444; }
+
+        #custCustomReason {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid rgba(201,123,43,0.2);
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            color: #1a0f08;
+            margin-bottom: 20px;
+            outline: none;
+            transition: border-color .2s;
+        }
+        #custCustomReason:focus { border-color: #C97B2B; }
+
+        .confirm-btn-confirm:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -569,6 +613,16 @@ $delivery_fee = $order['delivery_fee'] ?? 50.00;
 
 <!-- Content -->
 <div class="content">
+
+    <?php if ($order['order_status'] === 'cancelled' && !empty($order['cancel_reason'])): ?>
+    <div style="background:#fef2f2; border:1px solid rgba(248,113,113,0.25); border-radius:12px; padding:14px 20px; display:flex; align-items:center; gap:10px;">
+        <i class="fas fa-circle-exclamation" style="color:#f87171; font-size:15px; flex-shrink:0;"></i>
+        <div style="font-size:11px; font-weight:700; color:#f87171; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:2px;">
+            <?= ($order['cancelled_by'] === 'staff') ? 'Cancelled by Store' : 'Cancelled by You' ?>
+        </div>
+        <div style="font-size:13px; color:#7a5c3a;"><?= htmlspecialchars($order['cancel_reason']) ?></div>
+    </div>
+    <?php endif; ?>
 
     <!-- Driver Info (delivery status only) -->
     <?php if ($order['order_status'] === 'delivery'): ?>
@@ -686,12 +740,22 @@ $delivery_fee = $order['delivery_fee'] ?? 50.00;
     <!-- Cancel Confirmation Modal -->
     <div class="confirm-overlay" id="confirmModal">
         <div class="confirm-box">
-            <div class="confirm-icon"><i class="fas fa-times-circle"></i></div>
-            <div class="confirm-title">Cancel Order?</div>
-            <div class="confirm-sub">Are you sure you want to cancel this order? This action cannot be undone.</div>
+            <div class="confirm-header">
+                <div class="confirm-icon"><i class="fas fa-times-circle"></i></div>
+                <div class="confirm-title">Cancel Order</div>
+                <div class="confirm-sub">Select a reason for cancellation</div>
+            </div>
+            <div class="confirm-reasons">
+                <button class="cust-reason-btn" onclick="selectCustReason(this, 'Changed my mind')">Changed my mind</button>
+                <button class="cust-reason-btn" onclick="selectCustReason(this, 'Ordered by mistake')">Ordered by mistake</button>
+                <button class="cust-reason-btn" onclick="selectCustReason(this, 'Found a better option')">Found a better option</button>
+                <button class="cust-reason-btn" onclick="selectCustReason(this, 'Taking too long')">Taking too long</button>
+            </div>
+            <input type="text" id="custCustomReason" placeholder="Or type custom reason..."
+                oninput="onCustCustomReason(this)">
             <div class="confirm-actions">
                 <button class="confirm-btn-cancel" onclick="closeCancelConfirm()">Keep Order</button>
-                <button class="confirm-btn-confirm" onclick="confirmCancel()">Yes, Cancel</button>
+                <button class="confirm-btn-confirm" id="custConfirmBtn" disabled onclick="confirmCancel()">Confirm</button>
             </div>
         </div>
     </div>
@@ -699,7 +763,13 @@ $delivery_fee = $order['delivery_fee'] ?? 50.00;
 </div>
 
 <script>
+let custSelectedReason = null;
+
 function openCancelConfirm() {
+    custSelectedReason = null;
+    document.querySelectorAll('.cust-reason-btn').forEach(b => b.classList.remove('selected'));
+    document.getElementById('custCustomReason').value = '';
+    document.getElementById('custConfirmBtn').disabled = true;
     document.getElementById('confirmModal').classList.add('open');
 }
 
@@ -707,11 +777,26 @@ function closeCancelConfirm() {
     document.getElementById('confirmModal').classList.remove('open');
 }
 
+function selectCustReason(el, reason) {
+    document.querySelectorAll('.cust-reason-btn').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+    custSelectedReason = reason;
+    document.getElementById('custCustomReason').value = '';
+    document.getElementById('custConfirmBtn').disabled = false;
+}
+
+function onCustCustomReason(el) {
+    document.querySelectorAll('.cust-reason-btn').forEach(b => b.classList.remove('selected'));
+    custSelectedReason = el.value.trim() || null;
+    document.getElementById('custConfirmBtn').disabled = !custSelectedReason;
+}
+
 function confirmCancel() {
+    if (!custSelectedReason) return;
     fetch('cancel_order.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ order_id: <?= $order_id ?> })
+        body: JSON.stringify({ order_id: <?= $order_id ?>, reason: custSelectedReason })
     })
     .then(r => r.json())
     .then(data => {
