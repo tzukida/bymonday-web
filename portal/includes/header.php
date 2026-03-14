@@ -90,24 +90,6 @@
       </div>
 
       <div class="nav-item">
-    <button class="dropdown-btn <?php echo in_array(basename($_SERVER['PHP_SELF']), ['pos.php', 'online_orders.php']) ? 'rotate' : ''; ?>" onclick="toggleSubMenu(this)">
-        <i class="fas fa-bag-shopping"></i>
-        <span class="nav-text">Orders</span>
-        <i class="fas fa-chevron-down dropdown-arrow"></i>
-    </button>
-    <div class="sub-menu <?php echo in_array(basename($_SERVER['PHP_SELF']), ['pos.php', 'online_orders.php']) ? 'show' : ''; ?>">
-        <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'pos.php') ? 'active' : ''; ?>" href="<?php echo getBaseURL(); ?>/pos.php">
-            <i class="fas fa-cash-register"></i>
-            <span class="nav-text">Point of Sale</span>
-        </a>
-        <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'online_orders.php') ? 'active' : ''; ?>" href="<?php echo getBaseURL(); ?>/online_orders.php">
-            <i class="fas fa-basket-shopping"></i>
-            <span class="nav-text">Online Orders</span>
-        </a>
-    </div>
-    </div>
-
-      <div class="nav-item">
         <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'menu_management.php') ? 'active' : ''; ?>" href="<?php echo getBaseURL(); ?>/menu_management.php">
           <i class="fas fa-utensils"></i>
           <span class="nav-text">Menu Items</span>
@@ -119,6 +101,24 @@
           <i class="fas fa-users"></i>
           <span class="nav-text">Staff Management</span>
         </a>
+      </div>
+
+      <div class="nav-item">
+      <button class="dropdown-btn <?php echo in_array(basename($_SERVER['PHP_SELF']), ['pos.php', 'online_orders.php']) ? 'rotate' : ''; ?>" onclick="toggleSubMenu(this)">
+          <i class="fas fa-bag-shopping"></i>
+          <span class="nav-text">Orders</span>
+          <i class="fas fa-chevron-down dropdown-arrow"></i>
+      </button>
+      <div class="sub-menu <?php echo in_array(basename($_SERVER['PHP_SELF']), ['pos.php', 'online_orders.php']) ? 'show' : ''; ?>">
+          <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'pos.php') ? 'active' : ''; ?>" href="<?php echo getBaseURL(); ?>/pos.php">
+              <i class="fas fa-cash-register"></i>
+              <span class="nav-text">Point of Sale</span>
+          </a>
+          <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'online_orders.php') ? 'active' : ''; ?>" href="<?php echo getBaseURL(); ?>/online_orders.php">
+              <i class="fas fa-basket-shopping"></i>
+              <span class="nav-text">Online Orders</span>
+          </a>
+      </div>
       </div>
 
       <div class="nav-item">
