@@ -174,13 +174,6 @@
     </div>
 
     <div class="nav-item">
-      <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'menu_management.php') ? 'active' : ''; ?>" href="<?php echo getBaseURL(); ?>/menu_management.php">
-        <i class="fas fa-utensils"></i>
-        <span class="nav-text">Menu Items</span>
-      </a>
-    </div>
-
-    <div class="nav-item">
       <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'users.php') ? 'active' : ''; ?>" href="<?php echo getBaseURL(); ?>/users.php">
         <i class="fas fa-users-cog"></i>
         <span class="nav-text">Account Management</span>
