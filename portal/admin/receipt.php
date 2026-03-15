@@ -18,36 +18,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Receipt #<?php echo $sale_id; ?> - J's Rice Bowl</title>
+  <title>Receipt #<?php echo $sale_id; ?> - Monday Mornings </title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <style>
     @media print {
       .no-print { display: none !important; }
-      body { margin: 0; background: white; }
+      body { margin: 0; padding: 0; background: white; }
       .receipt-container {
         box-shadow: none !important;
+        border-color: #4a301f !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 15px !important;
+      }
+      @page {
+        size: 80mm auto;
+        margin: 0;
       }
     }
 
     body {
-      background: #f5f5f5;
+      background: linear-gradient(135deg, #f5f0eb 0%, #e8ddd4 100%);
       padding: 20px;
+      min-height: 100vh;
     }
 
     .receipt-container {
       max-width: 380px;
       margin: 20px auto;
       padding: 25px 20px;
-      border: 2px solid #000;
+      border: 2px solid #4a301f;
       font-family: 'Courier New', monospace;
       background: white;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 16px rgba(74, 48, 31, 0.2);
     }
 
     .receipt-header {
       text-align: center;
-      border-bottom: 2px dashed #000;
+      border-bottom: 2px dashed #654529;
       padding-bottom: 15px;
       margin-bottom: 15px;
     }
@@ -62,17 +71,18 @@
       font-weight: bold;
       margin-bottom: 3px;
       letter-spacing: 1px;
+      color: #4a301f;
     }
 
     .store-subtitle {
       font-size: 11px;
       margin-bottom: 8px;
-      color: #333;
+      color: #654529;
     }
 
     .store-contact {
       font-size: 11px;
-      color: #555;
+      color: #7d5633;
     }
 
     .receipt-number {
@@ -80,10 +90,11 @@
       font-size: 14px;
       font-weight: bold;
       padding: 8px;
-      background: #f9f9f9;
-      border: 1px solid #ddd;
+      background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+      border: 1px solid #ffcc80;
       margin-bottom: 12px;
       letter-spacing: 2px;
+      color: #4a301f;
     }
 
     .receipt-info {
@@ -113,7 +124,7 @@
     }
 
     .receipt-items {
-      border-top: 2px dashed #000;
+      border-top: 2px dashed #654529;
       padding: 12px 0;
       margin-bottom: 10px;
     }
@@ -160,27 +171,31 @@
       display: flex;
       justify-content: space-between;
       padding: 12px 0;
-      border-top: 2px solid #000;
-      border-bottom: 2px solid #000;
+      border-top: 2px solid #4a301f;
+      border-bottom: 2px solid #4a301f;
       margin-bottom: 12px;
+      color: #382417;
     }
 
     .payment-badge {
       text-align: center;
       padding: 8px;
-      background: #f9f9f9;
-      border: 1px dashed #999;
+      background: linear-gradient(135deg, #654529 0%, #4d3420 100%);
+      border: 1px dashed #7d5633;
       margin-bottom: 15px;
       font-size: 11px;
       font-weight: bold;
+      color: white;
+      border-radius: 4px;
     }
 
     .remarks-box {
-      background: #fffbea;
-      border-left: 3px solid #f39c12;
+      background: #fff3e0;
+      border-left: 3px solid #7d5633;
       padding: 10px;
       margin-bottom: 15px;
       font-size: 11px;
+      color: #4a301f;
     }
 
     .remarks-label {
@@ -214,9 +229,7 @@
     .receipt-footer {
       text-align: center;
       font-size: 11px;
-      border-top: 2px dashed #000;
-      padding-top: 15px;
-      line-height: 1.6;
+      border-top: 2px dashed #654529;
     }
 
     .footer-thanks {
@@ -278,9 +291,9 @@
     <!-- Header -->
     <div class="receipt-header">
       <div class="store-logo"></div>
-      <div class="receipt-title">J'S RICE BOWL</div>
-      <div class="store-subtitle">Filipino Rice Meals & Desserts</div>
-      <div class="store-contact">(+63) 977-6378-932</div>
+      <div class="receipt-title">MONDAY MORNINGS</div>
+      <div class="store-subtitle">Coffee & Desserts</div>
+      <div class="store-contact">(+63) 912-3456-789</div>
     </div>
 
     <!-- Receipt Number -->
@@ -365,11 +378,11 @@
       <div class="footer-thanks">Thank you for your order!</div>
       <div>Please come again!</div>
       <div class="footer-links">
-        <div>www.js-rice-bowl.com</div>
-        <div>Facebook: J's Rice Bowl</div>
+        <div>www.bymonday.com</div>
+        <div>Facebook: Coffee by Monday Mornings</div>
       </div>
       <div class="footer-divider">═══════════════════</div>
-      <div style="font-size: 9px; color: #999;">Powered by J's Rice Bowl System</div>
+      <div style="font-size: 9px; color: #999;">Powered by ByMonday System</div>
     </div>
   </div>
 

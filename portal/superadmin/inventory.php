@@ -219,7 +219,6 @@
                     <th class="border-0 text-center">Quantity</th>
                     <th class="border-0 text-center">Status</th>
                     <th class="border-0">Last Updated</th>
-                    <th class="border-0 text-center">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -245,22 +244,6 @@
                       <?php endif; ?>
                     </td>
                     <td class="text-muted small"><?php echo formatDate($item['updated_at'], 'M j, Y'); ?></td>
-                    <td class="text-center">
-                      <div class="btn-group btn-group-sm" role="group">
-                        <a href="edit_item.php?id=<?php echo $item['id']; ?>" class="btn btn-outline-brown" title="Edit">
-                          <i class="fas fa-edit"></i>
-                        </a>
-                        <a href="stock_in.php?item_id=<?php echo $item['id']; ?>" class="btn btn-outline-brown btn-sm" title="Stock In">
-                          <i class="fas fa-plus"></i>
-                        </a>
-                        <a href="stock_out.php?item_id=<?php echo $item['id']; ?>" class="btn btn-outline-brown" title="Stock Out">
-                          <i class="fas fa-minus"></i>
-                        </a>
-                        <a href="delete_item.php?id=<?php echo $item['id']; ?>" class="btn btn-outline-brown" title="Delete" onclick="return confirm('Are you sure you want to delete this item?')">
-                          <i class="fas fa-trash"></i>
-                        </a>
-                      </div>
-                    </td>
                   </tr>
                   <?php endforeach; ?>
                 </tbody>
