@@ -143,5 +143,113 @@
     poll();
     setInterval(poll, POLL_MS);
 })();
+
+// ── Rider Assignment Polling (staff only) ──
+(function () {
+    const STORAGE_KEY = 'bm_assigned_orders_<?= $_SESSION['user_id'] ?>_<?= $_SESSION['login_time'] ?>';
+    const POLL_MS     = 10000;
+    const API         = '<?= BASE_URL ?>/api/check_new_assignment.php';
+
+    function load() {
+        try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+        catch(e) { return []; }
+    }
+
+    function save(ids) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+    }
+
+    function showAssignmentToast(order) {
+        const wrap = document.getElementById('bmStaffNotifWrap');
+        const el   = document.createElement('div');
+        el.className = 'bm-staff-notif';
+        el.innerHTML = `
+            <div class="bm-staff-notif-icon">
+                <i class="fas fa-person-biking"></i>
+            </div>
+            <div class="bm-staff-notif-text">
+                <div class="bm-staff-notif-title">${escHtml(order.assigned_by)} assigned you to deliver Order #${escHtml(order.order_number)}.</div>
+            </div>
+            <button class="bm-staff-notif-close" onclick="this.closest('.bm-staff-notif').remove()">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+        wrap.appendChild(el);
+        setTimeout(() => {
+            el.style.animation = 'staffNotifOut .3s ease forwards';
+            setTimeout(() => el.remove(), 300);
+        }, 10000);
+    }
+
+    function poll() {
+        fetch(API)
+            .then(r => r.json())
+            .then(data => {
+                if (!data.success) return;
+                const saved     = load();
+                const newOrders = data.orders.filter(o => !saved.includes(o.id));
+                newOrders.forEach(o => showAssignmentToast(o));
+                save(data.orders.map(o => o.id));
+            })
+            .catch(() => {});
+    }
+
+    poll();
+    setInterval(poll, POLL_MS);
+})();
+
+// Assignment notification polling
+(function () {
+    const STORAGE_KEY = 'bm_assigned_orders';
+    const POLL_MS     = 10000;
+    const API         = '<?= BASE_URL ?>/api/check_new_assignment.php';
+
+    function load() {
+        try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+        catch(e) { return []; }
+    }
+
+    function save(ids) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+    }
+
+    function showAssignmentToast(order) {
+        const wrap = document.getElementById('bmStaffNotifWrap');
+        const el   = document.createElement('div');
+        el.className = 'bm-staff-notif';
+        el.innerHTML = `
+            <div class="bm-staff-notif-icon">
+                <i class="fas fa-person-biking"></i>
+            </div>
+            <div class="bm-staff-notif-text">
+                <div class="bm-staff-notif-title">${escHtml(order.assigned_by)} assigned you to deliver Order #${escHtml(order.order_number)}.</div>
+            </div>
+            <button class="bm-staff-notif-close" onclick="this.closest('.bm-staff-notif').remove()">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+        wrap.appendChild(el);
+        setTimeout(() => {
+            el.style.animation = 'staffNotifOut .3s ease forwards';
+            setTimeout(() => el.remove(), 300);
+        }, 10000);
+    }
+
+    function poll() {
+        fetch(API)
+            .then(r => r.json())
+            .then(data => {
+                if (!data.success) return;
+                const saved     = load();
+                const newOrders = data.orders.filter(o => !saved.includes(o.id + '_' + o.assigned_by));
+                newOrders.forEach(o => showAssignmentToast(o));
+                save(data.orders.map(o => o.id + '_' + o.assigned_by));
+            })
+            .catch(() => {});
+    }
+
+    poll();
+    setInterval(poll, POLL_MS);
+})();
 </script>
 <?php endif; ?>

@@ -22,8 +22,9 @@ if ($cs->connect_error) {
 }
 $cs->set_charset("utf8mb4");
 
-$stmt = $cs->prepare("UPDATE orders SET rider_id = ?, rider_name = ? WHERE id = ?");
-$stmt->bind_param("isi", $rider_id, $rider_name, $order_id);
+$assigned_by = $_SESSION['username'] ?? 'Staff';
+$stmt = $cs->prepare("UPDATE orders SET rider_id = ?, rider_name = ?, assigned_by = ? WHERE id = ?");
+$stmt->bind_param("issi", $rider_id, $rider_name, $assigned_by, $order_id);
 $stmt->execute();
 $stmt->close();
 $cs->close();

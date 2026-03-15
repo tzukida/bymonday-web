@@ -279,13 +279,6 @@ $stmt->close();
                 <div class="order-items-summary">
                     <?= htmlspecialchars($order['items_summary'] ?? 'No items') ?>
                 </div>
-                <?php if ($order['order_status'] === 'cancelled' && !empty($order['cancel_reason'])): ?>
-                <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); color:#b91c1c; font-size:11px; font-weight:600; padding:4px 10px; border-radius:20px; margin-bottom:8px;">
-                    <i class="fas fa-circle-exclamation"></i>
-                    <?= ($order['cancelled_by'] === 'staff') ? 'Cancelled by Store' : 'Cancelled by You' ?>
-                    — <?= htmlspecialchars($order['cancel_reason']) ?>
-                </div>
-                <?php endif; ?>
                 <div class="order-total">
                     ₱<?= number_format($order['total'], 2) ?>
                 </div>
