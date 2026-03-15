@@ -36,4 +36,20 @@ $stmt->execute();
 $stmt->close();
 $cs->close();
 
+// Log to activity log based on status
+if (isset($_SESSION['user_id'])) {
+    $action_map = [
+        'brewing'   => 'Accept Order',
+        'delivery'  => 'Mark Order Ready',
+        'done'      => 'Mark Order Delivered',
+        'cancelled' => 'Cancel Order',
+    ];
+    $action = $action_map[$status] ?? 'Update Order';
+    $details = "$action: Order #$order_id";
+    if ($status === 'cancelled' && $reason) {
+        $details .= " — Reason: $reason";
+    }
+    logActivity($_SESSION['user_id'], $action, $details);
+}
+
 echo json_encode(['success' => true]);

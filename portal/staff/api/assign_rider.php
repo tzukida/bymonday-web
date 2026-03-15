@@ -29,4 +29,8 @@ $stmt->execute();
 $stmt->close();
 $cs->close();
 
+if (isset($_SESSION['user_id'])) {
+    logActivity($_SESSION['user_id'], 'Assign Rider', "Assigned $rider_name to Order #$order_id");
+}
+
 echo json_encode(['success' => true]);
