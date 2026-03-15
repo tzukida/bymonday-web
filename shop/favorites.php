@@ -265,8 +265,8 @@ if ($response !== false) {
 
         /* ── Toast ── */
         .toast {
-            position: fixed; bottom: 28px; left: 50%;
-            transform: translateX(-50%) translateY(20px);
+            position: fixed; bottom: 28px; right: 24px;
+            transform: translateY(20px);
             background: #2e1c0e; color: #f7f2ec;
             padding: 12px 22px; border-radius: 50px;
             font-size: 13px; font-weight: 600;
@@ -275,7 +275,7 @@ if ($response !== false) {
             z-index: 9999;
             white-space: nowrap;
         }
-        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast.show { opacity: 1; transform: translateY(0); }
 
         .cart-btn {
             position: relative;

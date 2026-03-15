@@ -545,8 +545,8 @@ textarea { resize: vertical; min-height: 78px; line-height: 1.55; }
 .toast {
     position: fixed;
     bottom: 28px;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
+    right: 24px;
+    transform: translateY(20px);
     background: #1a0f08;
     color: #f7f2ec;
     padding: 12px 24px;
@@ -560,9 +560,8 @@ textarea { resize: vertical; min-height: 78px; line-height: 1.55; }
     white-space: nowrap;
     max-width: 90vw;
 }
-
 .toast.error { background: #c0392b; }
-.toast.show  { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.show  { opacity: 1; transform: translateY(0); }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 860px) {

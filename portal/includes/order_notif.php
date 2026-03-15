@@ -80,6 +80,12 @@
 <div class="bm-staff-notif-wrap" id="bmStaffNotifWrap"></div>
 
 <script>
+// Shared helper — defined globally so both IIFEs can use it
+function bmEscHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── New Order Polling ──
 (function () {
     const STORAGE_KEY = 'bm_staff_orders';
     const POLL_MS     = 15000;
@@ -106,7 +112,7 @@
             <div class="bm-staff-notif-text">
                 <div class="bm-staff-notif-title">New Order Received!</div>
                 <div class="bm-staff-notif-sub">
-                    ${escHtml(order.customer_name)} — ₱${parseFloat(order.total).toLocaleString('en-PH', {minimumFractionDigits:2})}
+                    ${bmEscHtml(order.customer_name)} — ₱${parseFloat(order.total).toLocaleString('en-PH', {minimumFractionDigits:2})}
                 </div>
                 <a class="bm-staff-notif-link" href="${ORDERS_URL}">View Orders →</a>
             </div>
@@ -121,10 +127,6 @@
         }, 10000);
     }
 
-    function escHtml(str) {
-        return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    }
-
     function poll() {
         fetch(API)
             .then(r => r.json())
@@ -133,7 +135,6 @@
                 const saved      = load();
                 const currentIds = data.orders.map(o => o.id);
                 const newOrders  = data.orders.filter(o => !saved.includes(o.id));
-
                 newOrders.forEach(o => toast(o));
                 save(currentIds);
             })
@@ -144,9 +145,9 @@
     setInterval(poll, POLL_MS);
 })();
 
-// ── Rider Assignment Polling (staff only) ──
+// ── Rider Assignment Polling ──
 (function () {
-    const STORAGE_KEY = 'bm_assigned_orders_<?= $_SESSION['user_id'] ?>_<?= $_SESSION['login_time'] ?>';
+    const STORAGE_KEY = 'bm_assigned_<?= intval($_SESSION['user_id']) ?>';
     const POLL_MS     = 10000;
     const API         = '<?= BASE_URL ?>/api/check_new_assignment.php';
 
@@ -155,8 +156,8 @@
         catch(e) { return []; }
     }
 
-    function save(ids) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+    function save(keys) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(keys));
     }
 
     function showAssignmentToast(order) {
@@ -164,65 +165,9 @@
         const el   = document.createElement('div');
         el.className = 'bm-staff-notif';
         el.innerHTML = `
-            <div class="bm-staff-notif-icon">
-                <i class="fas fa-person-biking"></i>
-            </div>
+            <div class="bm-staff-notif-icon"><i class="fas fa-person-biking"></i></div>
             <div class="bm-staff-notif-text">
-                <div class="bm-staff-notif-title">${escHtml(order.assigned_by)} assigned you to deliver Order #${escHtml(order.order_number)}.</div>
-            </div>
-            <button class="bm-staff-notif-close" onclick="this.closest('.bm-staff-notif').remove()">
-                <i class="fas fa-times"></i>
-            </button>
-        `;
-        wrap.appendChild(el);
-        setTimeout(() => {
-            el.style.animation = 'staffNotifOut .3s ease forwards';
-            setTimeout(() => el.remove(), 300);
-        }, 10000);
-    }
-
-    function poll() {
-        fetch(API)
-            .then(r => r.json())
-            .then(data => {
-                if (!data.success) return;
-                const saved     = load();
-                const newOrders = data.orders.filter(o => !saved.includes(o.id));
-                newOrders.forEach(o => showAssignmentToast(o));
-                save(data.orders.map(o => o.id));
-            })
-            .catch(() => {});
-    }
-
-    poll();
-    setInterval(poll, POLL_MS);
-})();
-
-// Assignment notification polling
-(function () {
-    const STORAGE_KEY = 'bm_assigned_orders';
-    const POLL_MS     = 10000;
-    const API         = '<?= BASE_URL ?>/api/check_new_assignment.php';
-
-    function load() {
-        try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-        catch(e) { return []; }
-    }
-
-    function save(ids) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
-    }
-
-    function showAssignmentToast(order) {
-        const wrap = document.getElementById('bmStaffNotifWrap');
-        const el   = document.createElement('div');
-        el.className = 'bm-staff-notif';
-        el.innerHTML = `
-            <div class="bm-staff-notif-icon">
-                <i class="fas fa-person-biking"></i>
-            </div>
-            <div class="bm-staff-notif-text">
-                <div class="bm-staff-notif-title">${escHtml(order.assigned_by)} assigned you to deliver Order #${escHtml(order.order_number)}.</div>
+                <div class="bm-staff-notif-title">${bmEscHtml(order.assigned_by)} assigned you to deliver Order #${bmEscHtml(order.order_number)}.</div>
             </div>
             <button class="bm-staff-notif-close" onclick="this.closest('.bm-staff-notif').remove()">
                 <i class="fas fa-times"></i>
