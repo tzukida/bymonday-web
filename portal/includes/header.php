@@ -148,7 +148,7 @@
         <div class="sub-menu">
           <a class="nav-link" href="<?php echo getBaseURL(); ?>/activity_log.php">
             <i class="fas fa-history"></i>
-            <span class="nav-text">Activity Logs</span>
+            <span class="nav-text">Audit Logs</span>
           </a>
           <a class="nav-link" href="<?php echo getBaseURL(); ?>/backup.php">
             <i class="fas fa-database"></i>
@@ -207,11 +207,11 @@
       <div class="sub-menu">
         <a class="nav-link" href="<?php echo getBaseURL(); ?>/activity_log.php">
           <i class="fas fa-history"></i>
-          <span class="nav-text">Activity Logs</span>
+          <span class="nav-text">Audit Logs</span>
         </a>
         <a class="nav-link" href="<?php echo getBaseURL(); ?>/password_reset_history.php">
           <i class="fas fa-key"></i>
-          <span class="nav-text">Password Reset History</span>
+          <span class="nav-text">Password Resets</span>
         </a>
         <a class="nav-link" href="<?php echo getBaseURL(); ?>/backup.php">
           <i class="fas fa-database"></i>

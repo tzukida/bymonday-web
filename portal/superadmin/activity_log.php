@@ -137,10 +137,13 @@
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <h3 class="h3 mb-0" style="color: #4a301f;">Activity Log</h3>
+          <h3 class="h3 mb-0" style="color: #3b2008;">Activity Log</h3>
           <p class="text-muted mb-0">Monitor all system activities and user actions</p>
         </div>
-        <div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-brown" id="exportAuditBtn">
+            <i class="fas fa-file-excel me-2"></i>Export to Excel
+          </button>
           <a href="<?php echo getBaseURL(); ?>/dashboard.php" class="btn btn-outline-brown">
             <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
           </a>
@@ -343,7 +346,7 @@
             </div>
           <?php else: ?>
             <div class="table-responsive">
-              <table class="table table-hover align-middle mb-0">
+              <table class="table table-hover align-middle mb-0" id="auditLogTable">
                 <thead class="table-light">
                   <tr>
                     <th class="border-0 text-center" style="width: 60px;">#</th>
@@ -710,6 +713,7 @@ body {
 
 </style>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -717,6 +721,54 @@ document.addEventListener('DOMContentLoaded', function() {
   tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl);
   });
+});
+// ── Export to Excel ──
+document.getElementById('exportAuditBtn').addEventListener('click', function() {
+    const btn = this;
+    const originalHtml = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Exporting...';
+
+    const exportData = [
+        ['#', 'User', 'Action', 'Details', 'Date & Time']
+    ];
+
+    document.querySelectorAll('#auditLogTable tbody tr').forEach((row) => {
+        if (!row.querySelector('td')) return;
+        const cells = row.querySelectorAll('td');
+        exportData.push([
+            cells[0].textContent.trim(),
+            cells[1].textContent.trim(),
+            cells[2].textContent.trim(),
+            cells[3].textContent.trim(),
+            cells[4].textContent.trim()
+        ]);
+    });
+
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(exportData);
+    ws['!cols'] = [
+        { wch: 5 },
+        { wch: 20 },
+        { wch: 25 },
+        { wch: 50 },
+        { wch: 20 }
+    ];
+    XLSX.utils.book_append_sheet(wb, ws, 'Audit Logs');
+    const filename = `Audit_Logs_${new Date().toISOString().split('T')[0]}.xlsx`;
+    XLSX.writeFile(wb, filename);
+
+    // Log to audit trail
+    fetch('<?php echo getBaseURL(); ?>/api/log_action.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'Export Audit Logs', details: 'Exported audit logs to Excel: ' + filename })
+    }).catch(() => {});
+
+    setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+    }, 800);
 });
 </script>
 

@@ -45,6 +45,7 @@
     $result = $stmt->get_result();
 
     if ($export_format === 'csv') {
+        logActivity($_SESSION['user_id'], 'Export Inventory', 'Exported inventory to CSV: inventory_' . date('Y-m-d') . '.csv');
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=inventory_' . date('Y-m-d') . '.csv');
 
@@ -60,6 +61,7 @@
     }
 
     if ($export_format === 'pdf') {
+        logActivity($_SESSION['user_id'], 'Export Inventory', 'Exported inventory to PDF: inventory_' . date('Y-m-d') . '.pdf');
         require_once BASE_PATH . '/vendor/autoload.php';
 
         header("Content-Type: application/pdf");
@@ -532,10 +534,8 @@ $(document).ready(function() {
 });
 </script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-
-
 
 <!-- Email Supplier Modal -->
 <div class="modal fade" id="emailSupplierModal" tabindex="-1" aria-hidden="true">

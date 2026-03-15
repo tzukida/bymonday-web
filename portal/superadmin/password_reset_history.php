@@ -725,6 +725,13 @@ document.addEventListener('DOMContentLoaded', function() {
         // Save file
         XLSX.writeFile(wb, filename);
 
+         // Log to audit trail
+        fetch('<?php echo getBaseURL(); ?>/api/log_action.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'Export Password Resets', details: 'Exported password reset history to Excel: ' + filename })
+        }).catch(() => {});
+
         // Reset button
         setTimeout(function() {
             btn.disabled = false;
