@@ -246,7 +246,7 @@
       <div class="nav-item">
         <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'my_deliveries.php') ? 'active' : ''; ?>" href="<?php echo getBaseURL(); ?>/my_deliveries.php">
           <i class="fas fa-person-biking"></i>
-          <span class="nav-text">My Deliveries</span>
+          <span class="nav-text">Deliveries</span>
         </a>
       </div>
 
