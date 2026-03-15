@@ -175,6 +175,25 @@
             </select>
           </div>
 
+          <!-- Amount Tendered -->
+          <div class="mb-3" id="amountTenderedSection" style="display:none;">
+            <label class="form-label fw-semibold text-muted small mb-2">
+              <i class="fas fa-money-bill-wave me-1"></i>Amount Tendered
+            </label>
+            <div class="input-group input-group-lg">
+              <span class="input-group-text" style="background:#2a1505; color:#fff; border-color:#4a301f;">₱</span>
+              <input type="number" class="form-control" id="amountTendered" placeholder="0.00" min="0" step="0.01" style="border-color:#4a301f;">
+              <button class="btn btn-outline-brown" type="button" id="exactBtn">Exact</button>
+            </div>
+            <!-- Change / Insufficient -->
+            <div class="mt-2 p-2 rounded d-flex justify-content-between align-items-center" id="changeDisplay" style="background:#3a3a3a;">
+              <span id="changeLabel" style="color:#9ca3af; font-weight:600;">
+                <i class="fas fa-coins me-1"></i>CHANGE
+              </span>
+              <span id="changeAmount" style="color:#9ca3af; font-weight:700; font-size:1.1rem;">—</span>
+            </div>
+          </div>
+
           <div class="mb-3">
             <label class="form-label fw-semibold text-muted small mb-2">
               <i class="fas fa-sticky-note me-1"></i>Remarks (Optional)
@@ -748,12 +767,17 @@ document.getElementById('processOrderBtn').addEventListener('click', function() 
   this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
 
   // Prepare order data
+  const tenderedVal = parseFloat(document.getElementById('amountTendered').value) || null;
+  const changeVal = tenderedVal ? Math.max(0, tenderedVal - total) : null;
+
   const orderData = {
     items: cart,
     customer_name: customerName || 'Walk-in Customer',
     payment_method: paymentMethod,
     remarks: remarks,
-    total_amount: total
+    total_amount: total,
+    tendered_amount: tenderedVal,
+    change_amount: changeVal
   };
 
   // Send to server
@@ -828,6 +852,81 @@ document.addEventListener('keydown', function(e) {
     }
   }
 });
+
+// ── Amount Tendered & Change Calculator ──
+const paymentMethodEl = document.getElementById('paymentMethod');
+const amountSection   = document.getElementById('amountTenderedSection');
+const amountInput     = document.getElementById('amountTendered');
+const exactBtn        = document.getElementById('exactBtn');
+const changeDisplay   = document.getElementById('changeDisplay');
+const changeAmount    = document.getElementById('changeAmount');
+
+function getCartTotal() {
+  return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+}
+
+function updateChangeDisplay() {
+  const tendered = parseFloat(amountInput.value) || 0;
+  const total    = getCartTotal();
+  const display  = document.getElementById('changeDisplay');
+  const label    = document.getElementById('changeLabel');
+  const amount   = document.getElementById('changeAmount');
+
+  if (tendered <= 0) {
+    // default dull state
+    display.style.background = '#3a3a3a';
+    label.style.color = '#9ca3af';
+    label.innerHTML = '<i class="fas fa-coins me-1"></i>CHANGE';
+    amount.style.color = '#9ca3af';
+    amount.textContent = '—';
+    return;
+  }
+
+  const diff = tendered - total;
+  if (diff >= 0) {
+    // sufficient — green
+    display.style.background = '#1a3a1a';
+    label.style.color = '#4ade80';
+    label.innerHTML = '<i class="fas fa-check-circle me-1"></i>CHANGE';
+    amount.style.color = '#4ade80';
+    amount.textContent = '₱' + diff.toFixed(2);
+  } else {
+    // insufficient — red
+    display.style.background = '#3a1a1a';
+    label.style.color = '#f87171';
+    label.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i>INSUFFICIENT';
+    amount.style.color = '#f87171';
+    amount.textContent = '₱' + Math.abs(diff).toFixed(2);
+  }
+}
+
+function toggleAmountSection() {
+  const method = paymentMethodEl.value;
+  if (method === 'cash') {
+    amountSection.style.display = 'block';
+  } else {
+    amountSection.style.display = 'none';
+    amountInput.value = '';
+    changeDisplay.style.display = 'none';
+    insufficientDisplay.style.display = 'none';
+  }
+}
+
+paymentMethodEl.addEventListener('change', toggleAmountSection);
+amountInput.addEventListener('input', updateChangeDisplay);
+
+exactBtn.addEventListener('click', function() {
+  const total = getCartTotal();
+  amountInput.value = total.toFixed(2);
+  updateChangeDisplay();
+});
+
+// Also update change when cart changes
+const originalUpdateCart = updateCart;
+updateCart = function() {
+  originalUpdateCart();
+  updateChangeDisplay();
+};
 </script>
 
 <?php require_once BASE_PATH . '/includes/footer.php'; ?>

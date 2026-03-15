@@ -312,7 +312,7 @@
         <span><?php echo formatDate($sale['sale_date'], 'g:i A'); ?></span>
       </div>
       <div class="info-row">
-        <span class="info-label">Cashier:</span>
+        <span class="info-label">Processed By:</span>
         <span><?php echo htmlspecialchars($sale['username']); ?></span>
       </div>
       <?php if ($sale['customer_name']): ?>
@@ -349,6 +349,20 @@
       <div>TOTAL:</div>
       <div>₱<?php echo number_format($sale['total_amount'], 2); ?></div>
     </div>
+
+    <!-- Tendered & Change (Cash only) -->
+    <?php if (strtolower($sale['payment_method']) === 'cash' && !empty($sale['tendered_amount'])): ?>
+    <div class="receipt-info" style="margin-top: 8px;">
+      <div class="info-row">
+        <span class="info-label">Tendered:</span>
+        <span>₱<?php echo number_format($sale['tendered_amount'], 2); ?></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Change:</span>
+        <span>₱<?php echo number_format($sale['change_amount'] ?? 0, 2); ?></span>
+      </div>
+    </div>
+    <?php endif; ?>
 
     <!-- Payment Method -->
     <div class="payment-badge">
