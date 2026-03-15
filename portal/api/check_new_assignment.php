@@ -23,7 +23,7 @@ $stmt = $cs->prepare("
     SELECT id, order_number, assigned_by
     FROM orders
     WHERE rider_id = ?
-    AND order_status = 'brewing'
+    AND order_status IN ('brewing', 'delivery')
     ORDER BY created_at DESC
     LIMIT 10
 ");

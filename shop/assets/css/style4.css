@@ -803,8 +803,8 @@ body.menu-page {
 /* ───────────────────────────────────────────────────────────
    16. MENU — TOAST NOTIFICATION
 ─────────────────────────────────────────────────────────── */
-.toast { position:fixed; bottom:clamp(20px,4vw,36px); left:50%; transform:translateX(-50%) translateY(20px); background:#1a0f08; color:#fff; padding:13px 22px; border-radius:50px; font-size:14px; font-weight:600; display:flex; align-items:center; gap:9px; box-shadow:0 8px 32px rgba(0,0,0,0.4); z-index:4000; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .3s ease, transform .3s ease; }
-.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+.toast { position:fixed; bottom:clamp(20px,4vw,36px); right:24px; transform:translateY(20px); background:#1a0f08; color:#fff; padding:13px 22px; border-radius:50px; font-size:14px; font-weight:600; display:flex; align-items:center; gap:9px; box-shadow:0 8px 32px rgba(0,0,0,0.4); z-index:4000; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .3s ease, transform .3s ease; }
+.toast.show { opacity:1; transform:translateY(0); }
 .toast i { color:var(--amber); font-size:15px; }
 
 

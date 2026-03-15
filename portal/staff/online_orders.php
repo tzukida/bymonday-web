@@ -732,6 +732,8 @@ document.getElementById('confirmAssignBtn').addEventListener('click', function (
             showToast('Failed to assign rider.', false);
         }
     })
+    .catch(() => showToast('Network error.', false));
+});
 
 function escJs(str) {
     return str.replace(/'/g, "\\'").replace(/"/g, '&quot;');
