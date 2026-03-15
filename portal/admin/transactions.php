@@ -133,7 +133,10 @@
           <h3 class="h3 mb-0" style="color: #751312;">Stock History</h3>
           <p class="text-muted mb-0">Track all inventory stock movements</p>
         </div>
-        <div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-secondary" id="exportStockBtn" style="color: #6b3a1f; border-color: #6b3a1f;">
+            <i class="fas fa-file-excel me-2"></i>Export to Excel
+          </button>
           <a href="<?php echo getBaseURL(); ?>/inventory.php" class="btn btn-outline-secondary" style="color: #6b3a1f; border-color: #6b3a1f;">
             <i class="fas fa-arrow-left me-2"></i>Back to Inventory
           </a>
@@ -359,7 +362,7 @@
             </div>
           <?php else: ?>
             <div class="table-responsive">
-              <table class="table table-hover align-middle mb-0">
+              <table class="table table-hover align-middle mb-0" id="stockLogsTable">
                 <thead class="table-light">
                   <tr>
                     <th class="border-0 text-center" style="width: 60px;">#</th>
@@ -699,6 +702,7 @@ option:hover {
 
 </style>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -706,6 +710,58 @@ document.addEventListener('DOMContentLoaded', function() {
   tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl);
   });
+});
+
+// ── Export to Excel ──
+document.getElementById('exportStockBtn').addEventListener('click', function() {
+    const btn = this;
+    const originalHtml = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Exporting...';
+
+    const exportData = [
+        ['#', 'Item', 'Type', 'Quantity', 'Remarks', 'Staff', 'Date & Time']
+    ];
+
+    document.querySelectorAll('#stockLogsTable tbody tr').forEach((row) => {
+        if (!row.querySelector('td')) return;
+        const cells = row.querySelectorAll('td');
+        exportData.push([
+            cells[0].textContent.trim(),
+            cells[1].textContent.trim(),
+            cells[2].textContent.trim(),
+            cells[3].textContent.trim(),
+            cells[4].textContent.trim(),
+            cells[5].textContent.trim(),
+            cells[6].textContent.trim()
+        ]);
+    });
+
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(exportData);
+    ws['!cols'] = [
+        { wch: 5 },
+        { wch: 25 },
+        { wch: 12 },
+        { wch: 12 },
+        { wch: 30 },
+        { wch: 20 },
+        { wch: 20 }
+    ];
+    XLSX.utils.book_append_sheet(wb, ws, 'Stock Logs');
+    const filename = `Stock_Logs_${new Date().toISOString().split('T')[0]}.xlsx`;
+    XLSX.writeFile(wb, filename);
+
+    fetch('<?php echo getBaseURL(); ?>/api/log_action.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'Export Stock Logs', details: 'Exported stock logs to Excel: ' + filename })
+    }).catch(() => {});
+
+    setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+    }, 800);
 });
 </script>
 

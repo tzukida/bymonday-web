@@ -146,7 +146,7 @@
           <p class="text-muted mb-0">Analyze sales performance and trends</p>
         </div>
         <div class="d-flex gap-2">
-          <button onclick="window.print()" class="btn btn-outline-secondary">
+          <button onclick="logPrint(); window.print();" class="btn btn-outline-secondary">
             <i class="fas fa-print me-2"></i>Print Report
           </button>
           <a href="pos.php" class="btn btn-danger">
@@ -333,7 +333,7 @@
             </div>
           <?php else: ?>
             <div class="table-responsive">
-              <table class="table table-hover align-middle mb-0">
+              <table class="table table-hover align-middle mb-0" id="salesReportTable">
                 <thead class="table-light">
                   <tr>
                     <th class="border-0 text-center" style="width: 80px;">Sale ID</th>
