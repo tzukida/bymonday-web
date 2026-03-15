@@ -140,10 +140,20 @@ $tab_labels = [
                             <i class="fas fa-bag-shopping me-2" style="color:#9b7e60;font-size:11px;"></i>
                             <?= htmlspecialchars($order['items_summary'] ?? '—') ?>
                         </div>
-                        <?php if ($active_tab === 'cancelled' && !empty($order['cancel_reason'])): ?>
-                        <div class="cancel-reason-badge">
-                            <i class="fas fa-circle-exclamation"></i>
-                            Reason: <?= htmlspecialchars($order['cancel_reason']) ?>
+                        <?php if ($active_tab === 'cancelled'): ?>
+                        <div style="display:flex;flex-direction:column;gap:4px;margin-top:6px;">
+                            <?php if (!empty($order['cancelled_by'])): ?>
+                            <div class="cancel-reason-badge" style="<?= $order['cancelled_by'] === 'customer' ? 'color:#ef4444;' : 'background:rgba(251,146,60,0.08);border-color:rgba(251,146,60,0.2);color:#f97316;' ?>">
+                                <i class="fas fa-<?= $order['cancelled_by'] === 'customer' ? 'user' : 'user-tie' ?>"></i>
+                                Cancelled by <?= $order['cancelled_by'] === 'customer' ? 'Customer' : htmlspecialchars($order['cancelled_by']) ?>
+                            </div>
+                            <?php endif; ?>
+                            <?php if (!empty($order['cancel_reason'])): ?>
+                            <div class="cancel-reason-badge">
+                                <i class="fas fa-circle-exclamation"></i>
+                                Reason: <?= htmlspecialchars($order['cancel_reason']) ?>
+                            </div>
+                            <?php endif; ?>
                         </div>
                         <?php endif; ?>
                     </div>
@@ -643,7 +653,7 @@ function showToast(msg, success, brown = false) {
     if (brown) cls = 'bg-brown-toast';
     else if (success) cls = 'bg-success';
     toast.className = 'toast align-items-center border-0 text-white ' + cls;
-    new bootstrap.Toast(toast, { delay: 10000 }).show();
+    new bootstrap.Toast(toast, { delay: 600 }).show();
 }
 
 let assignOrderId  = null;
@@ -703,14 +713,25 @@ document.getElementById('confirmAssignBtn').addEventListener('click', function (
     .then(r => r.json())
     .then(data => {
         if (data.success) {
-            showToast(selectedRider.name + ' assigned you to deliver Order #' + assignOrderId + '.', true, true);
-            setTimeout(() => location.reload(), 10000);
+            const row = document.getElementById('order-' + assignOrderId);
+            if (row) {
+                const assignBtn = row.querySelector('.btn-assign');
+                const deliverBtn = row.querySelector('.btn-deliver');
+                const hint = row.querySelector('.assign-hint');
+                if (assignBtn) {
+                    assignBtn.classList.add('btn-assign-done');
+                    assignBtn.innerHTML = `<i class="fas fa-user-plus me-1"></i> ${selectedRider.name}`;
+                }
+                if (deliverBtn) {
+                    deliverBtn.classList.remove('btn-disabled');
+                    deliverBtn.setAttribute('onclick', `updateStatus(${assignOrderId}, 'delivery')`);
+                }
+                if (hint) hint.remove();
+            }
         } else {
             showToast('Failed to assign rider.', false);
         }
     })
-    .catch(() => showToast('Network error.', false));
-});
 
 function escJs(str) {
     return str.replace(/'/g, "\\'").replace(/"/g, '&quot;');

@@ -47,7 +47,12 @@ $status_hero = [
     'brewing'   => ['label' => 'Preparing',           'sub' => 'Our team is crafting your order with care. Won\'t be long!',    'icon' => 'fa-mug-hot',        'color' => '#818cf8'],
     'delivery'  => ['label' => 'Out for Delivery',    'sub' => 'Your order is on its way! Expect it to arrive shortly.',        'icon' => 'fa-person-biking',  'color' => '#60a5fa'],
     'done'      => ['label' => 'Delivered!',          'sub' => 'Your order has been delivered. Enjoy your coffee!',             'icon' => 'fa-check',          'color' => '#4ade80'],
-    'cancelled' => ['label' => 'Cancelled',           'sub' => 'This order has been cancelled.',                                'icon' => 'fa-times',          'color' => '#f87171'],
+    'cancelled' => [
+    'label' => $order['cancelled_by'] === 'staff' ? 'Cancelled by Store' : 'Cancelled by You',
+    'sub'   => $order['cancelled_by'] === 'staff' ? 'The store has cancelled your order.' : 'You have cancelled this order.',
+    'icon'  => 'fa-times',
+    'color' => '#f87171'
+],
 ];
 
 $hero = $status_hero[$order['order_status']] ?? $status_hero['placed'];
@@ -614,14 +619,19 @@ $delivery_fee = $order['delivery_fee'] ?? 50.00;
 <!-- Content -->
 <div class="content">
 
-    <?php if ($order['order_status'] === 'cancelled' && !empty($order['cancel_reason'])): ?>
-    <div style="background:#fef2f2; border:1px solid rgba(248,113,113,0.25); border-radius:12px; padding:14px 20px; display:flex; align-items:center; gap:10px;">
-        <i class="fas fa-circle-exclamation" style="color:#f87171; font-size:15px; flex-shrink:0;"></i>
-        <div style="font-size:11px; font-weight:700; color:#f87171; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:2px;">
-            <?= ($order['cancelled_by'] === 'staff') ? 'Cancelled by Store' : 'Cancelled by You' ?>
+    <?php if ($order['order_status'] === 'cancelled'): ?>
+
+    <!-- Reason — Snack Bar -->
+    <?php if (!empty($order['cancel_reason'])): ?>
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px;padding:10px 16px;width:100%;margin-bottom:16px;">
+        <i class="fas fa-circle-info" style="color:#f87171;font-size:13px;flex-shrink:0;"></i>
+        <div>
+            <div style="font-size:10px;font-weight:700;color:#f87171;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:2px;">Reason</div>
+            <div style="font-size:13px;font-weight:600;color:#1a0f08;"><?= htmlspecialchars($order['cancel_reason']) ?></div>
         </div>
-        <div style="font-size:13px; color:#7a5c3a;"><?= htmlspecialchars($order['cancel_reason']) ?></div>
     </div>
+    <?php endif; ?>
+
     <?php endif; ?>
 
     <!-- Driver Info (delivery status only) -->
