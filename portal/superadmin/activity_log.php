@@ -377,57 +377,53 @@
                       <?php
                         // Determine badge color based on action type — all brown shades
                         $action = $log['action'];
-                        $badge_color = '#a0714f'; // default mid-brown
-                        $icon = 'fa-info-circle';
+                        $badge_color = '#6c757d'; // default grey
+                        $icon = 'fa-circle';
 
-                        if (stripos($action, 'login') !== false) {
-                          $badge_color = '#2a1505'; // darkest brown
-                          $icon = 'fa-sign-in-alt';
-                        } elseif (stripos($action, 'logout') !== false) {
-                          $badge_color = '#3b2008'; // very dark brown
-                          $icon = 'fa-sign-out-alt';
-                        } elseif (stripos($action, 'stock in') !== false || stripos($action, 'stock_in') !== false) {
-                          $badge_color = '#4a301f'; // dark brown
-                          $icon = 'fa-arrow-down';
-                        } elseif (stripos($action, 'stock out') !== false || stripos($action, 'stock_out') !== false) {
-                          $badge_color = '#5c3a24'; // dark-medium brown
-                          $icon = 'fa-arrow-up';
-                        } elseif (stripos($action, 'add') !== false || stripos($action, 'create') !== false) {
-                          $badge_color = '#6b4226'; // medium-dark brown
-                          $icon = 'fa-plus-circle';
-                        } elseif (stripos($action, 'edit') !== false || stripos($action, 'update') !== false) {
-                          $badge_color = '#7a4a2f'; // medium brown
-                          $icon = 'fa-edit';
-                        } elseif (stripos($action, 'delete') !== false || stripos($action, 'remove') !== false) {
-                          $badge_color = '#8a5535'; // medium-light brown
-                          $icon = 'fa-trash';
-                        } elseif (stripos($action, 'reset') !== false) {
-                          $badge_color = '#9c6040'; // warm brown
-                          $icon = 'fa-redo';
-                        } elseif (stripos($action, 'toggle') !== false || stripos($action, 'status') !== false) {
-                          $badge_color = '#a0714f'; // mid brown
-                          $icon = 'fa-toggle-on';
-                        } elseif (stripos($action, 'sale') !== false || stripos($action, 'pos') !== false) {
-                          $badge_color = '#b07a55'; // light-medium brown
-                          $icon = 'fa-cash-register';
-                        } elseif (stripos($action, 'recipe') !== false || stripos($action, 'ingredient') !== false) {
-                          $badge_color = '#be8860'; // light brown
-                          $icon = 'fa-book';
-                        } elseif (stripos($action, 'menu') !== false) {
-                          $badge_color = '#c99470'; // lighter brown
-                          $icon = 'fa-utensils';
-                        } elseif (stripos($action, 'image') !== false || stripos($action, 'upload') !== false) {
-                          $badge_color = '#d4a07e'; // very light brown
-                          $icon = 'fa-image';
-                        } elseif (stripos($action, 'password') !== false) {
-                          $badge_color = '#5c3a24'; // dark-medium brown (reused)
-                          $icon = 'fa-key';
-                        } elseif (stripos($action, 'report') !== false || stripos($action, 'export') !== false) {
-                          $badge_color = '#7a4a2f'; // medium brown (reused)
-                          $icon = 'fa-chart-bar';
-                        } elseif (stripos($action, 'permission') !== false || stripos($action, 'role') !== false) {
-                          $badge_color = '#9c6040'; // warm brown (reused)
-                          $icon = 'fa-user-shield';
+                        // AUTH
+                        if (in_array($action, ['Login', 'Logout'])) {
+                            $badge_color = '#3b2008'; 
+                            $icon = $action === 'Login' ? 'fa-sign-in-alt' : 'fa-sign-out-alt';
+
+                        // MENU
+                        } elseif (in_array($action, ['Add Menu Item', 'Update Menu Item', 'Delete Menu Item', 'Remove Menu Item Image'])) {
+                            $badge_color = '#c97b2b'; // amber brown
+                            $icon = 'fa-utensils';
+
+                        // RECIPE
+                        } elseif (in_array($action, ['Add Recipe Ingredient', 'Remove Recipe Ingredient', 'Update Recipe Quantity'])) {
+                            $badge_color = '#a0522d'; // sienna
+                            $icon = 'fa-book';
+
+                        // INVENTORY
+                        } elseif (in_array($action, ['Add Inventory Item', 'Edit Inventory Item', 'Delete Inventory Item', 'Export Inventory'])) {
+                            $badge_color = '#5c3010'; 
+                            $icon = 'fa-boxes';
+
+                        // STOCK / EXPORT
+                        } elseif (in_array($action, ['Export Stock Logs', 'Export Audit Logs', 'Export Sales Report', 'Export Password Resets', 'Print Sales Report'])) {
+                            $badge_color = '#4d2c0a'; 
+                            $icon = 'fa-file-export';
+
+                        // POS / SALES
+                        } elseif (in_array($action, ['Process Sale'])) {
+                            $badge_color = '#7a3b10'; 
+                            $icon = 'fa-cash-register';
+
+                        // ONLINE ORDERS
+                        } elseif (in_array($action, ['Accept Order', 'Cancel Order', 'Mark Order Ready', 'Mark Order Delivered', 'Assign Rider'])) {
+                            $badge_color = '#9c4a1a'; 
+                            $icon = 'fa-bag-shopping';
+
+                        // ACCOUNT MANAGEMENT
+                        } elseif (in_array($action, ['Add Staff', 'Add User', 'Edit Staff', 'Toggle Staff Status', 'Toggle User Status', 'Reset Password', 'Password Changed', 'Profile Updated', 'Password Reset'])) {
+                            $badge_color = '#6b3a1f'; 
+                            $icon = 'fa-user-cog';
+
+                        // DATABASE
+                        } elseif (in_array($action, ['Database Backup'])) {
+                            $badge_color = '#2a1505'; 
+                            $icon = 'fa-database';
                         }
                       ?>
                       <span class="badge" style="background-color: <?php echo $badge_color; ?>; color: #fff;">

@@ -184,7 +184,7 @@ $tab_labels = [
                         </button>
                         <button class="btn-deliver <?= !$order['rider_id'] ? 'btn-disabled' : '' ?>"
                                 onclick="<?= $order['rider_id'] ? "updateStatus({$order['id']}, 'delivery')" : "showToast('Assign a rider first.', false)" ?>">
-                            <i class="fas fa-person-biking me-1"></i> Mark Ready
+                            <i class="fas fa-person-biking me-1"></i> Mark as Ready
                         </button>
                         <button class="btn-cancel-order" onclick="confirmCancel(<?= $order['id'] ?>)">
                             <i class="fas fa-times"></i>

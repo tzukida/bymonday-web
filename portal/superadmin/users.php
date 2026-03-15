@@ -36,6 +36,7 @@
           $user = getUserById($user_id);
 
           if ($user && resetUserPassword($user_id, $_SESSION['user_id'])) {
+              logActivity($_SESSION['user_id'], 'Reset Password', "Reset password for: {$user['username']} (ID: $user_id)");
               echo json_encode([
                   'success' => true,
                   'message' => 'Password reset successfully',
