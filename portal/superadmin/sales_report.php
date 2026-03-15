@@ -134,6 +134,30 @@
   $stmt->close();
 ?>
 
+<?php
+// Online Orders from coffee_shop DB
+$cs = new mysqli('localhost', 'root', '', 'coffee_shop');
+$online_orders = [];
+if (!$cs->connect_error) {
+    $cs->set_charset("utf8mb4");
+    $cs_sql = "SELECT o.*, GROUP_CONCAT(oi.product_name, ' (', oi.size, ') x', oi.quantity, ' @ ₱', FORMAT(oi.price,2) ORDER BY oi.id SEPARATOR '\n') as items_summary,
+                      SUM(oi.subtotal) as items_subtotal
+               FROM orders o
+               LEFT JOIN order_items oi ON o.id = oi.order_id
+               WHERE o.order_status = 'done'
+               GROUP BY o.id
+               ORDER BY o.created_at DESC
+               LIMIT 50";
+    $cs_result = $cs->query($cs_sql);
+    if ($cs_result) {
+        while ($row = $cs_result->fetch_assoc()) {
+            $online_orders[] = $row;
+        }
+    }
+    $cs->close();
+}
+?>
+
 <div class="container-fluid">
   <!-- Page Header -->
   <div class="row mb-4">
@@ -336,12 +360,12 @@
                 <thead class="table-light">
                   <tr>
                     <th class="border-0 text-center" style="width: 80px;">Sale ID</th>
-                    <th class="border-0">Date & Time</th>
-                    <th class="border-0">Customer</th>
-                    <th class="border-0 text-center">Staff</th>
+                    <th class="border-0 text-center">Date & Time</th>
+                    <th class="border-0 text-center">Processed By</th>
                     <th class="border-0 text-center">Payment</th>
-                    <th class="border-0 text-end">Amount</th>
-                    <th class="border-0 text-center" style="width: 100px;">Action</th>
+                    <th class="border-0 text-center">Total</th>
+                    <th class="border-0 text-center">Tendered</th>
+                    <th class="border-0 text-center">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -351,18 +375,14 @@
                         <strong class="text-gray">#<?php echo str_pad($sale['id'], 6, '0', STR_PAD_LEFT); ?></strong>
                       </td>
                       <td class="align-middle">
-                        <div class="small">
+                        <div class="small text-center">
                           <i class="fas fa-calendar me-1 text-muted"></i>
                           <?php echo formatDate($sale['sale_date'], 'M j, Y'); ?>
                         </div>
-                        <div class="small text-muted">
+                        <div class="small text-muted text-center">
                           <i class="fas fa-clock me-1"></i>
                           <?php echo formatDate($sale['sale_date'], 'g:i A'); ?>
                         </div>
-                      </td>
-                      <td class="align-middle">
-                        <i class="fas fa-user me-1 text-muted"></i>
-                        <?php echo htmlspecialchars($sale['customer_name'] ?: 'Walk-in Customer'); ?>
                       </td>
                       <td class="text-center align-middle">
                         <span class="badge bg-brown text-white">
@@ -390,10 +410,17 @@
                           <?php echo ucfirst($sale['payment_method']); ?>
                         </span>
                       </td>
-                      <td class="text-end align-middle">
+                      <td class="text-center align-middle">
                         <span class="fw-bold text-brown" style="font-size: 1.1rem;">
                           ₱<?php echo number_format($sale['total_amount'], 2); ?>
                         </span>
+                      </td>
+                      <td class="text-center align-middle">
+                        <?php if (!empty($sale['tendered_amount'])): ?>
+                          <span class="text-muted">₱<?php echo number_format($sale['tendered_amount'], 2); ?></span>
+                        <?php else: ?>
+                          <span class="text-muted">—</span>
+                        <?php endif; ?>
                       </td>
                       <td class="text-center align-middle">
                         <a href="receipt.php?sale_id=<?php echo $sale['id']; ?>"
@@ -597,6 +624,101 @@
       <?php endif; ?>
     </div>
   </div>
+
+<!-- Online Transactions Table -->
+<div class="row mt-4">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+        <h5 class="mb-0">
+          <i class="fas fa-bag-shopping me-2 icon-brown"></i>Online Transactions
+        </h5>
+        <span class="badge bg-brown"><?php echo count($online_orders); ?> Total</span>
+      </div>
+      <div class="card-body p-0">
+        <?php if (empty($online_orders)): ?>
+          <div class="text-center py-5">
+            <i class="fas fa-bag-shopping fa-4x text-muted mb-3"></i>
+            <h5 class="text-muted">No completed online orders found</h5>
+          </div>
+        <?php else: ?>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th class="border-0 text-center" style="width:200px;">Order #</th>
+                  <th class="border-0 text-center" style="width:160px;">Date & Time</th>
+                  <th class="border-0 text-center" style="width:160px;">Customer</th>
+                  <th class="border-0 text-center">Driver</th>
+                  <th class="border-0 text-center">Payment</th>
+                  <th class="border-0 text-center">Total</th>
+                  <th class="border-0 text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($online_orders as $order):
+                  $order_total = $order['total'] + ($order['delivery_fee'] ?? 50);
+                ?>
+                <tr>
+                  <td class="text-center align-middle">
+                    <strong class="text-gray" style="font-family:monospace; white-space:nowrap; font-size:0.85rem;"><?php echo strtoupper($order['order_number']); ?></strong>
+                  </td>
+                  <td class="text-center align-middle">
+                        <div class="small text-center">
+                          <i class="fas fa-calendar me-1 text-muted"></i>
+                          <?php echo formatDate($sale['sale_date'], 'M j, Y'); ?>
+                        </div>
+                        <div class="small text-muted text-center">
+                          <i class="fas fa-clock me-1"></i>
+                          <?php echo formatDate($sale['sale_date'], 'g:i A'); ?>
+                        </div>
+                      </td>
+                  <td class="text-center align-middle">
+                    <div class="fw-semibold"><?php echo htmlspecialchars($order['customer_name']); ?></div>
+                    <div class="small text-muted text-center"><i class="fas fa-phone me-1"></i><?php echo htmlspecialchars($order['customer_phone']); ?></div>
+                  </td>
+                  <td class="text-center align-middle">
+                    <?php if (!empty($order['rider_name'])): ?>
+                      <span class="badge bg-brown text-white"><?php echo htmlspecialchars($order['rider_name']); ?></span>
+                    <?php else: ?>
+                      <span class="text-muted">—</span>
+                    <?php endif; ?>
+                  </td>
+                  <td class="text-center align-middle">
+                    <?php
+                      $pm = strtolower($order['payment_method']);
+                      $pm_icons = ['cash'=>'fa-money-bill-wave','card'=>'fa-credit-card','online'=>'fa-mobile-alt','crypto'=>'fa-bitcoin'];
+                      $pm_icon = $pm_icons[$pm] ?? 'fa-money-bill-wave';
+                    ?>
+                    <span class="badge bg-brown">
+                      <i class="fas <?php echo $pm_icon; ?> me-1"></i>
+                      <?php echo $pm === 'cash' ? 'COD' : ucfirst($order['payment_method']); ?>
+                    </span>
+                  </td>
+                  <td class="text-center align-middle">
+                        <span class="fw-bold text-brown" style="font-size: 1.1rem;">
+                          ₱<?php echo number_format($sale['total_amount'], 2); ?>
+                        </span>
+                      </td>
+                  <td class="text-center align-middle">
+                    <a href="order_detail.php?id=<?php echo $order['id']; ?>"
+                       class="btn btn-sm btn-outline-brown"
+                       target="_blank"
+                       title="Track Order">
+                      <i class="fas fa-route"></i>
+                    </a>
+                  </td>
+                </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
+          </div>
+        <?php endif; ?>
+      </div>
+    </div>
+  </div>
+</div>
+
 </div>
 
 <style>

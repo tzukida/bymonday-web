@@ -28,6 +28,8 @@ try {
     $payment_method = sanitizeInput($data['payment_method'] ?? 'cash');
     $remarks = sanitizeInput($data['remarks'] ?? '');
     $total_amount = floatval($data['total_amount']);
+    $tendered_amount = isset($data['tendered_amount']) ? floatval($data['tendered_amount']) : null;
+    $change_amount = isset($data['change_amount']) ? floatval($data['change_amount']) : null;
 
     // Validate stock availability for all items
     foreach ($data['items'] as $item) {
@@ -41,8 +43,8 @@ try {
     }
 
     // Insert sale record
-    $stmt = $conn->prepare("INSERT INTO sales (user_id, total_amount, payment_method, customer_name, remarks) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("idsss", $user_id, $total_amount, $payment_method, $customer_name, $remarks);
+    $stmt = $conn->prepare("INSERT INTO sales (user_id, total_amount, tendered_amount, change_amount, payment_method, customer_name, remarks) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("idddsss", $user_id, $total_amount, $tendered_amount, $change_amount, $payment_method, $customer_name, $remarks);
     $stmt->execute();
     $sale_id = $conn->insert_id;
     $stmt->close();
