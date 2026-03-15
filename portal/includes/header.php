@@ -134,7 +134,7 @@
           </a>
           <a class="nav-link" href="<?php echo getBaseURL(); ?>/transactions.php">
             <i class="fas fa-history"></i>
-            <span class="nav-text">Stock History</span>
+            <span class="nav-text">Stock Logs</span>
           </a>
         </div>
       </div>
@@ -193,7 +193,7 @@
         </a>
         <a class="nav-link" href="<?php echo getBaseURL(); ?>/transactions.php">
           <i class="fas fa-history"></i>
-          <span class="nav-text">Stock History</span>
+          <span class="nav-text">Stock Logs</span>
         </a>
       </div>
     </div>
